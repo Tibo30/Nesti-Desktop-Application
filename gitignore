@@ -3,12 +3,12 @@
 # Ignorer la bin
 /bin/
 # Ignorer les fichiers class
-*.class
+.class
 # Config.java
 Config.java
 # Ignorer les fichiers project
-*.project
+.project
 # Ignorer les fichiers classpath
-*.classpath
+.classpath
 # Ignorer les fichiers settings
-*.settings
+/.settings/
