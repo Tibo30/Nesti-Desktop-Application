@@ -59,6 +59,15 @@ public class Frame {
 	private JTable table;
 	private JTable table_1;
 	private JTable table_2;
+	private JTable table_Order;
+	private JTextField Order_Number;
+	private JTextField txtState;
+	private JTextField textField_Quantity_Article;
+	private JTextField textField_Article_Name;
+	private JTextField textField_Article_Ref;
+	private JTextField textField_Packaging_Article;
+	private JTextField textField_Stock_Article;
+	private JTable table_3;
 
 	/**
 	 * Launch the application.
@@ -204,17 +213,17 @@ public class Frame {
 		btnSave_Password.setBounds(439, 347, 149, 35);
 		panel_Profil.add(btnSave_Password);
 		
-		JLabel lblFirsName = new JLabel("Firstname");
+		JLabel lblFirsName = new JLabel("FirstName");
 		lblFirsName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblFirsName.setBounds(175, 95, 160, 20);
 		panel_Profil.add(lblFirsName);
 		
-		JLabel lblLastName = new JLabel("Lastname");
+		JLabel lblLastName = new JLabel("LastName");
 		lblLastName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblLastName.setBounds(173, 147, 162, 20);
 		panel_Profil.add(lblLastName);
 		
-		JLabel lblUserName = new JLabel("Username");
+		JLabel lblUserName = new JLabel("UserName");
 		lblUserName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblUserName.setBounds(174, 201, 161, 20);
 		panel_Profil.add(lblUserName);
@@ -385,10 +394,213 @@ public class Frame {
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panel_Order, null);
 		panel_Order.setLayout(null);
 		
+		JLabel lblSearch_Order = new JLabel("Search with order number");
+		lblSearch_Order.setBounds(60, 36, 149, 45);
+		panel_Order.add(lblSearch_Order);
+		
+		JComboBox list_Order = new JComboBox();
+		list_Order.setBounds(219, 42, 339, 32);
+		panel_Order.add(list_Order);
+		
+		JButton btnLaunch_Order = new JButton("Launch");
+		btnLaunch_Order.setBounds(568, 47, 86, 23);
+		panel_Order.add(btnLaunch_Order);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_3.setBounds(50, 163, 574, 178);
+		panel_Order.add(scrollPane_3);
+		
+		table_Order = new JTable();
+		table_Order.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Product", "Packaging", "Quantity", "Price"
+			}
+		));
+		table_Order.setBackground(new Color(255, 222, 173));
+		scrollPane_3.setViewportView(table_Order);
+		
+		JButton btnOrder_Add_Textfield = new JButton("+");
+		btnOrder_Add_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnOrder_Add_Textfield.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnOrder_Add_Textfield.setBounds(634, 182, 45, 23);
+		panel_Order.add(btnOrder_Add_Textfield);
+		
+		JButton btnOrder_Minus_Textfield = new JButton("-");
+		btnOrder_Minus_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnOrder_Minus_Textfield.setBounds(689, 182, 41, 23);
+		panel_Order.add(btnOrder_Minus_Textfield);
+		
+		JButton btnOder_Remove_Textfield = new JButton("x");
+		btnOder_Remove_Textfield.setBackground(new Color(243, 101, 101));
+		btnOder_Remove_Textfield.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnOder_Remove_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnOder_Remove_Textfield.setBounds(736, 182, 41, 23);
+		panel_Order.add(btnOder_Remove_Textfield);
+		
+		JComboBox list_Supplier_Order = new JComboBox();
+		list_Supplier_Order.setBounds(50, 111, 158, 32);
+		panel_Order.add(list_Supplier_Order);
+		
+		Order_Number = new JTextField();
+		Order_Number.setText("Order number");
+		Order_Number.setBounds(50, 77, 86, 20);
+		panel_Order.add(Order_Number);
+		Order_Number.setColumns(10);
+		
+		JComboBox list_Product_Order = new JComboBox();
+		list_Product_Order.setBounds(218, 111, 86, 32);
+		panel_Order.add(list_Product_Order);
+		
+		JComboBox list_Packaging_Order = new JComboBox();
+		list_Packaging_Order.setBounds(314, 111, 86, 32);
+		panel_Order.add(list_Packaging_Order);
+		
+		JButton btnOrder_Add_Textfield_1 = new JButton("+");
+		btnOrder_Add_Textfield_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnOrder_Add_Textfield_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnOrder_Add_Textfield_1.setBounds(414, 116, 50, 23);
+		panel_Order.add(btnOrder_Add_Textfield_1);
+		
+		JButton btnOrder_Submit = new JButton("Submit");
+		btnOrder_Submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnOrder_Submit.setBackground(new Color(173, 246, 100));
+		btnOrder_Submit.setBounds(330, 371, 113, 32);
+		panel_Order.add(btnOrder_Submit);
+		
+		JButton btnOrder_Modify = new JButton("Modify");
+		btnOrder_Modify.setBackground(new Color(232, 250, 126));
+		btnOrder_Modify.setBounds(154, 371, 113, 32);
+		panel_Order.add(btnOrder_Modify);
+		
+		JButton btnOrder_Create = new JButton("Create");
+		btnOrder_Create.setBackground(new Color(173, 246, 100));
+		btnOrder_Create.setBounds(496, 371, 113, 32);
+		panel_Order.add(btnOrder_Create);
+		
+		txtState = new JTextField();
+		txtState.setText("State");
+		txtState.setBounds(685, 326, 86, 20);
+		panel_Order.add(txtState);
+		txtState.setColumns(10);
+		
 		JPanel panel_Article = new JPanel();
 		panel_Article.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panel_Article, null);
 		panel_Article.setLayout(null);
+		
+		JLabel lblSearch_Article = new JLabel("Search");
+		lblSearch_Article.setBounds(135, 34, 95, 27);
+		panel_Article.add(lblSearch_Article);
+		
+		JComboBox list_Article = new JComboBox();
+		list_Article.setBounds(192, 31, 339, 32);
+		panel_Article.add(list_Article);
+		
+		JButton btnLaunch_Article = new JButton("Launch");
+		btnLaunch_Article.setBounds(541, 36, 86, 23);
+		panel_Article.add(btnLaunch_Article);
+		
+		JComboBox list_Unit_Article = new JComboBox();
+		list_Unit_Article.setBounds(443, 90, 76, 32);
+		panel_Article.add(list_Unit_Article);
+		
+		JComboBox list_Product_Article = new JComboBox();
+		list_Product_Article.setBounds(282, 90, 86, 32);
+		panel_Article.add(list_Product_Article);
+		
+		textField_Quantity_Article = new JTextField();
+		textField_Quantity_Article.setBounds(378, 90, 55, 32);
+		panel_Article.add(textField_Quantity_Article);
+		textField_Quantity_Article.setColumns(10);
+		
+		textField_Article_Name = new JTextField();
+		textField_Article_Name.setColumns(10);
+		textField_Article_Name.setBounds(196, 90, 76, 32);
+		panel_Article.add(textField_Article_Name);
+		
+		textField_Article_Ref = new JTextField();
+		textField_Article_Ref.setColumns(10);
+		textField_Article_Ref.setBounds(39, 90, 109, 32);
+		panel_Article.add(textField_Article_Ref);
+		
+		textField_Packaging_Article = new JTextField();
+		textField_Packaging_Article.setColumns(10);
+		textField_Packaging_Article.setBounds(528, 90, 76, 32);
+		panel_Article.add(textField_Packaging_Article);
+		
+		textField_Stock_Article = new JTextField();
+		textField_Stock_Article.setColumns(10);
+		textField_Stock_Article.setBounds(621, 90, 55, 32);
+		panel_Article.add(textField_Stock_Article);
+		
+		JButton btnArticle_Create = new JButton("Create");
+		btnArticle_Create.setBackground(new Color(173, 246, 100));
+		btnArticle_Create.setBounds(563, 371, 113, 32);
+		panel_Article.add(btnArticle_Create);
+		
+		JButton btnArticle_Modify = new JButton("Modify");
+		btnArticle_Modify.setBackground(new Color(232, 250, 126));
+		btnArticle_Modify.setBounds(177, 371, 113, 32);
+		panel_Article.add(btnArticle_Modify);
+		
+		JButton btnArticle_CreatDate = new JButton("Creating Date");
+		btnArticle_CreatDate.setBackground(new Color(191, 244, 255));
+		btnArticle_CreatDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnArticle_CreatDate.setBounds(601, 179, 121, 23);
+		panel_Article.add(btnArticle_CreatDate);
+		
+		JButton btnArticle_UpdateDate = new JButton("Update Date");
+		btnArticle_UpdateDate.setBackground(new Color(191, 244, 255));
+		btnArticle_UpdateDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnArticle_UpdateDate.setBounds(601, 236, 121, 23);
+		panel_Article.add(btnArticle_UpdateDate);
+		
+		JScrollPane scrollPane_Article = new JScrollPane();
+		scrollPane_Article.setBounds(55, 158, 476, 172);
+		panel_Article.add(scrollPane_Article);
+		
+		table_3 = new JTable();
+		table_3.setBackground(new Color(255, 222, 173));
+		table_3.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Supplier", "Price/Unit", "Article Price"
+			}
+		));
+		scrollPane_Article.setViewportView(table_3);
 		
 		JPanel panel_Product = new JPanel();
 		panel_Product.setBackground(new Color(213, 167, 113));
@@ -495,7 +707,7 @@ public class Frame {
 		btnHistory_Submit.setBounds(525, 381, 89, 23);
 		panel_History.add(btnHistory_Submit);
 		
-		JButton btnShow_Completed_Orders = new JButton("Orders finished");
+		JButton btnShow_Completed_Orders = new JButton("Orders placed");
 		btnShow_Completed_Orders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
