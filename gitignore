@@ -1,3 +1,5 @@
+/bin/
+/.metadata/
 # Ignorer la bin
 /bin/
 # Ignorer les fichiers class
@@ -8,3 +10,5 @@ Config.java
 *.project
 # Ignorer les fichiers classpath
 *.classpath
+# Ignorer les fichiers settings
+*.settings

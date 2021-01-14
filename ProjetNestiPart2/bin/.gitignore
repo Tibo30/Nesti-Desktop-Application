@@ -19,3 +19,14 @@
 /Frame$9.class
 /Frame.class
 /main.class
+
+# Ignorer la bin
+/bin/
+# Ignorer les fichiers class
+*.class
+# Config.java
+Config.java
+# Ignorer les fichiers project
+*.project
+# Ignorer les fichiers classpath
+*.classpath
