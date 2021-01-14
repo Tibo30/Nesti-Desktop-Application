@@ -43,10 +43,10 @@ public class Button extends JButton {
 				nameField = "Modify";
 			}
 			if (name.equals("Manage_Modify_Profile")) {
-				nameField = "Modify";
+				nameField = "Modify Profil";
 			}
 			if (name.equals("Manage_Modify_PassWord")) {
-				nameField = "Modify";
+				nameField = "Modify Password";
 			}
 		}
 		if ((name.equals("Profil_Save_Password")) || (name.equals("Order_Submit")) || (name.equals("Order_Create"))
@@ -83,7 +83,7 @@ public class Button extends JButton {
 
 		}
 		if ((name.equals("DEL")) || (name.equals("Block /Unblock selected Element"))) {
-			this.setBackground(new Color(165, 374, 211, 45));
+			this.setBackground(new Color(243,101,101));
 		}
 		this.setText(nameField);
 		this.addActionListener(new ButtonListener(name)); // We add actionListener to all the buttons

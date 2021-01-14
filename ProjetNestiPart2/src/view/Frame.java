@@ -114,6 +114,16 @@ public class Frame {
 	
 		panel.add(TabbedPane);
 		
+		
+		
+		
+		/**
+		 * Home
+		 */
+		
+		
+		
+		
 		JPanel panel_Home = new JPanel();
 		
 		panel_Home.setBackground(new Color(213, 167, 113));
@@ -142,9 +152,28 @@ public class Frame {
         lblNewLabel.setIcon(new ImageIcon(newimg));
 		panel_Home.add(lblNewLabel);
 		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
-		
+
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setLabelFor(lblLogo);
+		lblLogo.setIcon(new ImageIcon("C:\\Users\\pc po\\Desktop\\Dev\\GRETTA\\eclipse\\ProjetNestiPart2\\doc\\annexe\\logo.jpg"));
+		lblLogo.setBounds(758, 0, 70, 32);
+		panel.add(lblLogo);
 		
 		JPanel panel_Profil = new JPanel();
+		
+		
+		
+		
+		/**
+		 * Profil
+		 */
+		
+		
+		
+		
+		
+		
+		
 		
 		FlowLayout flowLayout = (FlowLayout) panel_Profil.getLayout();
 		panel_Profil.setBackground(new Color(213, 167, 113));
@@ -196,10 +225,10 @@ public class Frame {
 		Button btnSave_Password = new Button("Profil_Save_Password",439, 347, 149, 35);
 		panel_Profil.add(btnSave_Password);
 		
-		JLabel lblFirsName = new JLabel("FirstName");
-		lblFirsName.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFirsName.setBounds(175, 95, 160, 20);
-		panel_Profil.add(lblFirsName);
+		JLabel lblFirstName = new JLabel("FirstName");
+		lblFirstName.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblFirstName.setBounds(175, 95, 160, 20);
+		panel_Profil.add(lblFirstName);
 		
 		JLabel lblLastName = new JLabel("LastName");
 		lblLastName.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -225,6 +254,17 @@ public class Frame {
 		lblConfirm_Password.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblConfirm_Password.setBounds(439, 198, 138, 14);
 		panel_Profil.add(lblConfirm_Password);
+		
+		
+		
+		
+		
+		
+		/**
+		 * Supplier
+		 */
+		
+		
 		
 		
 		JPanel panel_Supplier = new JPanel();
@@ -354,6 +394,17 @@ public class Frame {
 		btnDEL.setBounds(699, 365, 62, 32);
 		panel_Supplier.add(btnDEL);
 		
+		
+		
+		
+		/**
+		 * Order
+		 */
+		
+		
+		
+		
+		
 		JPanel panel_Order = new JPanel();
 		panel_Order.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panel_Order, null);
@@ -452,6 +503,21 @@ public class Frame {
 		panel_Order.add(txtState);
 		txtState.setColumns(10);
 		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Article
+		 */
+		
+		
+		
+		
+		
+		
 		JPanel panel_Article = new JPanel();
 		panel_Article.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panel_Article, null);
@@ -533,6 +599,24 @@ public class Frame {
 		));
 		scrollPane_Article.setViewportView(table_3);
 		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Product
+		 */
+		
+		
+		
+		
+		
+		
+		
+		
 		JPanel panel_Product = new JPanel();
 		panel_Product.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panel_Product, null);
@@ -608,6 +692,25 @@ public class Frame {
 		});
 		scrollPane_1.setViewportView(table_1);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * History
+		 */
+		
+		
+		
+		
+		
+		
 		JPanel panel_History = new JPanel();
 		panel_History.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panel_History, null);
@@ -657,6 +760,23 @@ public class Frame {
 		});
 		table.getColumnModel().getColumn(2).setPreferredWidth(106);
 		scrollPane.setViewportView(table);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Manage
+		 */
+		
+		
+		
+		
+		
 		
 		
 		JPanel panel_Manage = new JPanel();
@@ -735,10 +855,5 @@ public class Frame {
 		Button btnBlockAdmin = new Button("Manage_Block / Unblock",324, 315, 147, 40);
 		panel_Manage.add(btnBlockAdmin);
 		
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setLabelFor(lblLogo);
-		lblLogo.setIcon(new ImageIcon("C:\\Users\\pc po\\Desktop\\Dev\\GRETTA\\eclipse\\ProjetNestiPart2\\doc\\annexe\\logo.jpg"));
-		lblLogo.setBounds(758, 0, 70, 32);
-		panel.add(lblLogo);
 	}
 }
