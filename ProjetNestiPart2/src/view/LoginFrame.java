@@ -1,3 +1,4 @@
+package view;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -14,7 +15,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
-public class Connexion extends JFrame {
+public class LoginFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -27,7 +28,7 @@ public class Connexion extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Connexion frame = new Connexion();
+					LoginFrame frame = new LoginFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +40,7 @@ public class Connexion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Connexion() {
+	public LoginFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 329, 476);
 		contentPane = new JPanel();
@@ -49,7 +50,7 @@ public class Connexion extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setBounds(124, 62, 72, 58);
-		lblNewLabel_1.setIcon(new ImageIcon(Connexion.class.getResource("/assets/logo.jpg")));
+		lblNewLabel_1.setIcon(new ImageIcon(LoginFrame.class.getResource("/assets/logo.jpg")));
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblUerName_Connexion = new JLabel("User Name");
