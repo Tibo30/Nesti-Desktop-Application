@@ -30,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Icon;
+import javax.swing.JPasswordField;
 
 //Test commit
 public class Frame {
@@ -39,22 +40,22 @@ public class Frame {
 	private JTextField FirsName;
 	private JTextField LastName;
 	private JTextField UserName;
-	private JTextField Password;
-	private JTextField NewPassword;
-	private JTextField Conform_Password;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
+	private JPasswordField Password;
+	private JPasswordField NewPassword;
+	private JPasswordField Conform_Password;
+	private JTextField textFieldFirstname;
+	private JTextField textField_Lastname;
+	private JTextField textField_Username;
+	private JPasswordField textField_Password;
+	private JPasswordField textField_Conf_Password;
+	private JTextField textField_Supplier_Name;
+	private JTextField textField_Supplier_Adress;
+	private JTextField textField_Supplier_Town;
+	private JTextField textField_Contact_Name;
+	private JTextField textField_Contact_Fistname;
+	private JTextField textField_Contact_tel;
+	private JTextField textField_Product_Price;
+	private JTextField textField_Unit_Product;
 	private JTextField Product_textfiel;
 	private JTable table;
 	private JTable table_1;
@@ -169,19 +170,19 @@ public class Frame {
 		panel_Profil.add(UserName);
 		UserName.setColumns(10);
 		
-		Password = new JTextField();
+		Password = new JPasswordField();
 		Password.setBackground(new Color(255, 222, 173));
 		Password.setBounds(439, 113, 138, 20);
 		panel_Profil.add(Password);
 		Password.setColumns(10);
 		
-		NewPassword = new JTextField();
+		NewPassword = new JPasswordField();
 		NewPassword.setBackground(new Color(255, 222, 173));
 		NewPassword.setBounds(439, 167, 138, 20);
 		panel_Profil.add(NewPassword);
 		NewPassword.setColumns(10);
 		
-		Conform_Password = new JTextField();
+		Conform_Password = new JPasswordField();
 		Conform_Password.setBackground(new Color(255, 222, 173));
 		Conform_Password.setBounds(439, 220, 138, 20);
 		panel_Profil.add(Conform_Password);
@@ -271,57 +272,57 @@ public class Frame {
 		btnBlockSupplier.setBounds(10, 87, 122, 23);
 		panel_Supplier.add(btnBlockSupplier);
 		
-		textField_5 = new JTextField();
-		textField_5.setBackground(new Color(255, 222, 173));
-		textField_5.setBounds(26, 133, 86, 20);
-		panel_Supplier.add(textField_5);
-		textField_5.setColumns(10);
+		textField_Supplier_Name = new JTextField();
+		textField_Supplier_Name.setBackground(new Color(255, 222, 173));
+		textField_Supplier_Name.setBounds(26, 133, 86, 20);
+		panel_Supplier.add(textField_Supplier_Name);
+		textField_Supplier_Name.setColumns(10);
 		
-		textField_6 = new JTextField();
-		textField_6.setBackground(new Color(255, 222, 173));
-		textField_6.setBounds(141, 133, 213, 20);
-		panel_Supplier.add(textField_6);
-		textField_6.setColumns(10);
+		textField_Supplier_Adress = new JTextField();
+		textField_Supplier_Adress.setBackground(new Color(255, 222, 173));
+		textField_Supplier_Adress.setBounds(141, 133, 213, 20);
+		panel_Supplier.add(textField_Supplier_Adress);
+		textField_Supplier_Adress.setColumns(10);
 		
-		textField_7 = new JTextField();
-		textField_7.setBackground(new Color(255, 222, 173));
-		textField_7.setBounds(375, 133, 86, 20);
-		panel_Supplier.add(textField_7);
-		textField_7.setColumns(10);
+		textField_Supplier_Town = new JTextField();
+		textField_Supplier_Town.setBackground(new Color(255, 222, 173));
+		textField_Supplier_Town.setBounds(375, 133, 86, 20);
+		panel_Supplier.add(textField_Supplier_Town);
+		textField_Supplier_Town.setColumns(10);
 		
-		textField_8 = new JTextField();
-		textField_8.setBackground(new Color(255, 222, 173));
-		textField_8.setBounds(26, 172, 86, 20);
-		panel_Supplier.add(textField_8);
-		textField_8.setColumns(10);
+		textField_Contact_Name = new JTextField();
+		textField_Contact_Name.setBackground(new Color(255, 222, 173));
+		textField_Contact_Name.setBounds(26, 172, 86, 20);
+		panel_Supplier.add(textField_Contact_Name);
+		textField_Contact_Name.setColumns(10);
 		
-		textField_9 = new JTextField();
-		textField_9.setBackground(new Color(255, 222, 173));
-		textField_9.setBounds(168, 172, 86, 20);
-		panel_Supplier.add(textField_9);
-		textField_9.setColumns(10);
+		textField_Contact_Fistname = new JTextField();
+		textField_Contact_Fistname.setBackground(new Color(255, 222, 173));
+		textField_Contact_Fistname.setBounds(168, 172, 86, 20);
+		panel_Supplier.add(textField_Contact_Fistname);
+		textField_Contact_Fistname.setColumns(10);
 		
-		textField_10 = new JTextField();
-		textField_10.setBackground(new Color(255, 222, 173));
-		textField_10.setBounds(299, 172, 86, 20);
-		panel_Supplier.add(textField_10);
-		textField_10.setColumns(10);
+		textField_Contact_tel = new JTextField();
+		textField_Contact_tel.setBackground(new Color(255, 222, 173));
+		textField_Contact_tel.setBounds(299, 172, 86, 20);
+		panel_Supplier.add(textField_Contact_tel);
+		textField_Contact_tel.setColumns(10);
 		
 		JComboBox list_Supplier_Product = new JComboBox();
 		list_Supplier_Product.setBounds(26, 301, 184, 32);
 		panel_Supplier.add(list_Supplier_Product);
 		
-		textField_11 = new JTextField();
-		textField_11.setBackground(new Color(255, 222, 173));
-		textField_11.setBounds(268, 307, 86, 20);
-		panel_Supplier.add(textField_11);
-		textField_11.setColumns(10);
+		textField_Product_Price = new JTextField();
+		textField_Product_Price.setBackground(new Color(255, 222, 173));
+		textField_Product_Price.setBounds(268, 307, 86, 20);
+		panel_Supplier.add(textField_Product_Price);
+		textField_Product_Price.setColumns(10);
 		
-		textField_12 = new JTextField();
-		textField_12.setBackground(new Color(255, 222, 173));
-		textField_12.setBounds(364, 307, 97, 20);
-		panel_Supplier.add(textField_12);
-		textField_12.setColumns(10);
+		textField_Unit_Product = new JTextField();
+		textField_Unit_Product.setBackground(new Color(255, 222, 173));
+		textField_Unit_Product.setBounds(364, 307, 97, 20);
+		panel_Supplier.add(textField_Unit_Product);
+		textField_Unit_Product.setColumns(10);
 		
 		JButton btnNewButton = new JButton("+");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -776,21 +777,21 @@ public class Frame {
 		btnLaunch.setBounds(539, 48, 86, 23);
 		panel_Manage.add(btnLaunch);
 		
-		textField = new JTextField();
-		textField.setBackground(new Color(255, 222, 173));
-		textField.setColumns(10);
-		textField.setBounds(59, 151, 160, 20);
-		panel_Manage.add(textField);
+		textFieldFirstname = new JTextField();
+		textFieldFirstname.setBackground(new Color(255, 222, 173));
+		textFieldFirstname.setColumns(10);
+		textFieldFirstname.setBounds(59, 151, 160, 20);
+		panel_Manage.add(textFieldFirstname);
 		
 		JLabel lblFirsName_1 = new JLabel("Firstname");
 		lblFirsName_1.setBounds(59, 130, 160, 20);
 		panel_Manage.add(lblFirsName_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setBackground(new Color(255, 222, 173));
-		textField_1.setColumns(10);
-		textField_1.setBounds(59, 205, 160, 20);
-		panel_Manage.add(textField_1);
+		textField_Lastname = new JTextField();
+		textField_Lastname.setBackground(new Color(255, 222, 173));
+		textField_Lastname.setColumns(10);
+		textField_Lastname.setBounds(59, 205, 160, 20);
+		panel_Manage.add(textField_Lastname);
 		
 		JLabel lblLastName_1 = new JLabel("Lastname");
 		lblLastName_1.setBounds(57, 182, 162, 20);
@@ -800,31 +801,31 @@ public class Frame {
 		lblUserName_1.setBounds(58, 236, 161, 20);
 		panel_Manage.add(lblUserName_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setBackground(new Color(255, 222, 173));
-		textField_2.setColumns(10);
-		textField_2.setBounds(59, 258, 160, 20);
-		panel_Manage.add(textField_2);
+		textField_Username = new JTextField();
+		textField_Username.setBackground(new Color(255, 222, 173));
+		textField_Username.setColumns(10);
+		textField_Username.setBounds(59, 258, 160, 20);
+		panel_Manage.add(textField_Username);
 		
 		JLabel lblNPassword_1 = new JLabel("Password");
 		lblNPassword_1.setBounds(584, 141, 138, 14);
 		panel_Manage.add(lblNPassword_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setBackground(new Color(255, 222, 173));
-		textField_3.setColumns(10);
-		textField_3.setBounds(584, 159, 138, 20);
-		panel_Manage.add(textField_3);
+		textField_Password = new JPasswordField();
+		textField_Password.setBackground(new Color(255, 222, 173));
+		textField_Password.setColumns(10);
+		textField_Password.setBounds(584, 159, 138, 20);
+		panel_Manage.add(textField_Password);
 		
 		JLabel lblConfirm_Password_1 = new JLabel("Confirm password");
 		lblConfirm_Password_1.setBounds(584, 190, 138, 14);
 		panel_Manage.add(lblConfirm_Password_1);
 		
-		textField_4 = new JTextField();
-		textField_4.setBackground(new Color(255, 222, 173));
-		textField_4.setColumns(10);
-		textField_4.setBounds(584, 212, 138, 20);
-		panel_Manage.add(textField_4);
+		textField_Conf_Password = new JPasswordField();
+		textField_Conf_Password.setBackground(new Color(255, 222, 173));
+		textField_Conf_Password.setColumns(10);
+		textField_Conf_Password.setBounds(584, 212, 138, 20);
+		panel_Manage.add(textField_Conf_Password);
 		
 		JButton btnModify_Profile_1 = new JButton("Modify Profile");
 		btnModify_Profile_1.addActionListener(new ActionListener() {
