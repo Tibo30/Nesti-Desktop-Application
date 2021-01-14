@@ -12,3 +12,4 @@ Config.java
 .classpath
 # Ignorer les fichiers settings
 /.settings/
+.settings
