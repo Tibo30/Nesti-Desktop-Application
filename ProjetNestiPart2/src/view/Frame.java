@@ -38,7 +38,7 @@ public class Frame {
 
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
-	private JTextField FirsName;
+	private JTextField FirstName;
 	private JTextField LastName;
 	private JTextField UserName;
 	private JPasswordField Password;
@@ -114,8 +114,17 @@ public class Frame {
 	
 		panel.add(TabbedPane);
 		
-		JPanel panel_Home = new JPanel();
 		
+		
+		
+		/**
+		 * Home
+		 */
+		
+		
+		
+		
+		JPanel panel_Home = new JPanel();
 		panel_Home.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Home", new ImageIcon(Frame.class.getResource("/assets/home.jpg")), panel_Home, null);
 		
@@ -126,24 +135,34 @@ public class Frame {
         lblNewLabel.setIcon(new ImageIcon(newimg));
 		panel_Home.setLayout(null);
         
-        JLabel lblNewLabel_2 = new JLabel("Joe Smith");
-        lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_2.setForeground(new Color(248, 248, 255));
-        lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-        lblNewLabel_2.setBounds(10, 194, 790, 72);
+        Label lblNewLabel_2 = new Label("Joe Smith",10, 194, 790, 72);
         panel_Home.add(lblNewLabel_2);
         
-        JLabel lblNewLabel_1 = new JLabel("Welcome");
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 40));
-        lblNewLabel_1.setForeground(new Color(255, 250, 250));
-        lblNewLabel_1.setBounds(10, 143, 790, 58);
+        Label lblNewLabel_1 = new Label("Welcome",10, 143, 790, 58);
         panel_Home.add(lblNewLabel_1);
+        
+        
         lblNewLabel.setIcon(new ImageIcon(newimg));
-		
-		
 		panel_Home.add(lblNewLabel);
 		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
+
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setLabelFor(lblLogo);
+		lblLogo.setIcon(new ImageIcon("C:\\Users\\pc po\\Desktop\\Dev\\GRETTA\\eclipse\\ProjetNestiPart2\\doc\\annexe\\logo.jpg"));
+		lblLogo.setBounds(758, 0, 70, 32);
+		panel.add(lblLogo);
+		
+		
+		
+		
+		
+		/**
+		 * Profil
+		 */
+		
+		
+		
+		
 		
 		
 		JPanel panel_Profil = new JPanel();
@@ -153,11 +172,40 @@ public class Frame {
 		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panel_Profil, null);
 		panel_Profil.setLayout(null);
 		
-		FirsName = new JTextField();
-		FirsName.setBackground(new Color(255, 222, 173));
-		FirsName.setBounds(175, 116, 160, 20);
-		panel_Profil.add(FirsName);
-		FirsName.setColumns(10);
+		Button btnModify_Profile = new Button("Profil_Modify_Profile",175, 359, 125, 35);
+		panel_Profil.add(btnModify_Profile);
+		
+		Button btnModidy_PassWord = new Button("Profil_Modify_Password",439, 371, 149, 35);
+		panel_Profil.add(btnModidy_PassWord);
+		
+		Button btnSave_Password = new Button("Profil_Save_Password",439, 347, 149, 35);
+		panel_Profil.add(btnSave_Password);
+		
+		Label lblFirstName = new Label("FirstName",175, 95, 160, 20);
+
+		panel_Profil.add(lblFirstName);
+		
+		Label lblLastName = new Label("LastName",173, 147, 162, 20);
+		panel_Profil.add(lblLastName);
+		
+		Label lblUserName = new Label("UserName",174, 201, 161, 20);
+		panel_Profil.add(lblUserName);
+		
+		Label lblNPassword = new Label("Password",439, 95, 138, 14);
+
+		panel_Profil.add(lblNPassword);
+		
+		Label lblNewPassword = new Label("New password",439, 142, 138, 22);
+		panel_Profil.add(lblNewPassword);
+		
+		Label lblConfirm_Password = new Label("Confirm password",439, 198, 138, 14);
+		panel_Profil.add(lblConfirm_Password);
+		
+		FirstName = new JTextField();
+		FirstName.setBackground(new Color(255, 222, 173));
+		FirstName.setBounds(175, 116, 160, 20);
+		panel_Profil.add(FirstName);
+		FirstName.setColumns(10);
 		
 		LastName = new JTextField();
 		LastName.setBackground(new Color(255, 222, 173));
@@ -189,62 +237,18 @@ public class Frame {
 		panel_Profil.add(Conform_Password);
 		Conform_Password.setColumns(10);
 		
-		JButton btnModify_Profile = new JButton("Modify Profile");
-		btnModify_Profile.setBackground(new Color(232, 250, 126));
-		btnModify_Profile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModify_Profile.setBounds(175, 359, 125, 35);
-		panel_Profil.add(btnModify_Profile);
 		
-		JButton btnModidy_PassWord = new JButton("Modify Password");
-		btnModidy_PassWord.setBackground(new Color(232, 250, 126));
-		btnModidy_PassWord.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModidy_PassWord.setBounds(439, 371, 149, 35);
-		panel_Profil.add(btnModidy_PassWord);
 		
-		JButton btnSave_Password = new JButton("Save Password");
-		btnSave_Password.setBackground(new Color(173, 246, 100));
-		btnSave_Password.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnSave_Password.setBounds(439, 347, 149, 35);
-		panel_Profil.add(btnSave_Password);
 		
-		JLabel lblFirsName = new JLabel("FirstName");
-		lblFirsName.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblFirsName.setBounds(175, 95, 160, 20);
-		panel_Profil.add(lblFirsName);
 		
-		JLabel lblLastName = new JLabel("LastName");
-		lblLastName.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblLastName.setBounds(173, 147, 162, 20);
-		panel_Profil.add(lblLastName);
 		
-		JLabel lblUserName = new JLabel("UserName");
-		lblUserName.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblUserName.setBounds(174, 201, 161, 20);
-		panel_Profil.add(lblUserName);
 		
-		JLabel lblNPassword = new JLabel("Password");
-		lblNPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNPassword.setBounds(439, 95, 138, 14);
-		panel_Profil.add(lblNPassword);
 		
-		JLabel lblNewPassword = new JLabel("New password");
-		lblNewPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewPassword.setBounds(439, 142, 138, 22);
-		panel_Profil.add(lblNewPassword);
+		/**
+		 * Supplier
+		 */
 		
-		JLabel lblConfirm_Password = new JLabel("Confirm password");
-		lblConfirm_Password.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblConfirm_Password.setBounds(439, 198, 138, 14);
-		panel_Profil.add(lblConfirm_Password);
+		
 		
 		
 		JPanel panel_Supplier = new JPanel();
@@ -252,26 +256,37 @@ public class Frame {
 		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panel_Supplier, null);
 		panel_Supplier.setLayout(null);
 		
-		JLabel lblSearch_Supplier = new JLabel("Search");
-		lblSearch_Supplier.setBounds(125, 34, 95, 27);
+		Button btnLaunch_Supplier = new Button("Launch",531, 36, 86, 23);
+		panel_Supplier.add(btnLaunch_Supplier);
+		
+		Button btnBlockSupplier = new Button("Supplier_Block / Unblock",10, 87, 122, 23);
+		panel_Supplier.add(btnBlockSupplier);
+		
+		JButton btnNewButton = new JButton("+");
+		btnNewButton.setBounds(471, 306, 50, 23);
+		panel_Supplier.add(btnNewButton);
+		
+		Button btnCreate = new Button("Supplier_Create",141, 387, 113, 32);
+		panel_Supplier.add(btnCreate);
+		
+		Button btnSupplier_Modify = new Button("Supplier_Modify",471, 387, 113, 32);
+		panel_Supplier.add(btnSupplier_Modify);
+		
+		Button btnDEL = new Button("DEL",699, 365, 62, 32);
+		panel_Supplier.add(btnDEL);
+		
+		Label lblSearch_Supplier = new Label("Search",125, 34, 95, 27);
 		panel_Supplier.add(lblSearch_Supplier);
 		
 		JComboBox list_Supplier = new JComboBox();
 		list_Supplier.setBounds(182, 31, 339, 32);
 		panel_Supplier.add(list_Supplier);
 		
-		JButton btnLaunch_Supplier = new JButton("Launch");
-		btnLaunch_Supplier.setBounds(531, 36, 86, 23);
-		panel_Supplier.add(btnLaunch_Supplier);
+		JComboBox list_Supplier_Product = new JComboBox();
+		list_Supplier_Product.setBounds(26, 301, 184, 32);
+		panel_Supplier.add(list_Supplier_Product);
 		
-		JButton btnBlockSupplier = new JButton("Block / Unblock");
-		btnBlockSupplier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBlockSupplier.setBackground(new Color(191, 244, 255));
-		btnBlockSupplier.setBounds(10, 87, 122, 23);
-		panel_Supplier.add(btnBlockSupplier);
+		
 		
 		textField_Supplier_Name = new JTextField();
 		textField_Supplier_Name.setBackground(new Color(255, 222, 173));
@@ -309,10 +324,6 @@ public class Frame {
 		panel_Supplier.add(textField_Contact_tel);
 		textField_Contact_tel.setColumns(10);
 		
-		JComboBox list_Supplier_Product = new JComboBox();
-		list_Supplier_Product.setBounds(26, 301, 184, 32);
-		panel_Supplier.add(list_Supplier_Product);
-		
 		textField_Product_Price = new JTextField();
 		textField_Product_Price.setBackground(new Color(255, 222, 173));
 		textField_Product_Price.setBounds(268, 307, 86, 20);
@@ -324,28 +335,6 @@ public class Frame {
 		textField_Unit_Product.setBounds(364, 307, 97, 20);
 		panel_Supplier.add(textField_Unit_Product);
 		textField_Unit_Product.setColumns(10);
-		
-		JButton btnNewButton = new JButton("+");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(471, 306, 50, 23);
-		panel_Supplier.add(btnNewButton);
-		
-		JButton btnCreate = new JButton("Create");
-		btnCreate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCreate.setBackground(new Color(232, 250, 126));
-		btnCreate.setBounds(141, 387, 113, 32);
-		panel_Supplier.add(btnCreate);
-		
-		JButton btnSupplier_Modify = new JButton("Modify");
-		btnSupplier_Modify.setBackground(new Color(232, 250, 126));
-		btnSupplier_Modify.setBounds(471, 387, 113, 32);
-		panel_Supplier.add(btnSupplier_Modify);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(602, 133, 160, 227);
@@ -383,31 +372,66 @@ public class Frame {
 		});
 		scrollPane_2.setViewportView(table_2);
 		
-		JButton btnDEL = new JButton("DEL");
-		btnDEL.setBackground(new Color(243,101,101));
-		btnDEL.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnDEL.setBounds(699, 365, 62, 32);
-		panel_Supplier.add(btnDEL);
+		
+		
+		
+		
+		
+		/**
+		 * Order
+		 */
+		
+		
+		
+		
 		
 		JPanel panel_Order = new JPanel();
 		panel_Order.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panel_Order, null);
 		panel_Order.setLayout(null);
 		
-		JLabel lblSearch_Order = new JLabel("Search with order number");
-		lblSearch_Order.setBounds(60, 36, 149, 45);
+		Button btnOrder_Add_Textfield = new Button("+",634, 182, 45, 23);
+		panel_Order.add(btnOrder_Add_Textfield);
+		
+		Button btnOrder_Minus_Textfield = new Button("-",689, 182, 41, 23);
+		panel_Order.add(btnOrder_Minus_Textfield);
+		
+		Button btnOder_Remove_Textfield = new Button("x",736, 182, 41, 23);
+		panel_Order.add(btnOder_Remove_Textfield);
+		
+		Button btnLaunch_Order = new Button("Launch",568, 47, 86, 23);
+		panel_Order.add(btnLaunch_Order);
+		
+		Button btnOrder_Add_Textfield_1 = new Button("+",414, 116, 50, 23);
+		panel_Order.add(btnOrder_Add_Textfield_1);
+		
+		Button btnOrder_Submit = new Button("Order_Submit",330, 371, 113, 32);
+		panel_Order.add(btnOrder_Submit);
+		
+		Button btnOrder_Modify = new Button("Order_Modify",154, 371, 113, 32);
+		panel_Order.add(btnOrder_Modify);
+		
+		Button btnOrder_Create = new Button("Order_Create",496, 371, 113, 32);
+		panel_Order.add(btnOrder_Create);
+		
+		Label lblSearch_Order = new Label("Search with order number",31, 36, 178, 45);
 		panel_Order.add(lblSearch_Order);
+		
+		JComboBox list_Supplier_Order = new JComboBox();
+		list_Supplier_Order.setBounds(50, 111, 158, 32);
+		panel_Order.add(list_Supplier_Order);
 		
 		JComboBox list_Order = new JComboBox();
 		list_Order.setBounds(219, 42, 339, 32);
 		panel_Order.add(list_Order);
 		
-		JButton btnLaunch_Order = new JButton("Launch");
-		btnLaunch_Order.setBounds(568, 47, 86, 23);
-		panel_Order.add(btnLaunch_Order);
+		JComboBox list_Product_Order = new JComboBox();
+		list_Product_Order.setBounds(218, 111, 86, 32);
+		panel_Order.add(list_Product_Order);
+		
+		JComboBox list_Packaging_Order = new JComboBox();
+		list_Packaging_Order.setBounds(314, 111, 86, 32);
+		panel_Order.add(list_Packaging_Order);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -432,33 +456,6 @@ public class Frame {
 		table_Order.setBackground(new Color(255, 222, 173));
 		scrollPane_3.setViewportView(table_Order);
 		
-		JButton btnOrder_Add_Textfield = new JButton("+");
-		btnOrder_Add_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnOrder_Add_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnOrder_Add_Textfield.setBounds(634, 182, 45, 23);
-		panel_Order.add(btnOrder_Add_Textfield);
-		
-		JButton btnOrder_Minus_Textfield = new JButton("-");
-		btnOrder_Minus_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnOrder_Minus_Textfield.setBounds(689, 182, 41, 23);
-		panel_Order.add(btnOrder_Minus_Textfield);
-		
-		JButton btnOder_Remove_Textfield = new JButton("x");
-		btnOder_Remove_Textfield.setBackground(new Color(243, 101, 101));
-		btnOder_Remove_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnOder_Remove_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnOder_Remove_Textfield.setBounds(736, 182, 41, 23);
-		panel_Order.add(btnOder_Remove_Textfield);
-		
-		JComboBox list_Supplier_Order = new JComboBox();
-		list_Supplier_Order.setBounds(50, 111, 158, 32);
-		panel_Order.add(list_Supplier_Order);
 		
 		Order_Number = new JTextField();
 		Order_Number.setText("Order number");
@@ -466,64 +463,60 @@ public class Frame {
 		panel_Order.add(Order_Number);
 		Order_Number.setColumns(10);
 		
-		JComboBox list_Product_Order = new JComboBox();
-		list_Product_Order.setBounds(218, 111, 86, 32);
-		panel_Order.add(list_Product_Order);
-		
-		JComboBox list_Packaging_Order = new JComboBox();
-		list_Packaging_Order.setBounds(314, 111, 86, 32);
-		panel_Order.add(list_Packaging_Order);
-		
-		JButton btnOrder_Add_Textfield_1 = new JButton("+");
-		btnOrder_Add_Textfield_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnOrder_Add_Textfield_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnOrder_Add_Textfield_1.setBounds(414, 116, 50, 23);
-		panel_Order.add(btnOrder_Add_Textfield_1);
-		
-		JButton btnOrder_Submit = new JButton("Submit");
-		btnOrder_Submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnOrder_Submit.setBackground(new Color(173, 246, 100));
-		btnOrder_Submit.setBounds(330, 371, 113, 32);
-		panel_Order.add(btnOrder_Submit);
-		
-		JButton btnOrder_Modify = new JButton("Modify");
-		btnOrder_Modify.setBackground(new Color(232, 250, 126));
-		btnOrder_Modify.setBounds(154, 371, 113, 32);
-		panel_Order.add(btnOrder_Modify);
-		
-		JButton btnOrder_Create = new JButton("Create");
-		btnOrder_Create.setBackground(new Color(173, 246, 100));
-		btnOrder_Create.setBounds(496, 371, 113, 32);
-		panel_Order.add(btnOrder_Create);
-		
 		txtState = new JTextField();
 		txtState.setText("State");
 		txtState.setBounds(685, 326, 86, 20);
 		panel_Order.add(txtState);
 		txtState.setColumns(10);
 		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Article
+		 */
+		
+		
+		
+		
+		
+		
 		JPanel panel_Article = new JPanel();
 		panel_Article.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panel_Article, null);
 		panel_Article.setLayout(null);
 		
-		JLabel lblSearch_Article = new JLabel("Search");
-		lblSearch_Article.setBounds(135, 34, 95, 27);
+		
+		Button btnLaunch_Article = new Button("Launch",541, 36, 86, 23);
+
+		panel_Article.add(btnLaunch_Article);
+		
+		Button btnArticle_Create = new Button("Article_Create",563, 371, 113, 32);
+		panel_Article.add(btnArticle_Create);
+		
+		Button btnArticle_Modify = new Button("Article_Modify",177, 371, 113, 32);
+		panel_Article.add(btnArticle_Modify);
+		
+		Button btnArticle_CreatDate = new Button("Creating Date",601, 179, 121, 23);
+		panel_Article.add(btnArticle_CreatDate);
+		
+		Button btnArticle_UpdateDate = new Button("Update Date",601, 236, 121, 23);
+		panel_Article.add(btnArticle_UpdateDate);
+		
+
+		Label lblSearch_Article = new Label("Search",135, 34, 95, 27);
 		panel_Article.add(lblSearch_Article);
+		
+		JScrollPane scrollPane_Article = new JScrollPane();
+		scrollPane_Article.setBounds(55, 158, 476, 172);
+		panel_Article.add(scrollPane_Article);
 		
 		JComboBox list_Article = new JComboBox();
 		list_Article.setBounds(192, 31, 339, 32);
 		panel_Article.add(list_Article);
-		
-		JButton btnLaunch_Article = new JButton("Launch");
-		btnLaunch_Article.setBounds(541, 36, 86, 23);
-		panel_Article.add(btnLaunch_Article);
 		
 		JComboBox list_Unit_Article = new JComboBox();
 		list_Unit_Article.setBounds(443, 90, 76, 32);
@@ -558,37 +551,6 @@ public class Frame {
 		textField_Stock_Article.setBounds(621, 90, 55, 32);
 		panel_Article.add(textField_Stock_Article);
 		
-		JButton btnArticle_Create = new JButton("Create");
-		btnArticle_Create.setBackground(new Color(173, 246, 100));
-		btnArticle_Create.setBounds(563, 371, 113, 32);
-		panel_Article.add(btnArticle_Create);
-		
-		JButton btnArticle_Modify = new JButton("Modify");
-		btnArticle_Modify.setBackground(new Color(232, 250, 126));
-		btnArticle_Modify.setBounds(177, 371, 113, 32);
-		panel_Article.add(btnArticle_Modify);
-		
-		JButton btnArticle_CreatDate = new JButton("Creating Date");
-		btnArticle_CreatDate.setBackground(new Color(191, 244, 255));
-		btnArticle_CreatDate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnArticle_CreatDate.setBounds(601, 179, 121, 23);
-		panel_Article.add(btnArticle_CreatDate);
-		
-		JButton btnArticle_UpdateDate = new JButton("Update Date");
-		btnArticle_UpdateDate.setBackground(new Color(191, 244, 255));
-		btnArticle_UpdateDate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnArticle_UpdateDate.setBounds(601, 236, 121, 23);
-		panel_Article.add(btnArticle_UpdateDate);
-		
-		JScrollPane scrollPane_Article = new JScrollPane();
-		scrollPane_Article.setBounds(55, 158, 476, 172);
-		panel_Article.add(scrollPane_Article);
 		
 		table_3 = new JTable();
 		table_3.setBackground(new Color(255, 222, 173));
@@ -605,68 +567,69 @@ public class Frame {
 		));
 		scrollPane_Article.setViewportView(table_3);
 		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Product
+		 */
+		
+		
+		
+		
+		
+		
+		
+		
 		JPanel panel_Product = new JPanel();
 		panel_Product.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panel_Product, null);
 		panel_Product.setLayout(null);
+
+		Button btnProduct_Block = new Button("Block /Unblock selected Element",165, 374, 211, 45);
+		panel_Product.add(btnProduct_Block);
 		
-		JLabel lblSearch_Supplier_1 = new JLabel("Search");
-		lblSearch_Supplier_1.setBounds(142, 36, 95, 27);
-		panel_Product.add(lblSearch_Supplier_1);
-		
-		JTextField list_Product_search = new JTextField();
-		list_Product_search.setBackground(new Color(255, 222, 173));
-		list_Product_search.setBounds(199, 33, 339, 32);
-		panel_Product.add(list_Product_search);
+		Button btnProduct_Save = new Button("Save",480, 374, 142, 45);
+		panel_Product.add(btnProduct_Save);
 		
 		JButton btnLaunch_Product = new JButton("Launch");
 		btnLaunch_Product.setBounds(548, 38, 85, 23);
 		panel_Product.add(btnLaunch_Product);
 		
-		JComboBox list_ingredient = new JComboBox();
-		list_ingredient.setBounds(26, 109, 180, 32);
-		panel_Product.add(list_ingredient);
-		
-		JButton btnProduct_Add_Textfield = new JButton("+");
-		btnProduct_Add_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnProduct_Add_Textfield.setBounds(165, 161, 41, 23);
+		Button btnProduct_Add_Textfield = new Button("+",165, 161, 41, 23);
 		panel_Product.add(btnProduct_Add_Textfield);
 		
-		Product_textfiel = new JTextField();
-		Product_textfiel.setBackground(new Color(255, 222, 173));
-		Product_textfiel.setBounds(26, 156, 180, 32);
-		panel_Product.add(Product_textfiel);
-		Product_textfiel.setColumns(10);
+		Label lblSearch_Supplier_1 = new Label("Search",142, 36, 95, 27);
+		panel_Product.add(lblSearch_Supplier_1);
 		
 		JComboBox list_Product_Unit = new JComboBox();
 		list_Product_Unit.setBounds(26, 201, 180, 32);
 		panel_Product.add(list_Product_Unit);
 		
-		JButton btnProduct_Block = new JButton("Block /Unblock selected Element");
-		btnProduct_Block.setBackground(new Color(243, 101, 101));
-		btnProduct_Block.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnProduct_Block.setBounds(165, 374, 211, 45);
-		panel_Product.add(btnProduct_Block);
-		
-		JButton btnProduct_Save = new JButton("Save");
-		btnProduct_Save.setBackground(new Color(173, 246, 100));
-		btnProduct_Save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnProduct_Save.setBounds(480, 374, 142, 45);
-		panel_Product.add(btnProduct_Save);
+		JComboBox list_ingredient = new JComboBox();
+		list_ingredient.setBounds(26, 109, 180, 32);
+		panel_Product.add(list_ingredient);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setEnabled(false);
 		scrollPane_1.setBounds(293, 109, 444, 180);
 		panel_Product.add(scrollPane_1);
+		
+		JTextField list_Product_search = new JTextField();
+		list_Product_search.setBackground(new Color(255, 222, 173));
+		list_Product_search.setBounds(199, 33, 339, 32);
+		panel_Product.add(list_Product_search);
+	
+
+		Product_textfiel = new JTextField();
+		Product_textfiel.setBackground(new Color(255, 222, 173));
+		Product_textfiel.setBounds(26, 156, 180, 32);
+		panel_Product.add(Product_textfiel);
+		Product_textfiel.setColumns(10);
 		
 		table_1 = new JTable();
 		table_1.setShowHorizontalLines(false);
@@ -696,32 +659,37 @@ public class Frame {
 		});
 		scrollPane_1.setViewportView(table_1);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * History
+		 */
+		
+		
+		
+		
+		
+		
 		JPanel panel_History = new JPanel();
 		panel_History.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panel_History, null);
 		panel_History.setLayout(null);
 		
-		JButton btnHistory_Submit = new JButton("Submit");
-		btnHistory_Submit.setBackground(new Color(173, 246, 100));
-		btnHistory_Submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnHistory_Submit.setBounds(525, 381, 89, 23);
+		Button btnHistory_Submit = new Button("History_Submit",525, 381, 89, 23);
 		panel_History.add(btnHistory_Submit);
 		
-		JButton btnShow_Completed_Orders = new JButton("Orders placed");
-		btnShow_Completed_Orders.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnShow_Completed_Orders.setBackground(new Color(191, 244, 255));
-		btnShow_Completed_Orders.setBounds(454, 79, 129, 23);
+		Button btnShow_Completed_Orders = new Button("Orders placed",454, 79, 129, 23);
 		panel_History.add(btnShow_Completed_Orders);
 		
-		JButton btnShow_Orders_in_Progress = new JButton("Orders in progress");
-		btnShow_Orders_in_Progress.setBackground(new Color(191, 244, 255));
-		btnShow_Orders_in_Progress.setBounds(593, 79, 149, 23);
+		Button btnShow_Orders_in_Progress = new Button("Orders in progress",593, 79, 149, 23);
 		panel_History.add(btnShow_Orders_in_Progress);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -761,22 +729,49 @@ public class Frame {
 		scrollPane.setViewportView(table);
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Manage
+		 */
+		
+		
+		
+		
+		
+		
+		
 		JPanel panel_Manage = new JPanel();
 		panel_Manage.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panel_Manage, null);
 		panel_Manage.setLayout(null);
+
+		Button btnModify_Profile_1 = new Button("Manage_Modify_Profile",154, 372, 138, 47);
+		panel_Manage.add(btnModify_Profile_1);
 		
-		JLabel lblSearch = new JLabel("Search");
-		lblSearch.setBounds(133, 46, 95, 27);
+		Button btnModidy_PassWord_1 = new Button("Manage_Modify_PassWord",507, 372, 147, 47);
+		panel_Manage.add(btnModidy_PassWord_1);
+		
+		Button btnBlockAdmin = new Button("Manage_Block / Unblock",324, 315, 147, 40);
+		panel_Manage.add(btnBlockAdmin);
+		
+		Button btnLaunch = new Button("Launch",539, 48, 86, 23);
+		panel_Manage.add(btnLaunch);
+		
+		Label lblSearch = new Label("Search",133, 46, 95, 27);
+
 		panel_Manage.add(lblSearch);
 		
 		JComboBox list = new JComboBox();
 		list.setBounds(190, 43, 339, 32);
 		panel_Manage.add(list);
 		
-		JButton btnLaunch = new JButton("Launch");
-		btnLaunch.setBounds(539, 48, 86, 23);
-		panel_Manage.add(btnLaunch);
+		
 		
 		textFieldFirstname = new JTextField();
 		textFieldFirstname.setBackground(new Color(255, 222, 173));
@@ -784,8 +779,8 @@ public class Frame {
 		textFieldFirstname.setBounds(59, 151, 160, 20);
 		panel_Manage.add(textFieldFirstname);
 		
-		JLabel lblFirsName_1 = new JLabel("Firstname");
-		lblFirsName_1.setBounds(59, 130, 160, 20);
+		Label lblFirsName_1 = new Label("Firstname",59, 130, 160, 20);
+
 		panel_Manage.add(lblFirsName_1);
 		
 		textField_Lastname = new JTextField();
@@ -794,12 +789,10 @@ public class Frame {
 		textField_Lastname.setBounds(59, 205, 160, 20);
 		panel_Manage.add(textField_Lastname);
 		
-		JLabel lblLastName_1 = new JLabel("Lastname");
-		lblLastName_1.setBounds(57, 182, 162, 20);
+		Label lblLastName_1 = new Label("Lastname",57, 182, 162, 20);
 		panel_Manage.add(lblLastName_1);
 		
-		JLabel lblUserName_1 = new JLabel("Username");
-		lblUserName_1.setBounds(58, 236, 161, 20);
+		Label lblUserName_1 = new Label("Username",58, 236, 161, 20);
 		panel_Manage.add(lblUserName_1);
 		
 		textField_Username = new JTextField();
@@ -808,8 +801,7 @@ public class Frame {
 		textField_Username.setBounds(59, 258, 160, 20);
 		panel_Manage.add(textField_Username);
 		
-		JLabel lblNPassword_1 = new JLabel("Password");
-		lblNPassword_1.setBounds(584, 141, 138, 14);
+		Label lblNPassword_1 = new Label("Password",584, 141, 138, 14);
 		panel_Manage.add(lblNPassword_1);
 		
 		textField_Password = new JPasswordField();
@@ -818,8 +810,7 @@ public class Frame {
 		textField_Password.setBounds(584, 159, 138, 20);
 		panel_Manage.add(textField_Password);
 		
-		JLabel lblConfirm_Password_1 = new JLabel("Confirm password");
-		lblConfirm_Password_1.setBounds(584, 190, 138, 14);
+		Label lblConfirm_Password_1 = new Label("Confirm password",584, 190, 138, 14);
 		panel_Manage.add(lblConfirm_Password_1);
 		
 		textField_Conf_Password = new JPasswordField();
@@ -828,37 +819,6 @@ public class Frame {
 		textField_Conf_Password.setBounds(584, 212, 138, 20);
 		panel_Manage.add(textField_Conf_Password);
 		
-		JButton btnModify_Profile_1 = new JButton("Modify Profile");
-		btnModify_Profile_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModify_Profile_1.setBackground(new Color(232, 250, 126));
-		btnModify_Profile_1.setBounds(154, 372, 138, 47);
-		panel_Manage.add(btnModify_Profile_1);
 		
-		JButton btnModidy_PassWord_1 = new JButton("Modidy PassWord");
-		btnModidy_PassWord_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModidy_PassWord_1.setBackground(new Color(232, 250, 126));
-		btnModidy_PassWord_1.setBounds(507, 372, 147, 47);
-		panel_Manage.add(btnModidy_PassWord_1);
-		
-		JButton btnBlockAdmin = new JButton("Block / Unblock");
-		btnBlockAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBlockAdmin.setBackground(new Color(191, 244, 255));
-		btnBlockAdmin.setBounds(324, 315, 147, 40);
-		panel_Manage.add(btnBlockAdmin);
-		
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setLabelFor(lblLogo);
-		lblLogo.setIcon(new ImageIcon("C:\\Users\\pc po\\Desktop\\Dev\\GRETTA\\eclipse\\ProjetNestiPart2\\doc\\annexe\\logo.jpg"));
-		lblLogo.setBounds(758, 0, 70, 32);
-		panel.add(lblLogo);
 	}
 }
