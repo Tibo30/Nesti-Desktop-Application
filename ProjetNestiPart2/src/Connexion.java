@@ -7,15 +7,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 
 public class Connexion extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JPasswordField textField_1;
 
 	/**
 	 * Launch the application.
@@ -46,10 +49,11 @@ public class Connexion extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setBounds(124, 62, 72, 58);
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\Utilisateur\\Documents\\Saliha_CDA_2020_2021\\eclipse-workspace\\ProjetNestiPart2\\ProjetNestiPart2\\src\\assets\\logo.jpg"));
+		lblNewLabel_1.setIcon(new ImageIcon(Connexion.class.getResource("/assets/logo.jpg")));
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblUerName_Connexion = new JLabel("User Name");
+		lblUerName_Connexion.setForeground(new Color(0, 0, 0));
 		lblUerName_Connexion.setBounds(86, 155, 160, 20);
 		lblUerName_Connexion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblUerName_Connexion);
@@ -60,26 +64,33 @@ public class Connexion extends JFrame {
 		textField.setBackground(new Color(205, 133, 63));
 		contentPane.add(textField);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JPasswordField();
 		textField_1.setBounds(86, 230, 160, 20);
 		textField_1.setColumns(10);
 		textField_1.setBackground(new Color(205, 133, 63));
 		contentPane.add(textField_1);
 		
 		JLabel lblPassword_Connexion = new JLabel("Password");
+		lblPassword_Connexion.setForeground(new Color(0, 0, 0));
 		lblPassword_Connexion.setBounds(86, 207, 161, 20);
 		lblPassword_Connexion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblPassword_Connexion);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnLogin.setBounds(124, 331, 89, 35);
 		btnLogin.setBackground(new Color(160, 82, 45));
 		contentPane.add(btnLogin);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Utilisateur\\Documents\\Saliha_CDA_2020_2021\\eclipse-workspace\\ProjetNestiPart2\\ProjetNestiPart2\\src\\assets\\NESTi.jpg"));
-		lblNewLabel.setBounds(0, 11, 313, 426);
-		contentPane.add(lblNewLabel);
+		JLabel lblBackground = new JLabel("New label");
+		Image img = new ImageIcon(Frame.class.getResource("/assets/NESTi.jpg")).getImage();
+        Image newimg = img.getScaledInstance( 313, 437, java.awt.Image.SCALE_SMOOTH);
+		lblBackground.setIcon(new ImageIcon(newimg));
+        lblBackground.setBounds(0, 0, 313, 437);
+		contentPane.add(lblBackground);
+		
+		
+		
 	}
 }

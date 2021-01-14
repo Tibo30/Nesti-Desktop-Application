@@ -121,7 +121,8 @@ public class Frame {
 		lblNewLabel.setBounds(-2, 5, 815, 420);
 		Image img = new ImageIcon(Frame.class.getResource("/assets/NESTi2.jpg")).getImage();
         Image newimg = img.getScaledInstance( 815, 420, java.awt.Image.SCALE_SMOOTH);
-        panel_Home.setLayout(null);
+        lblNewLabel.setIcon(new ImageIcon(newimg));
+		panel_Home.setLayout(null);
         
         JLabel lblNewLabel_2 = new JLabel("Joe Smith");
         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
