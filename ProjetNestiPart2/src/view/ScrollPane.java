@@ -9,7 +9,7 @@ public class ScrollPane extends JScrollPane{
 	
 	public ScrollPane(String name, int x, int y) {
 		
-		
+		this.setBounds(x, y, 476, 172);
 		
 		
 		
