@@ -1,16 +1,16 @@
-/bin/
+ProjetNestiPart2/bin/
 /.metadata/
 # Ignorer la bin
 /bin/
 # Ignorer les fichiers class
-.class
+ProjetNestiPart2/.class
 # Config.java
 Config.java
 # Ignorer les fichiers project
 .project
 # Ignorer les fichiers classpath
-.classpath
+ProjetNestiPart2/.classpath
 # Ignorer les fichiers settings
-/.settings/
-.settings
+ProjetNestiPart2/.settings/
+ProjetNestiPart2/.settings
 ProjetNestiPart2/.project
