@@ -67,6 +67,7 @@ public class Frame {
 	private JTextField textField_Article_Ref;
 	private JTextField textField_Packaging_Article;
 	private JTextField textField_Stock_Article;
+	private JTable table_3;
 
 	/**
 	 * Launch the application.
@@ -212,17 +213,17 @@ public class Frame {
 		btnSave_Password.setBounds(439, 347, 149, 35);
 		panel_Profil.add(btnSave_Password);
 		
-		JLabel lblFirsName = new JLabel("Firstname");
+		JLabel lblFirsName = new JLabel("FirstName");
 		lblFirsName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblFirsName.setBounds(175, 95, 160, 20);
 		panel_Profil.add(lblFirsName);
 		
-		JLabel lblLastName = new JLabel("Lastname");
+		JLabel lblLastName = new JLabel("LastName");
 		lblLastName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblLastName.setBounds(173, 147, 162, 20);
 		panel_Profil.add(lblLastName);
 		
-		JLabel lblUserName = new JLabel("Username");
+		JLabel lblUserName = new JLabel("UserName");
 		lblUserName.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblUserName.setBounds(174, 201, 161, 20);
 		panel_Profil.add(lblUserName);
@@ -556,7 +557,7 @@ public class Frame {
 		
 		JButton btnArticle_Create = new JButton("Create");
 		btnArticle_Create.setBackground(new Color(173, 246, 100));
-		btnArticle_Create.setBounds(417, 371, 113, 32);
+		btnArticle_Create.setBounds(563, 371, 113, 32);
 		panel_Article.add(btnArticle_Create);
 		
 		JButton btnArticle_Modify = new JButton("Modify");
@@ -564,18 +565,42 @@ public class Frame {
 		btnArticle_Modify.setBounds(177, 371, 113, 32);
 		panel_Article.add(btnArticle_Modify);
 		
-		JScrollPane scrollPane_1_1 = new JScrollPane();
-		scrollPane_1_1.setEnabled(false);
-		scrollPane_1_1.setBounds(54, 149, 444, 180);
-		panel_Article.add(scrollPane_1_1);
+		JButton btnArticle_CreatDate = new JButton("Creating Date");
+		btnArticle_CreatDate.setBackground(new Color(191, 244, 255));
+		btnArticle_CreatDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnArticle_CreatDate.setBounds(601, 179, 121, 23);
+		panel_Article.add(btnArticle_CreatDate);
 		
-		JButton button = new JButton("New button");
-		button.setBounds(562, 207, 89, 23);
-		panel_Article.add(button);
+		JButton btnArticle_UpdateDate = new JButton("Update Date");
+		btnArticle_UpdateDate.setBackground(new Color(191, 244, 255));
+		btnArticle_UpdateDate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnArticle_UpdateDate.setBounds(601, 236, 121, 23);
+		panel_Article.add(btnArticle_UpdateDate);
 		
-		JButton button_1 = new JButton("New button");
-		button_1.setBounds(562, 256, 89, 23);
-		panel_Article.add(button_1);
+		JScrollPane scrollPane_Article = new JScrollPane();
+		scrollPane_Article.setBounds(55, 158, 476, 172);
+		panel_Article.add(scrollPane_Article);
+		
+		table_3 = new JTable();
+		table_3.setBackground(new Color(255, 222, 173));
+		table_3.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Supplier", "Price/Unit", "Article Price"
+			}
+		));
+		scrollPane_Article.setViewportView(table_3);
 		
 		JPanel panel_Product = new JPanel();
 		panel_Product.setBackground(new Color(213, 167, 113));
@@ -682,7 +707,7 @@ public class Frame {
 		btnHistory_Submit.setBounds(525, 381, 89, 23);
 		panel_History.add(btnHistory_Submit);
 		
-		JButton btnShow_Completed_Orders = new JButton("Orders finished");
+		JButton btnShow_Completed_Orders = new JButton("Orders placed");
 		btnShow_Completed_Orders.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
