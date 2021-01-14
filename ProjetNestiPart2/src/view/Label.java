@@ -11,15 +11,21 @@ public class Label extends JLabel {
 	private ValueNeeded object;
 
 	
-	public Label(String name, int x, int y, int L, int l, ValueNeeded object) {
+	public Label(String name, int x, int y, int L, int l) {
 		this.nameField = name;
-		this.object = object;
+		
 		this.setBounds(x, y, L, l);
 		this.setText(nameField);
-		this.setForeground(Color.DARK_GRAY);
-		this.setHorizontalAlignment(SwingConstants.CENTER);
-		this.setFont(new Font("Rockwell Nova", Font.PLAIN, 14));
-		this.setBounds(x, y, L, l);
+		this.setFont(new Font("Tahoma", Font.BOLD, 15));
+		
+		if (name.equals("Search")||(name.equals("Launch"))||(name.equals("Search with order number"))) {
+			this.setFont(new Font("Tahoma",Font.BOLD,12));
+		}
+		if (name.equals("Joe Smith")||(name.equals("Welcome"))) {
+			this.setForeground(new Color(255, 250, 250));
+			this.setHorizontalAlignment(SwingConstants.CENTER);
+			this.setFont(new Font("Times New Roman", Font.BOLD, 40));
+		}
 		}
 	
 }

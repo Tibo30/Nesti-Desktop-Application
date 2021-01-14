@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JButton;
 
@@ -24,7 +25,7 @@ public class Button extends JButton {
 		if ((name.equals("Profil_Modify_Profile")) || (name.equals("Profil_Modify_Password"))
 				|| (name.equals("Supplier_Create") || (name.equals("Supplier_Modify")) || (name.equals("Order_Modify")))
 				|| (name.equals("Article_Modify")) || (name.equals("Manage_Modify_Profile"))
-				|| (name.equals("Manage_Modify_PassWord"))) {
+				|| (name.equals("Manage_Modify_PassWord"))||(name.equals("Order_Modify"))) {
 			
 			this.setBackground(new Color(232, 250, 126));
 			if (name.equals("Profil_Modify_Profile")) {
@@ -40,6 +41,9 @@ public class Button extends JButton {
 				nameField = "Modify";
 			}
 			if (name.equals("Article_Modify")) {
+				nameField = "Modify";
+			}
+			if (name.equals("Order_Modify")) {
 				nameField = "Modify";
 			}
 			if (name.equals("Manage_Modify_Profile")) {
@@ -80,12 +84,23 @@ public class Button extends JButton {
 			if (name.equals("Manage_Block / Unblock")) {
 				nameField = "Block / Unblock";
 			}
+		
 
 		}
 		if ((name.equals("DEL")) || (name.equals("Block /Unblock selected Element"))) {
 			this.setBackground(new Color(243,101,101));
 		}
 		this.setText(nameField);
+		if (name.equals("Launch")) {
+			
+		}
+		if ((name.equals("+")) || (name.equals("-"))||(name.equals("x")) ) {
+			this.setFont(new Font("Tahoma", Font.BOLD, 11));
+			if(name.equals("x")){
+				this.setBackground(new Color(243, 101, 101));
+			}
+		}
+		
 		this.addActionListener(new ButtonListener(name)); // We add actionListener to all the buttons
 	}
 
