@@ -11,14 +11,23 @@ public class ButtonListener implements ActionListener {
 	private QueryUser queryLogin = new QueryUser("127.0.0.1", "root", "", "nesti");
 		public ButtonListener() {
 		}
-			public ButtonListener(String name, ValueNeeded object) {
+			public ButtonListener(String name) {
 				this.text = name;
-				this.object = object;
+			
 				}
 
 				public void actionPerformed(ActionEvent e) {
-
+					switch (text) {
+					case "Profil_Modify_Profile":
+							
+					
+						break;
+					case "Profil_Modify_Password":
+						
+						
+						break;
 				}
 		}
 
 
+}

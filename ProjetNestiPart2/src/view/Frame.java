@@ -38,7 +38,7 @@ public class Frame {
 
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
-	private JTextField FirsName;
+	private JTextField FirstName;
 	private JTextField LastName;
 	private JTextField UserName;
 	private JPasswordField Password;
@@ -140,8 +140,6 @@ public class Frame {
         lblNewLabel_1.setBounds(10, 143, 790, 58);
         panel_Home.add(lblNewLabel_1);
         lblNewLabel.setIcon(new ImageIcon(newimg));
-		
-		
 		panel_Home.add(lblNewLabel);
 		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
 		
@@ -153,11 +151,11 @@ public class Frame {
 		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panel_Profil, null);
 		panel_Profil.setLayout(null);
 		
-		FirsName = new JTextField();
-		FirsName.setBackground(new Color(255, 222, 173));
-		FirsName.setBounds(175, 116, 160, 20);
-		panel_Profil.add(FirsName);
-		FirsName.setColumns(10);
+		FirstName = new JTextField();
+		FirstName.setBackground(new Color(255, 222, 173));
+		FirstName.setBounds(175, 116, 160, 20);
+		panel_Profil.add(FirstName);
+		FirstName.setColumns(10);
 		
 		LastName = new JTextField();
 		LastName.setBackground(new Color(255, 222, 173));
@@ -189,31 +187,13 @@ public class Frame {
 		panel_Profil.add(Conform_Password);
 		Conform_Password.setColumns(10);
 		
-		JButton btnModify_Profile = new JButton("Modify Profile");
-		btnModify_Profile.setBackground(new Color(232, 250, 126));
-		btnModify_Profile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModify_Profile.setBounds(175, 359, 125, 35);
+		Button btnModify_Profile = new Button("Profil_Modify_Profile",175, 359, 125, 35);
 		panel_Profil.add(btnModify_Profile);
 		
-		JButton btnModidy_PassWord = new JButton("Modify Password");
-		btnModidy_PassWord.setBackground(new Color(232, 250, 126));
-		btnModidy_PassWord.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModidy_PassWord.setBounds(439, 371, 149, 35);
+		Button btnModidy_PassWord = new Button("Profil_Modify_Password",439, 371, 149, 35);
 		panel_Profil.add(btnModidy_PassWord);
 		
-		JButton btnSave_Password = new JButton("Save Password");
-		btnSave_Password.setBackground(new Color(173, 246, 100));
-		btnSave_Password.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnSave_Password.setBounds(439, 347, 149, 35);
+		Button btnSave_Password = new Button("Profil_Save_Password",439, 347, 149, 35);
 		panel_Profil.add(btnSave_Password);
 		
 		JLabel lblFirsName = new JLabel("FirstName");
@@ -264,13 +244,7 @@ public class Frame {
 		btnLaunch_Supplier.setBounds(531, 36, 86, 23);
 		panel_Supplier.add(btnLaunch_Supplier);
 		
-		JButton btnBlockSupplier = new JButton("Block / Unblock");
-		btnBlockSupplier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBlockSupplier.setBackground(new Color(191, 244, 255));
-		btnBlockSupplier.setBounds(10, 87, 122, 23);
+		Button btnBlockSupplier = new Button("Supplier_Block / Unblock",10, 87, 122, 23);
 		panel_Supplier.add(btnBlockSupplier);
 		
 		textField_Supplier_Name = new JTextField();
@@ -326,25 +300,13 @@ public class Frame {
 		textField_Unit_Product.setColumns(10);
 		
 		JButton btnNewButton = new JButton("+");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnNewButton.setBounds(471, 306, 50, 23);
 		panel_Supplier.add(btnNewButton);
 		
-		JButton btnCreate = new JButton("Create");
-		btnCreate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCreate.setBackground(new Color(232, 250, 126));
-		btnCreate.setBounds(141, 387, 113, 32);
+		Button btnCreate = new Button("Supplier_Create",141, 387, 113, 32);
 		panel_Supplier.add(btnCreate);
 		
-		JButton btnSupplier_Modify = new JButton("Modify");
-		btnSupplier_Modify.setBackground(new Color(232, 250, 126));
-		btnSupplier_Modify.setBounds(471, 387, 113, 32);
+		Button btnSupplier_Modify = new Button("Supplier_Modify",471, 387, 113, 32);
 		panel_Supplier.add(btnSupplier_Modify);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -434,10 +396,6 @@ public class Frame {
 		
 		JButton btnOrder_Add_Textfield = new JButton("+");
 		btnOrder_Add_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnOrder_Add_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnOrder_Add_Textfield.setBounds(634, 182, 45, 23);
 		panel_Order.add(btnOrder_Add_Textfield);
 		
@@ -448,10 +406,6 @@ public class Frame {
 		
 		JButton btnOder_Remove_Textfield = new JButton("x");
 		btnOder_Remove_Textfield.setBackground(new Color(243, 101, 101));
-		btnOder_Remove_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnOder_Remove_Textfield.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnOder_Remove_Textfield.setBounds(736, 182, 41, 23);
 		panel_Order.add(btnOder_Remove_Textfield);
@@ -483,23 +437,13 @@ public class Frame {
 		btnOrder_Add_Textfield_1.setBounds(414, 116, 50, 23);
 		panel_Order.add(btnOrder_Add_Textfield_1);
 		
-		JButton btnOrder_Submit = new JButton("Submit");
-		btnOrder_Submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnOrder_Submit.setBackground(new Color(173, 246, 100));
-		btnOrder_Submit.setBounds(330, 371, 113, 32);
+		Button btnOrder_Submit = new Button("Order_Submit",330, 371, 113, 32);
 		panel_Order.add(btnOrder_Submit);
 		
-		JButton btnOrder_Modify = new JButton("Modify");
-		btnOrder_Modify.setBackground(new Color(232, 250, 126));
-		btnOrder_Modify.setBounds(154, 371, 113, 32);
+		Button btnOrder_Modify = new Button("Order_Modify",154, 371, 113, 32);
 		panel_Order.add(btnOrder_Modify);
 		
-		JButton btnOrder_Create = new JButton("Create");
-		btnOrder_Create.setBackground(new Color(173, 246, 100));
-		btnOrder_Create.setBounds(496, 371, 113, 32);
+		Button btnOrder_Create = new Button("Create",496, 371, 113, 32);
 		panel_Order.add(btnOrder_Create);
 		
 		txtState = new JTextField();
@@ -558,32 +502,16 @@ public class Frame {
 		textField_Stock_Article.setBounds(621, 90, 55, 32);
 		panel_Article.add(textField_Stock_Article);
 		
-		JButton btnArticle_Create = new JButton("Create");
-		btnArticle_Create.setBackground(new Color(173, 246, 100));
-		btnArticle_Create.setBounds(563, 371, 113, 32);
+		Button btnArticle_Create = new Button("Article_Create",563, 371, 113, 32);
 		panel_Article.add(btnArticle_Create);
 		
-		JButton btnArticle_Modify = new JButton("Modify");
-		btnArticle_Modify.setBackground(new Color(232, 250, 126));
-		btnArticle_Modify.setBounds(177, 371, 113, 32);
+		Button btnArticle_Modify = new Button("Article_Modify",177, 371, 113, 32);
 		panel_Article.add(btnArticle_Modify);
 		
-		JButton btnArticle_CreatDate = new JButton("Creating Date");
-		btnArticle_CreatDate.setBackground(new Color(191, 244, 255));
-		btnArticle_CreatDate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnArticle_CreatDate.setBounds(601, 179, 121, 23);
+		Button btnArticle_CreatDate = new Button("Creating Date",601, 179, 121, 23);
 		panel_Article.add(btnArticle_CreatDate);
 		
-		JButton btnArticle_UpdateDate = new JButton("Update Date");
-		btnArticle_UpdateDate.setBackground(new Color(191, 244, 255));
-		btnArticle_UpdateDate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnArticle_UpdateDate.setBounds(601, 236, 121, 23);
+		Button btnArticle_UpdateDate = new Button("Update Date",601, 236, 121, 23);
 		panel_Article.add(btnArticle_UpdateDate);
 		
 		JScrollPane scrollPane_Article = new JScrollPane();
@@ -628,10 +556,6 @@ public class Frame {
 		panel_Product.add(list_ingredient);
 		
 		JButton btnProduct_Add_Textfield = new JButton("+");
-		btnProduct_Add_Textfield.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnProduct_Add_Textfield.setBounds(165, 161, 41, 23);
 		panel_Product.add(btnProduct_Add_Textfield);
 		
@@ -645,22 +569,10 @@ public class Frame {
 		list_Product_Unit.setBounds(26, 201, 180, 32);
 		panel_Product.add(list_Product_Unit);
 		
-		JButton btnProduct_Block = new JButton("Block /Unblock selected Element");
-		btnProduct_Block.setBackground(new Color(243, 101, 101));
-		btnProduct_Block.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnProduct_Block.setBounds(165, 374, 211, 45);
+		Button btnProduct_Block = new Button("Block /Unblock selected Element",165, 374, 211, 45);
 		panel_Product.add(btnProduct_Block);
 		
-		JButton btnProduct_Save = new JButton("Save");
-		btnProduct_Save.setBackground(new Color(173, 246, 100));
-		btnProduct_Save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnProduct_Save.setBounds(480, 374, 142, 45);
+		Button btnProduct_Save = new Button("Save",480, 374, 142, 45);
 		panel_Product.add(btnProduct_Save);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -701,27 +613,13 @@ public class Frame {
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panel_History, null);
 		panel_History.setLayout(null);
 		
-		JButton btnHistory_Submit = new JButton("Submit");
-		btnHistory_Submit.setBackground(new Color(173, 246, 100));
-		btnHistory_Submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnHistory_Submit.setBounds(525, 381, 89, 23);
+		Button btnHistory_Submit = new Button("History_Submit",525, 381, 89, 23);
 		panel_History.add(btnHistory_Submit);
 		
-		JButton btnShow_Completed_Orders = new JButton("Orders placed");
-		btnShow_Completed_Orders.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnShow_Completed_Orders.setBackground(new Color(191, 244, 255));
-		btnShow_Completed_Orders.setBounds(454, 79, 129, 23);
+		Button btnShow_Completed_Orders = new Button("Orders placed",454, 79, 129, 23);
 		panel_History.add(btnShow_Completed_Orders);
 		
-		JButton btnShow_Orders_in_Progress = new JButton("Orders in progress");
-		btnShow_Orders_in_Progress.setBackground(new Color(191, 244, 255));
-		btnShow_Orders_in_Progress.setBounds(593, 79, 149, 23);
+		Button btnShow_Orders_in_Progress = new Button("Orders in progress",593, 79, 149, 23);
 		panel_History.add(btnShow_Orders_in_Progress);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -828,31 +726,13 @@ public class Frame {
 		textField_Conf_Password.setBounds(584, 212, 138, 20);
 		panel_Manage.add(textField_Conf_Password);
 		
-		JButton btnModify_Profile_1 = new JButton("Modify Profile");
-		btnModify_Profile_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModify_Profile_1.setBackground(new Color(232, 250, 126));
-		btnModify_Profile_1.setBounds(154, 372, 138, 47);
+		Button btnModify_Profile_1 = new Button("Manage_Modify_Profile",154, 372, 138, 47);
 		panel_Manage.add(btnModify_Profile_1);
 		
-		JButton btnModidy_PassWord_1 = new JButton("Modidy PassWord");
-		btnModidy_PassWord_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModidy_PassWord_1.setBackground(new Color(232, 250, 126));
-		btnModidy_PassWord_1.setBounds(507, 372, 147, 47);
+		Button btnModidy_PassWord_1 = new Button("Manage_Modify_PassWord",507, 372, 147, 47);
 		panel_Manage.add(btnModidy_PassWord_1);
 		
-		JButton btnBlockAdmin = new JButton("Block / Unblock");
-		btnBlockAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBlockAdmin.setBackground(new Color(191, 244, 255));
-		btnBlockAdmin.setBounds(324, 315, 147, 40);
+		Button btnBlockAdmin = new Button("Manage_Block / Unblock",324, 315, 147, 40);
 		panel_Manage.add(btnBlockAdmin);
 		
 		JLabel lblLogo = new JLabel("");
