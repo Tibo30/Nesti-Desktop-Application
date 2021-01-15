@@ -41,14 +41,14 @@ public class Frame {
 	private JTextField FirstName;
 	private JTextField LastName;
 	private JTextField UserName;
-	private JPasswordField Password;
-	private JPasswordField NewPassword;
-	private JPasswordField Conform_Password;
+	private JPasswordField Profil_Password;
+	private JPasswordField Profil_NewPassword;
+	private JPasswordField Profil_Conform_Password;
 	private JTextField textFieldFirstname;
 	private JTextField textField_Lastname;
 	private JTextField textField_Username;
-	private JPasswordField textField_Password;
-	private JPasswordField textField_Conf_Password;
+	private JPasswordField Manage_Password;
+	private JPasswordField Manage_Conf_Password;
 	private JTextField textField_Supplier_Name;
 	private JTextField textField_Supplier_Adress;
 	private JTextField textField_Supplier_Town;
@@ -217,23 +217,16 @@ public class Frame {
 		panel_Profil.add(UserName);
 		UserName.setColumns(10);
 		
-		Password = new JPasswordField();
-		Password.setBackground(new Color(255, 222, 173));
-		Password.setBounds(439, 113, 138, 20);
-		panel_Profil.add(Password);
-		Password.setColumns(10);
+		Profil_Password = new PasswordField("Profil Password",439, 113, 138, 20);
+		panel_Profil.add(Profil_Password);
 		
-		NewPassword = new JPasswordField();
-		NewPassword.setBackground(new Color(255, 222, 173));
-		NewPassword.setBounds(439, 167, 138, 20);
-		panel_Profil.add(NewPassword);
-		NewPassword.setColumns(10);
+		Profil_NewPassword = new PasswordField("Profil NewPassword",439, 167, 138, 20);	
+		panel_Profil.add(Profil_NewPassword);
+
 		
-		Conform_Password = new JPasswordField();
-		Conform_Password.setBackground(new Color(255, 222, 173));
-		Conform_Password.setBounds(439, 220, 138, 20);
-		panel_Profil.add(Conform_Password);
-		Conform_Password.setColumns(10);
+		Profil_Conform_Password = new PasswordField("Profil Conform Password",439, 220, 138, 20);
+		panel_Profil.add(Profil_Conform_Password);
+
 		
 		
 		
@@ -860,7 +853,6 @@ public class Frame {
 		panel_Manage.add(textFieldFirstname);
 		
 		Label lblFirsName_1 = new Label("Firstname",59, 130, 160, 20);
-
 		panel_Manage.add(lblFirsName_1);
 		
 		textField_Lastname = new JTextField();
@@ -884,20 +876,14 @@ public class Frame {
 		Label lblNPassword_1 = new Label("Password",584, 141, 138, 14);
 		panel_Manage.add(lblNPassword_1);
 		
-		textField_Password = new JPasswordField();
-		textField_Password.setBackground(new Color(255, 222, 173));
-		textField_Password.setColumns(10);
-		textField_Password.setBounds(584, 159, 138, 20);
-		panel_Manage.add(textField_Password);
+		Manage_Password = new PasswordField("Manage Password",584, 159, 138, 20);
+		panel_Manage.add(Manage_Password);
 		
 		Label lblConfirm_Password_1 = new Label("Confirm password",584, 190, 138, 14);
 		panel_Manage.add(lblConfirm_Password_1);
 		
-		textField_Conf_Password = new JPasswordField();
-		textField_Conf_Password.setBackground(new Color(255, 222, 173));
-		textField_Conf_Password.setColumns(10);
-		textField_Conf_Password.setBounds(584, 212, 138, 20);
-		panel_Manage.add(textField_Conf_Password);
+		Manage_Conf_Password = new PasswordField("Manage Conf Password",584, 212, 138, 20);
+		panel_Manage.add(Manage_Conf_Password);
 		
 		
 	}
