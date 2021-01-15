@@ -15,14 +15,14 @@ public class ButtonListener implements ActionListener {
 
 	public ButtonListener(String name) {
 		this.text = name;
-
+	
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		switch (text) {
 		
 		case "Profil_Modify_Profile": {
-
+		
 			break;
 		}
 

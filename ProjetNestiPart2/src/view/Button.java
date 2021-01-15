@@ -34,6 +34,7 @@ public class Button extends JButton {
 			if (name.equals("Profil_Modify_Password")) {
 				nameField = "Modify Password";
 			}
+
 			if (name.equals("Supplier_Create")) {
 				nameField = "Create";
 			}
@@ -54,11 +55,15 @@ public class Button extends JButton {
 			}
 		}
 		if ((name.equals("Profil_Save_Password")) || (name.equals("Order_Submit")) || (name.equals("Order_Create"))
-				|| (name.equals("Article_Create")) || (name.equals("Save")) || (name.equals("History_Submit"))) {
+				|| (name.equals("Profil_Save_Profil")) || (name.equals("Article_Create")) || (name.equals("Save"))
+				|| (name.equals("History_Submit"))) {
 
 			this.setBackground(new Color(173, 246, 100));
 			if (name.equals("Profil_Save_Password")) {
 				nameField = "Save Password";
+			}
+			if (name.equals("Profil_Save_Profil")) {
+				nameField = "Save Profil";
 			}
 			if (name.equals("Order_Submit")) {
 				nameField = "Submit";
@@ -73,12 +78,12 @@ public class Button extends JButton {
 				nameField = "Submit";
 			}
 		}
-		if ((name.equals("Supplier_Block / Unblock")) || (name.equals("Creating Date"))
+		if ((name.equals("SupplierBlock / Unblock")) || (name.equals("Creating Date"))
 				|| (name.equals("Update Date") || (name.equals("Orders placed")) || (name.equals("Orders in progress")))
 				|| (name.equals("Manage_Block / Unblock"))) {
 
 			this.setBackground(new Color(191, 244, 255));
-			if (name.equals("Supplier_Block / Unblock")) {
+			if (name.equals("SupplierBlock / Unblock")) {
 				nameField = "Block / Unblock";
 			}
 			if (name.equals("Manage_Block / Unblock")) {
@@ -90,7 +95,8 @@ public class Button extends JButton {
 			this.setBackground(new Color(243, 101, 101));
 		}
 
-		if (name.equals("Launch_Supplier")||(name.equals("Order_Launch"))||(name.equals("Article_Launch"))||(name.equals("Product_Launch"))||(name.equals("Manage_Launch"))) {
+		if (name.equals("Launch_Supplier") || (name.equals("Order_Launch")) || (name.equals("Article_Launch"))
+				|| (name.equals("Product_Launch")) || (name.equals("Manage_Launch"))) {
 			nameField = "Launch";
 		}
 		if ((name.equals("+_Supplier")) || (name.equals("+_Order1")) || (name.equals("+_Order2"))
