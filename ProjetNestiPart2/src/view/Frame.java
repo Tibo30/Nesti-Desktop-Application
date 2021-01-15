@@ -38,32 +38,11 @@ public class Frame {
 
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
-	private JTextField FirstName;
-	private JTextField LastName;
-	private JTextField UserName;
-	private JTextField textFieldFirstname;
-	private JTextField textField_Lastname;
-	private JTextField textField_Username;
-	private JTextField textField_Supplier_Name;
-	private JTextField textField_Supplier_Adress;
-	private JTextField textField_Supplier_Town;
-	private JTextField textField_Contact_Name;
-	private JTextField textField_Contact_Fistname;
-	private JTextField textField_Contact_phone;
-	private JTextField textField_Product_Price;
-	private JTextField textField_Unit_Product;
-	private JTextField Product_textfiel;
+
 	private JTable table;
 	private JTable table_1;
 	private JTable table_2;
 	private JTable table_Order;
-	private JTextField Order_Number;
-	private JTextField txtState;
-	private JTextField textField_Quantity_Article;
-	private JTextField textField_Article_Name;
-	private JTextField textField_Article_Ref;
-	private JTextField textField_Packaging_Article;
-	private JTextField textField_Stock_Article;
 	private JTable table_3;
 
 	/**
@@ -161,7 +140,8 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Profil = new JPanel();
+		Panel panel_Profil = new Panel("panelProfile");
+
 		
 		FlowLayout flowLayout = (FlowLayout) panel_Profil.getLayout();
 		panel_Profil.setBackground(new Color(213, 167, 113));
@@ -198,23 +178,17 @@ public class Frame {
 		Label lblProfilConfirmPassword = new Label("Confirm password",439, 198, 138, 14);
 		panel_Profil.add(lblProfilConfirmPassword);
 		
-		FirstName = new JTextField();
-		FirstName.setBackground(new Color(255, 222, 173));
-		FirstName.setBounds(175, 116, 160, 20);
-		panel_Profil.add(FirstName);
-		FirstName.setColumns(10);
+		TextField tfProfilFirstname = new TextField("profilFirstname",175, 116, 160, 20);
+		panel_Profil.add(tfProfilFirstname);
 		
-		LastName = new JTextField();
-		LastName.setBackground(new Color(255, 222, 173));
-		LastName.setBounds(175, 170, 160, 20);
-		panel_Profil.add(LastName);
-		LastName.setColumns(10);
+				
+		TextField tfProfilLastname= new TextField("profilLastname", 175, 170, 160, 20);		
+		panel_Profil.add(tfProfilLastname);
 		
-		UserName = new JTextField();
-		UserName.setBackground(new Color(255, 222, 173));
-		UserName.setBounds(175, 223, 160, 20);
-		panel_Profil.add(UserName);
-		UserName.setColumns(10);
+		
+		TextField TfProfilUsername = new TextField("profilUsername", 175, 223, 160, 20);
+		panel_Profil.add(TfProfilUsername);
+
 		
 		PasswordField profilPassword = new PasswordField("Profil Password",439, 113, 138, 20);
 		panel_Profil.add(profilPassword);
@@ -243,119 +217,103 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Supplier = new JPanel();
-		panel_Supplier.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panel_Supplier, null);
-		panel_Supplier.setLayout(null);
+		Panel panelSupplier = new Panel("panelSupplier");
+		panelSupplier.setBackground(new Color(213, 167, 113));
+		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panelSupplier, null);
+		panelSupplier.setLayout(null);
 		
 		Button btnSupplierLaunch = new Button("LaunchSupplier",531, 36, 86, 23);
-		panel_Supplier.add(btnSupplierLaunch);
+		panelSupplier.add(btnSupplierLaunch);
 		
 		Button btnSupplierBlock = new Button("SupplierBlock / Unblock",10, 72, 122, 23);
-		panel_Supplier.add(btnSupplierBlock);
+		panelSupplier.add(btnSupplierBlock);
 		
 		Button btnSupplierPlus = new Button("+_Supplier",471, 306, 50, 23);
-		panel_Supplier.add(btnSupplierPlus);
+		panelSupplier.add(btnSupplierPlus);
 		
 		Button btnSupplierCreate = new Button("Supplier_Create",141, 365, 113, 32);
-		panel_Supplier.add(btnSupplierCreate);
+		panelSupplier.add(btnSupplierCreate);
 		
 		Button btnSupplierModify = new Button("Supplier_Modify",471, 365, 113, 32);
-		panel_Supplier.add(btnSupplierModify);
+		panelSupplier.add(btnSupplierModify);
 		
 		Button btnSupplierDEL = new Button("DEL",699, 365, 62, 32);
-		panel_Supplier.add(btnSupplierDEL);
+		panelSupplier.add(btnSupplierDEL);
 		
 		Label lblSupplierSearch = new Label("Search",125, 34, 95, 27);
-		panel_Supplier.add(lblSupplierSearch);
+		panelSupplier.add(lblSupplierSearch);
 		
 		Label lblSupplierName = new Label("Supplier Name",20, 108, 92, 14);
-		panel_Supplier.add(lblSupplierName);
+		panelSupplier.add(lblSupplierName);
 		
 		Label lblSupplierAdress = new Label("Supplier Adress",141, 108, 199, 14);
-		panel_Supplier.add(lblSupplierAdress);
+		panelSupplier.add(lblSupplierAdress);
 		
 		Label lblSupplierTown = new Label("Supplier Town",376, 108, 85, 14);
-		panel_Supplier.add(lblSupplierTown);
+		panelSupplier.add(lblSupplierTown);
 		
 		Label lblSupplierContactName = new Label("Contact Name",26, 164, 86, 14);
-		panel_Supplier.add(lblSupplierContactName);
+		panelSupplier.add(lblSupplierContactName);
 		
 		Label lblSupplierContactFistname = new Label("Contact Fistname",177, 161, 127, 14);
-		panel_Supplier.add(lblSupplierContactFistname);
+		panelSupplier.add(lblSupplierContactFistname);
 		
 		Label lblSupplierContactPhone = new Label("Contact phone",347, 161, 91, 14);
-		panel_Supplier.add(lblSupplierContactPhone);
+		panelSupplier.add(lblSupplierContactPhone);
 		
 		Label lblSupplierProductPrice = new Label("Product Price",267, 282, 87, 14);
-		panel_Supplier.add(lblSupplierProductPrice);
+		panelSupplier.add(lblSupplierProductPrice);
 		
 		Label lblSupplierUnitProduct = new Label("Unit Product",364, 282, 97, 14);
-		panel_Supplier.add(lblSupplierUnitProduct);
+		panelSupplier.add(lblSupplierUnitProduct);
 		
 		Label lblSupplierProduct = new Label("Supplier Product",26, 276, 106, 14);
-		panel_Supplier.add(lblSupplierProduct);
+		panelSupplier.add(lblSupplierProduct);
 		
 		
 		ComboBox listSupplier = new ComboBox(182, 31, 339, 32);
-		panel_Supplier.add(listSupplier);
+		panelSupplier.add(listSupplier);
 		
 		ComboBox listSupplierProduct = new ComboBox(26, 301, 184, 32);
-		panel_Supplier.add(listSupplierProduct);
+		panelSupplier.add(listSupplierProduct);
+		
+		TextField tfSupplierName = new TextField("supplierName", 26, 133, 86, 20);
+		panelSupplier.add(tfSupplierName);
 		
 		
+		TextField tfSupplierAdress = new TextField("supplierAdress", 141, 133, 213, 20);
+		panelSupplier.add(tfSupplierAdress);
+	
 		
-		textField_Supplier_Name = new JTextField();
-		textField_Supplier_Name.setBackground(new Color(255, 222, 173));
-		textField_Supplier_Name.setBounds(26, 133, 86, 20);
-		panel_Supplier.add(textField_Supplier_Name);
-		textField_Supplier_Name.setColumns(10);
 		
-		textField_Supplier_Adress = new JTextField();
-		textField_Supplier_Adress.setBackground(new Color(255, 222, 173));
-		textField_Supplier_Adress.setBounds(141, 133, 213, 20);
-		panel_Supplier.add(textField_Supplier_Adress);
-		textField_Supplier_Adress.setColumns(10);
+		TextField tfSupplierTown = new TextField ("supplierTown", 375, 133, 86, 20);
+		panelSupplier.add(tfSupplierTown);
 		
-		textField_Supplier_Town = new JTextField();
-		textField_Supplier_Town.setBackground(new Color(255, 222, 173));
-		textField_Supplier_Town.setBounds(375, 133, 86, 20);
-		panel_Supplier.add(textField_Supplier_Town);
-		textField_Supplier_Town.setColumns(10);
 		
-		textField_Contact_Name = new JTextField();
-		textField_Contact_Name.setBackground(new Color(255, 222, 173));
-		textField_Contact_Name.setBounds(26, 186, 122, 20);
-		panel_Supplier.add(textField_Contact_Name);
-		textField_Contact_Name.setColumns(10);
+		TextField tfContactName = new TextField("contactName",26, 172, 86, 20);
+		panelSupplier.add(tfContactName );
+
+		TextField tfContactFirstname= new TextField("contactFirstname",168, 172, 86, 20);
+		panelSupplier.add(tfContactFirstname);
+
 		
-		textField_Contact_Fistname = new JTextField();
-		textField_Contact_Fistname.setBackground(new Color(255, 222, 173));
-		textField_Contact_Fistname.setBounds(177, 186, 137, 20);
-		panel_Supplier.add(textField_Contact_Fistname);
-		textField_Contact_Fistname.setColumns(10);
+		TextField tfContactTel= new  TextField("contactTel",299, 172, 86, 20);
+		panelSupplier.add(tfContactTel);
+
 		
-		textField_Contact_phone = new JTextField();
-		textField_Contact_phone.setBackground(new Color(255, 222, 173));
-		textField_Contact_phone.setBounds(352, 186, 86, 20);
-		panel_Supplier.add(textField_Contact_phone);
-		textField_Contact_phone.setColumns(10);
+		TextField tsProductPrice= new TextField("productPrice",268, 307, 86, 20);
+		panelSupplier.add(tsProductPrice);
+	
 		
-		textField_Product_Price = new JTextField();
-		textField_Product_Price.setBackground(new Color(255, 222, 173));
-		textField_Product_Price.setBounds(268, 307, 86, 20);
-		panel_Supplier.add(textField_Product_Price);
-		textField_Product_Price.setColumns(10);
+		TextField tfUnitProduct = new TextField("unitProduct",364, 307, 97, 20);
+		panelSupplier.add(tfUnitProduct);
+
 		
-		textField_Unit_Product = new JTextField();
-		textField_Unit_Product.setBackground(new Color(255, 222, 173));
-		textField_Unit_Product.setBounds(364, 307, 97, 20);
-		panel_Supplier.add(textField_Unit_Product);
-		textField_Unit_Product.setColumns(10);
+		
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(602, 133, 160, 227);
-		panel_Supplier.add(scrollPane_2);
+		panelSupplier.add(scrollPane_2);
 		
 		table_2 = new JTable();
 		table_2.setBackground(new Color(255, 222, 173));
@@ -402,67 +360,68 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Order = new JPanel();
-		panel_Order.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panel_Order, null);
-		panel_Order.setLayout(null);
+		Panel panelOrder = new Panel("panelOrder");
+
+		panelOrder.setBackground(new Color(213, 167, 113));
+		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
+		panelOrder.setLayout(null);
 		
 		Button btnOrderAddTextfield = new Button("+_Order1",634, 182, 45, 23);
-		panel_Order.add(btnOrderAddTextfield);
+		panelOrder.add(btnOrderAddTextfield);
 		
 		Button btnOrderMinusTextfield = new Button("-_Order",689, 182, 41, 23);
-		panel_Order.add(btnOrderMinusTextfield);
+		panelOrder.add(btnOrderMinusTextfield);
 		
 		Button btnOderRemoveTextfield = new Button("x_Order",736, 182, 41, 23);
-		panel_Order.add(btnOderRemoveTextfield);
+		panelOrder.add(btnOderRemoveTextfield);
 		
 		Button btnOrderLaunch = new Button("Order_Launch",568, 47, 86, 23);
-		panel_Order.add(btnOrderLaunch);
+		panelOrder.add(btnOrderLaunch);
 		
 		Button btnOrderAddTextfield2 = new Button("+_Order2",414, 116, 50, 23);
-		panel_Order.add(btnOrderAddTextfield2);
+		panelOrder.add(btnOrderAddTextfield2);
 		
 		Button btnOrderSubmit = new Button("Order_Submit",330, 371, 113, 32);
-		panel_Order.add(btnOrderSubmit);
+		panelOrder.add(btnOrderSubmit);
 		
 		Button btnOrderModify = new Button("Order_Modify",154, 371, 113, 32);
-		panel_Order.add(btnOrderModify);
+		panelOrder.add(btnOrderModify);
 	
 		Button btnOrderCreate = new Button("Order_Create",496, 371, 113, 32);
-		panel_Order.add(btnOrderCreate);
+		panelOrder.add(btnOrderCreate);
 		
 		Label lblOrderSearch = new Label("Search with order number",31, 36, 178, 45);
-		panel_Order.add(lblOrderSearch);
+		panelOrder.add(lblOrderSearch);
 		
 		Label lblSupplierOrder = new Label("Supplier Order",50, 92, 159, 22);
-		panel_Order.add(lblSupplierOrder);
+		panelOrder.add(lblSupplierOrder);
 		
 		Label lblOrderProduct = new Label("Product Order",218, 91, 86, 23);
-		panel_Order.add(lblOrderProduct);
+		panelOrder.add(lblOrderProduct);
 		
 		Label lblOrderPackaging = new Label("Packaging Order",314, 89, 113, 29);
-		panel_Order.add(lblOrderPackaging);
+		panelOrder.add(lblOrderPackaging);
 		
 		ComboBox listOrderSupplier = new ComboBox(50, 111, 158, 32);
-		panel_Order.add(listOrderSupplier);
+		panelOrder.add(listOrderSupplier);
 		
 		ComboBox listOrder = new ComboBox(219, 42, 339, 32);
-		panel_Order.add(listOrder);
+		panelOrder.add(listOrder);
 		
 		ComboBox listOrderProduct = new ComboBox(218, 111, 86, 32);
-		panel_Order.add(listOrderProduct);
+		panelOrder.add(listOrderProduct);
 		
 		ComboBox listOrderPackaging = new ComboBox(314, 111, 86, 32);
-		panel_Order.add(listOrderPackaging);
+		panelOrder.add(listOrderPackaging);
 		
 		ComboBox listOrderOfState = new ComboBox(686, 291, 84, 22);
 		listOrderOfState.setMaximumRowCount(4);
-		panel_Order.add(listOrderOfState);
+		panelOrder.add(listOrderOfState);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_3.setBounds(50, 163, 574, 178);
-		panel_Order.add(scrollPane_3);
+		panelOrder.add(scrollPane_3);
 		
 		table_Order = new JTable();
 		table_Order.setModel(new DefaultTableModel(
@@ -487,19 +446,13 @@ public class Frame {
 		table_Order.setBackground(new Color(255, 222, 173));
 		scrollPane_3.setViewportView(table_Order);
 		
+		TextField tfOrderNumber= new TextField("orderNumber",50, 77, 86, 20);
+		panelOrder.add(tfOrderNumber);
 		
-		Order_Number = new JTextField();
-		Order_Number.setText("Order number");
-		Order_Number.setBounds(41, 73, 86, 20);
-		panel_Order.add(Order_Number);
-		Order_Number.setColumns(10);
-		
-		txtState = new JTextField();
-		txtState.setText("State");
-		txtState.setBounds(685, 326, 86, 20);
-		panel_Order.add(txtState);
-		txtState.setColumns(10);
-	
+		TextField tfState= new TextField("state",685, 326, 86, 20);
+		panelOrder.add(tfState);
+
+
 		
 		
 		
@@ -518,90 +471,84 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Article = new JPanel();
-		panel_Article.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panel_Article, null);
-		panel_Article.setLayout(null);
+		Panel panelArticle = new Panel("panelArticle");
+
+		panelArticle.setBackground(new Color(213, 167, 113));
+		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
+		panelArticle.setLayout(null);
 		
 		
 		Button btnArticleLaunch = new Button("Article_Launch",541, 36, 86, 23);
-		panel_Article.add(btnArticleLaunch);
+		panelArticle.add(btnArticleLaunch);
 		
 		Button btnArticleCreate = new Button("Article_Create",563, 371, 113, 32);
-		panel_Article.add(btnArticleCreate);
+		panelArticle.add(btnArticleCreate);
 		
 		Button btnArticleModify = new Button("Article_Modify",177, 371, 113, 32);
-		panel_Article.add(btnArticleModify);
+		panelArticle.add(btnArticleModify);
 		
 		Button btnArticleCreatDate = new Button("Creating Date",601, 179, 121, 23);
-		panel_Article.add(btnArticleCreatDate);
+		panelArticle.add(btnArticleCreatDate);
 		
 		Button btnArticleUpdateDate = new Button("Update Date",601, 236, 121, 23);
-		panel_Article.add(btnArticleUpdateDate);
+		panelArticle.add(btnArticleUpdateDate);
 
 
 		Label lblArticleSearch = new Label("Search",135, 34, 95, 27);
-		panel_Article.add(lblArticleSearch);
+		panelArticle.add(lblArticleSearch);
 
 		Label lblArticleRef = new Label("Article Ref",39, 70, 109, 14);
-		panel_Article.add(lblArticleRef);
+		panelArticle.add(lblArticleRef);
 		
 		Label lblArticleName = new Label("Article Name",192, 72, 80, 14);
-		panel_Article.add(lblArticleName);
+		panelArticle.add(lblArticleName);
 		
 		Label lblArticleProduct = new Label("Product Article",282, 70, 86, 14);
-		panel_Article.add(lblArticleProduct);
+		panelArticle.add(lblArticleProduct);
 		
 		Label lblArticleQuantity = new Label("Quantity Article",378, 70, 101, 14);
-		panel_Article.add(lblArticleQuantity);
+		panelArticle.add(lblArticleQuantity);
 		
 		Label lblArticleUnit = new Label("Unit Article",489, 70, 76, 14);
-		panel_Article.add(lblArticleUnit);
+		panelArticle.add(lblArticleUnit);
 		
 		Label lblArticlePackaging = new Label("Packaging Article",574, 70, 102, 14);
-		panel_Article.add(lblArticlePackaging);
+		panelArticle.add(lblArticlePackaging);
 		
 		Label lblArticleStock = new Label("Stock Article",697, 70, 86, 14);
-		panel_Article.add(lblArticleStock);
+		panelArticle.add(lblArticleStock);
 		
 		JScrollPane scrollPane_Article = new JScrollPane();
 		scrollPane_Article.setBounds(55, 158, 476, 172);
-		panel_Article.add(scrollPane_Article);
+		panelArticle.add(scrollPane_Article);
 		
 		ComboBox listArticle = new ComboBox(192, 31, 339, 32);
-		panel_Article.add(listArticle);
+		panelArticle.add(listArticle);
 		
 		ComboBox listUnitArticle = new ComboBox(489, 90, 76, 32);
-		panel_Article.add(listUnitArticle);
+		panelArticle.add(listUnitArticle);
 		
 		ComboBox listProductArticle = new ComboBox(282, 90, 86, 32);
-		panel_Article.add(listProductArticle);
+		panelArticle.add(listProductArticle);
 		
-		textField_Quantity_Article = new JTextField();
-		textField_Quantity_Article.setBounds(388, 90, 76, 32);
-		panel_Article.add(textField_Quantity_Article);
-		textField_Quantity_Article.setColumns(10);
 		
-		textField_Article_Name = new JTextField();
-		textField_Article_Name.setColumns(10);
-		textField_Article_Name.setBounds(196, 90, 76, 32);
-		panel_Article.add(textField_Article_Name);
+		TextField tfArticle= new TextField("article",378, 90, 55, 32);
+		panelArticle.add(tfArticle);
+	
+		TextField tfArticleName= new TextField("articleName",196, 90, 76, 32);
+		panelArticle.add(tfArticleName);
 		
-		textField_Article_Ref = new JTextField();
-		textField_Article_Ref.setColumns(10);
-		textField_Article_Ref.setBounds(39, 90, 109, 32);
-		panel_Article.add(textField_Article_Ref);
+		TextField tfArticleRef= new TextField("articleRef",39, 90, 109, 32);
+		panelArticle.add(tfArticleRef);
 		
-		textField_Packaging_Article = new JTextField();
-		textField_Packaging_Article.setColumns(10);
-		textField_Packaging_Article.setBounds(574, 90, 102, 32);
-		panel_Article.add(textField_Packaging_Article);
 		
-		textField_Stock_Article = new JTextField();
-		textField_Stock_Article.setColumns(10);
-		textField_Stock_Article.setBounds(697, 90, 69, 32);
-		panel_Article.add(textField_Stock_Article);
+		TextField tfPackaging =new TextField("packaging",528, 90, 76, 32);
+		panelArticle.add(tfPackaging);
 		
+		
+		TextField tfStock= new TextField("stock",621, 90, 55, 32);
+		panelArticle.add(tfStock);
+
 		
 		table_3 = new JTable();
 		table_3.setBackground(new Color(255, 222, 173));
@@ -649,54 +596,51 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Product = new JPanel();
-		panel_Product.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panel_Product, null);
-		panel_Product.setLayout(null);
+		Panel panelProduct = new Panel("panelProduct");
+
+		
+		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
+
 
 		Button btnProductBlock = new Button("Block /Unblock selected Element",166, 368, 211, 30);
-		panel_Product.add(btnProductBlock);
+		panelProduct.add(btnProductBlock);
 		
 		Button btnProductSave = new Button("Save",505, 366, 99, 29);
-		panel_Product.add(btnProductSave);
+		panelProduct.add(btnProductSave);
 		
 		Button btnProductLaunch = new Button("Product_Launch",548, 38, 85, 23);
-		panel_Product.add(btnProductLaunch);
+		panelProduct.add(btnProductLaunch);
 		
 		Button btnProductAddTextfield = new Button("+_Product",165, 161, 41, 23);
-		panel_Product.add(btnProductAddTextfield);
+		panelProduct.add(btnProductAddTextfield);
 		
 		Label lblProductSearchSupplier = new Label("Search",142, 36, 95, 27);
-		panel_Product.add(lblProductSearchSupplier);
+		panelProduct.add(lblProductSearchSupplier);
 		
 		Label lblProductIngredient = new Label("Ingredient",31, 84, 121, 14);
-		panel_Product.add(lblProductIngredient);
+		panelProduct.add(lblProductIngredient);
 		
 		Label lblProductUnit = new Label("Product Unit",26, 199, 78, 14);
-		panel_Product.add(lblProductUnit);
+		panelProduct.add(lblProductUnit);
 		
 		ComboBox listProductUnit = new ComboBox(26, 217, 180, 32);
-		panel_Product.add(listProductUnit);
+		panelProduct.add(listProductUnit);
 		
 		ComboBox listProductIngredient = new ComboBox(26, 109, 180, 32);
-		panel_Product.add(listProductIngredient);
+		panelProduct.add(listProductIngredient);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setEnabled(false);
 		scrollPane_1.setBounds(293, 109, 444, 180);
-		panel_Product.add(scrollPane_1);
+		panelProduct.add(scrollPane_1);
 		
-		JTextField list_Product_search = new JTextField();
-		list_Product_search.setBackground(new Color(255, 222, 173));
-		list_Product_search.setBounds(199, 33, 339, 32);
-		panel_Product.add(list_Product_search);
+		TextField tfProductSearch = new TextField("productSearch",199, 33, 339, 32);
+		panelProduct.add(tfProductSearch);
 	
 
-		Product_textfiel = new JTextField();
-		Product_textfiel.setBackground(new Color(255, 222, 173));
-		Product_textfiel.setBounds(26, 156, 180, 32);
-		panel_Product.add(Product_textfiel);
-		Product_textfiel.setColumns(10);
+		TextField tfProduct = new TextField("product",26, 156, 180, 32);
+		panelProduct.add(tfProduct);
+
 		
 		table_1 = new JTable();
 		table_1.setShowHorizontalLines(false);
@@ -754,24 +698,23 @@ public class Frame {
 		
 		
 		
-		JPanel panel_History = new JPanel();
-		panel_History.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panel_History, null);
-		panel_History.setLayout(null);
+		Panel panelHistory = new Panel("panelHistory");
 		
+		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panelHistory, null);
+	
 		Button btnHistorySubmit = new Button("History_Submit",525, 381, 89, 23);
-		panel_History.add(btnHistorySubmit);
+		panelHistory.add(btnHistorySubmit);
 		
 		Button btnHistoryShowCompletedOrders = new Button("Orders placed",454, 79, 129, 23);
-		panel_History.add(btnHistoryShowCompletedOrders);
+		panelHistory.add(btnHistoryShowCompletedOrders);
 		
 		Button btnHistoryShowOrdersInProgress = new Button("Orders in progress",593, 79, 149, 23);
-		panel_History.add(btnHistoryShowOrdersInProgress);
+		panelHistory.add(btnHistoryShowOrdersInProgress);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(58, 141, 684, 178);
-		panel_History.add(scrollPane);
+		panelHistory.add(scrollPane);
 		
 		table = new JTable();
 		table.setBackground(new Color(255, 222, 173));
@@ -822,69 +765,62 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Manage = new JPanel();
-		panel_Manage.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panel_Manage, null);
-		panel_Manage.setLayout(null);
+		Panel panelManage = new Panel("panelManager");
+
+		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage, null);
+
 
 		Button btnManageModifyProfile = new Button("Manage_Modify_Profile",154, 372, 138, 29);
-		panel_Manage.add(btnManageModifyProfile);
+		panelManage.add(btnManageModifyProfile);
 		
 		Button btnManageModifyPassWord = new Button("Manage_Modify_PassWord",507, 372, 147, 34);
-		panel_Manage.add(btnManageModifyPassWord);
+		panelManage.add(btnManageModifyPassWord);
 		
 		Button btnManageBlockAdmin = new Button("Manage_Block / Unblock",324, 315, 147, 29);
-		panel_Manage.add(btnManageBlockAdmin);
+		panelManage.add(btnManageBlockAdmin);
 		
 		Button btnManageLaunch = new Button("Manage_Launch",539, 48, 86, 23);
-		panel_Manage.add(btnManageLaunch);
+		panelManage.add(btnManageLaunch);
 		
 		Label lblManageSearch = new Label("Search",133, 46, 95, 27);
-		panel_Manage.add(lblManageSearch);
+		panelManage.add(lblManageSearch);
 		
 		ComboBox list = new ComboBox(190, 43, 339, 32);
-		panel_Manage.add(list);
+		panelManage.add(list);
 		
 		
 		
-		textFieldFirstname = new JTextField();
-		textFieldFirstname.setBackground(new Color(255, 222, 173));
-		textFieldFirstname.setColumns(10);
-		textFieldFirstname.setBounds(59, 151, 160, 20);
-		panel_Manage.add(textFieldFirstname);
+		TextField tfManageFirstname = new TextField("manageFirstname",59, 151, 160, 20);
+		panelManage.add(tfManageFirstname);
 		
 		Label lblManageFirsName = new Label("Firstname",59, 130, 160, 20);
-		panel_Manage.add(lblManageFirsName);
+		panelManage.add(lblManageFirsName);
 		
-		textField_Lastname = new JTextField();
-		textField_Lastname.setBackground(new Color(255, 222, 173));
-		textField_Lastname.setColumns(10);
-		textField_Lastname.setBounds(59, 205, 160, 20);
-		panel_Manage.add(textField_Lastname);
+		TextField tfManageLastname= new TextField ("manageLastname",59, 205, 160, 20);
+		panelManage.add(tfManageLastname);
+
 		
 		Label lblManageLastName = new Label("Lastname",57, 182, 162, 20);
-		panel_Manage.add(lblManageLastName);
+		panelManage.add(lblManageLastName);
 		
 		Label lblManageUserName = new Label("Username",58, 236, 161, 20);
-		panel_Manage.add(lblManageUserName);
+		panelManage.add(lblManageUserName);
 		
-		textField_Username = new JTextField();
-		textField_Username.setBackground(new Color(255, 222, 173));
-		textField_Username.setColumns(10);
-		textField_Username.setBounds(59, 258, 160, 20);
-		panel_Manage.add(textField_Username);
-		
+		TextField tfManageUsername= new TextField("",59, 258, 160, 20);
+		panelManage.add(tfManageUsername);
+
+
 		Label lblManagePassword = new Label("Password",584, 141, 138, 14);
-		panel_Manage.add(lblManagePassword);
+		panelManage.add(lblManagePassword);
 		
 		PasswordField pwManagePassword = new PasswordField("Manage Password",584, 159, 138, 20);
-		panel_Manage.add(pwManagePassword);
+		panelManage.add(pwManagePassword);
 		
 		Label lblManageConfirmPassword = new Label("Confirm password",584, 190, 138, 14);
-		panel_Manage.add(lblManageConfirmPassword);
+		panelManage.add(lblManageConfirmPassword);
 		
 		PasswordField pwManageConfPassword = new PasswordField("Manage Conf Password",584, 212, 138, 20);
-		panel_Manage.add(pwManageConfPassword);
+		panelManage.add(pwManageConfPassword);
 		
 		
 	}
