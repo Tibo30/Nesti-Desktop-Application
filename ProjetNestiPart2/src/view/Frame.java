@@ -98,10 +98,9 @@ public class Frame {
 		
 		
 		
-		JPanel panel_Home = new JPanel();
-		panel_Home.setBackground(new Color(213, 167, 113));
-		TabbedPane.addTab("Home", new ImageIcon(Frame.class.getResource("/assets/home.jpg")), panel_Home, null);
-		panel_Home.setLayout(null);
+		Panel panelHome = new Panel("panelHome");
+		TabbedPane.addTab("Home", new ImageIcon(Frame.class.getResource("/assets/home.jpg")), panelHome, null);
+
 		
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setBounds(-2, 5, 815, 420);
@@ -111,14 +110,14 @@ public class Frame {
 		
         
         Label lblNewLabel_2 = new Label("Joe Smith",10, 194, 790, 72);
-        panel_Home.add(lblNewLabel_2);
+        panelHome.add(lblNewLabel_2);
         
         Label lblNewLabel_1 = new Label("Welcome",10, 143, 790, 58);
-        panel_Home.add(lblNewLabel_1);
+        panelHome.add(lblNewLabel_1);
         
         
         lblNewLabel.setIcon(new ImageIcon(newimg));
-		panel_Home.add(lblNewLabel);
+		panelHome.add(lblNewLabel);
 		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
 
 		JLabel lblLogo = new JLabel("");
@@ -144,7 +143,7 @@ public class Frame {
 
 		
 		FlowLayout flowLayout = (FlowLayout) panel_Profil.getLayout();
-		panel_Profil.setBackground(new Color(213, 167, 113));
+
 		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panel_Profil, null);
 		panel_Profil.setLayout(null);
 		
@@ -218,7 +217,7 @@ public class Frame {
 		
 		
 		Panel panelSupplier = new Panel("panelSupplier");
-		panelSupplier.setBackground(new Color(213, 167, 113));
+
 		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panelSupplier, null);
 		panelSupplier.setLayout(null);
 		
@@ -307,8 +306,6 @@ public class Frame {
 		
 		TextField tfUnitProduct = new TextField("unitProduct",364, 307, 97, 20);
 		panelSupplier.add(tfUnitProduct);
-
-		
 		
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -362,7 +359,7 @@ public class Frame {
 		
 		Panel panelOrder = new Panel("panelOrder");
 
-		panelOrder.setBackground(new Color(213, 167, 113));
+		
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
 		panelOrder.setLayout(null);
 		
@@ -473,7 +470,7 @@ public class Frame {
 		
 		Panel panelArticle = new Panel("panelArticle");
 
-		panelArticle.setBackground(new Color(213, 167, 113));
+		
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
 		panelArticle.setLayout(null);
 		
@@ -598,9 +595,7 @@ public class Frame {
 		
 		Panel panelProduct = new Panel("panelProduct");
 
-		
 		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
-
 
 		Button btnProductBlock = new Button("Block /Unblock selected Element",166, 368, 211, 30);
 		panelProduct.add(btnProductBlock);
