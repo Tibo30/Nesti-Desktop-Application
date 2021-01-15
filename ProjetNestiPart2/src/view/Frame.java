@@ -247,13 +247,14 @@ public class Frame {
 		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panel_Supplier, null);
 		panel_Supplier.setLayout(null);
 		
-		Button btnLaunch_Supplier = new Button("Launch",531, 36, 86, 23);
+		Button btnLaunch_Supplier = new Button("Launch_Supplier",531, 36, 86, 23);
 		panel_Supplier.add(btnLaunch_Supplier);
 		
 		Button btnBlockSupplier = new Button("Supplier_Block / Unblock",10, 72, 122, 23);
 		panel_Supplier.add(btnBlockSupplier);
 		
-		Button btnNewButton = new Button("+",471, 306, 50, 23);
+		Button btnNewButton = new Button("+_Supplier",471, 306, 50, 23);
+		btnNewButton.setBounds(471, 306, 50, 23);
 		panel_Supplier.add(btnNewButton);
 		
 		Button btnCreate = new Button("Supplier_Create",141, 365, 113, 32);
@@ -406,19 +407,19 @@ public class Frame {
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panel_Order, null);
 		panel_Order.setLayout(null);
 		
-		Button btnOrder_Add_Textfield = new Button("+",634, 182, 45, 23);
+		Button btnOrder_Add_Textfield = new Button("+_Order1",634, 182, 45, 23);
 		panel_Order.add(btnOrder_Add_Textfield);
 		
-		Button btnOrder_Minus_Textfield = new Button("-",689, 182, 41, 23);
+		Button btnOrder_Minus_Textfield = new Button("-_Order",689, 182, 41, 23);
 		panel_Order.add(btnOrder_Minus_Textfield);
 		
-		Button btnOder_Remove_Textfield = new Button("x",736, 182, 41, 23);
+		Button btnOder_Remove_Textfield = new Button("x_Order",736, 182, 41, 23);
 		panel_Order.add(btnOder_Remove_Textfield);
 		
-		Button btnLaunch_Order = new Button("Launch",568, 47, 86, 23);
+		Button btnLaunch_Order = new Button("Order_Launch",568, 47, 86, 23);
 		panel_Order.add(btnLaunch_Order);
 		
-		Button btnOrder_Add_Textfield_1 = new Button("+",414, 116, 50, 23);
+		Button btnOrder_Add_Textfield_1 = new Button("+_Order2",414, 116, 50, 23);
 		panel_Order.add(btnOrder_Add_Textfield_1);
 		
 		Button btnOrder_Submit = new Button("Order_Submit",330, 371, 113, 32);
@@ -523,7 +524,7 @@ public class Frame {
 		panel_Article.setLayout(null);
 		
 		
-		Button btnLaunch_Article = new Button("Launch",541, 36, 86, 23);
+		Button btnLaunch_Article = new Button("Article_Launch",541, 36, 86, 23);
 		panel_Article.add(btnLaunch_Article);
 		
 		Button btnArticle_Create = new Button("Article_Create",563, 371, 113, 32);
@@ -659,10 +660,10 @@ public class Frame {
 		Button btnProduct_Save = new Button("Save",505, 366, 99, 29);
 		panel_Product.add(btnProduct_Save);
 		
-		Button btnLaunch_Product = new Button("Launch",548, 38, 85, 23);
+		Button btnLaunch_Product = new Button("Product_Launch",548, 38, 85, 23);
 		panel_Product.add(btnLaunch_Product);
 		
-		Button btnProduct_Add_Textfield = new Button("+",165, 161, 41, 23);
+		Button btnProduct_Add_Textfield = new Button("+_Product",165, 161, 41, 23);
 		panel_Product.add(btnProduct_Add_Textfield);
 		
 		Label lblSearch_Supplier_1 = new Label("Search",142, 36, 95, 27);
@@ -835,7 +836,7 @@ public class Frame {
 		Button btnBlockAdmin = new Button("Manage_Block / Unblock",324, 315, 147, 29);
 		panel_Manage.add(btnBlockAdmin);
 		
-		Button btnLaunch = new Button("Launch",539, 48, 86, 23);
+		Button btnLaunch = new Button("Manage_Launch",539, 48, 86, 23);
 		panel_Manage.add(btnLaunch);
 		
 		Label lblSearch = new Label("Search",133, 46, 95, 27);

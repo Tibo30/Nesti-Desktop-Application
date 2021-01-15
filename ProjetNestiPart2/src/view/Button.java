@@ -25,8 +25,8 @@ public class Button extends JButton {
 		if ((name.equals("Profil_Modify_Profile")) || (name.equals("Profil_Modify_Password"))
 				|| (name.equals("Supplier_Create") || (name.equals("Supplier_Modify")) || (name.equals("Order_Modify")))
 				|| (name.equals("Article_Modify")) || (name.equals("Manage_Modify_Profile"))
-				|| (name.equals("Manage_Modify_PassWord"))||(name.equals("Order_Modify"))) {
-			
+				|| (name.equals("Manage_Modify_PassWord")) || (name.equals("Order_Modify"))) {
+
 			this.setBackground(new Color(232, 250, 126));
 			if (name.equals("Profil_Modify_Profile")) {
 				nameField = "Modify Profile";
@@ -55,7 +55,7 @@ public class Button extends JButton {
 		}
 		if ((name.equals("Profil_Save_Password")) || (name.equals("Order_Submit")) || (name.equals("Order_Create"))
 				|| (name.equals("Article_Create")) || (name.equals("Save")) || (name.equals("History_Submit"))) {
-			
+
 			this.setBackground(new Color(173, 246, 100));
 			if (name.equals("Profil_Save_Password")) {
 				nameField = "Save Password";
@@ -76,7 +76,7 @@ public class Button extends JButton {
 		if ((name.equals("Supplier_Block / Unblock")) || (name.equals("Creating Date"))
 				|| (name.equals("Update Date") || (name.equals("Orders placed")) || (name.equals("Orders in progress")))
 				|| (name.equals("Manage_Block / Unblock"))) {
-			
+
 			this.setBackground(new Color(191, 244, 255));
 			if (name.equals("Supplier_Block / Unblock")) {
 				nameField = "Block / Unblock";
@@ -84,23 +84,36 @@ public class Button extends JButton {
 			if (name.equals("Manage_Block / Unblock")) {
 				nameField = "Block / Unblock";
 			}
-		
 
 		}
 		if ((name.equals("DEL")) || (name.equals("Block /Unblock selected Element"))) {
-			this.setBackground(new Color(243,101,101));
+			this.setBackground(new Color(243, 101, 101));
 		}
-		this.setText(nameField);
-		if (name.equals("Launch")) {
-			
+
+		if (name.equals("Launch_Supplier")||(name.equals("Order_Launch"))||(name.equals("Article_Launch"))||(name.equals("Product_Launch"))||(name.equals("Manage_Launch"))) {
+			nameField = "Launch";
 		}
-		if ((name.equals("+")) || (name.equals("-"))||(name.equals("x")) ) {
+		if ((name.equals("+_Supplier")) || (name.equals("+_Order1")) || (name.equals("+_Order2"))
+				|| (name.equals("-_Order")) || (name.equals("+_Product")) || (name.equals("x_Order"))) {
+
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));
-			if(name.equals("x")){
+
+			if ((name.equals("+_Supplier")) || (name.equals("+_Order")) || (name.equals("+_Order2"))
+					|| (name.equals("+_Product")) || (name.equals("+_Order1"))) {
+				nameField = "+";
+			}
+			if ((name.equals("-_Supplier")) || (name.equals("-_Order"))) {
+				nameField = "-";
+			}
+			if ((name.equals("-_Supplier")) || (name.equals("x_Order"))) {
+				nameField = "x";
+			}
+
+			if (name.equals("x_Order")) {
 				this.setBackground(new Color(243, 101, 101));
 			}
 		}
-		
+		this.setText(nameField);
 		this.addActionListener(new ButtonListener(name)); // We add actionListener to all the buttons
 	}
 
