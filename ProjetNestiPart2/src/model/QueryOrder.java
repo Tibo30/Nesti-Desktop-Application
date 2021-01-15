@@ -6,5 +6,7 @@ public class QueryOrder extends MyConnection{
 		super(url, login, mdp, bdd);
 		
 	}
+	
+	
 
 }
