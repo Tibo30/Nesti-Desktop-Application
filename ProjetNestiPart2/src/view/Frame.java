@@ -122,13 +122,14 @@ public class Frame {
 		JPanel panel_Home = new JPanel();
 		panel_Home.setBackground(new Color(213, 167, 113));
 		TabbedPane.addTab("Home", new ImageIcon(Frame.class.getResource("/assets/home.jpg")), panel_Home, null);
+		panel_Home.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setBounds(-2, 5, 815, 420);
 		Image img = new ImageIcon(Frame.class.getResource("/assets/NESTi2.jpg")).getImage();
         Image newimg = img.getScaledInstance( 815, 420, java.awt.Image.SCALE_SMOOTH);
         lblNewLabel.setIcon(new ImageIcon(newimg));
-		panel_Home.setLayout(null);
+		
         
         Label lblNewLabel_2 = new Label("Joe Smith",10, 194, 790, 72);
         panel_Home.add(lblNewLabel_2);
