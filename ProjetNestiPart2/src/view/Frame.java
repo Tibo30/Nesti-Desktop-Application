@@ -290,8 +290,7 @@ public class Frame {
 		Label lblContact_Fistname = new Label("Contact Fistname",177, 161, 127, 14);
 		panel_Supplier.add(lblContact_Fistname);
 		
-		Label lblContact_phone = new Label("Contact phone",294, 161, 91, 14);
-		lblContact_phone.setLocation(347, 161);
+		Label lblContact_phone = new Label("Contact phone",347, 161, 91, 14);
 		panel_Supplier.add(lblContact_phone);
 		
 		Label lblProduct_Price = new Label("Product Price",267, 282, 87, 14);
@@ -304,12 +303,10 @@ public class Frame {
 		panel_Supplier.add(lblSupplier_Product);
 		
 		
-		JComboBox list_Supplier = new JComboBox();
-		list_Supplier.setBounds(182, 31, 339, 32);
+		ComboBox list_Supplier = new ComboBox(182, 31, 339, 32);
 		panel_Supplier.add(list_Supplier);
 		
-		JComboBox list_Supplier_Product = new JComboBox();
-		list_Supplier_Product.setBounds(26, 301, 184, 32);
+		ComboBox list_Supplier_Product = new ComboBox(26, 301, 184, 32);
 		panel_Supplier.add(list_Supplier_Product);
 		
 		
@@ -452,21 +449,21 @@ public class Frame {
 		Label lblPackaging_Order = new Label("Packaging Order",314, 89, 113, 29);
 		panel_Order.add(lblPackaging_Order);
 		
-		JComboBox list_Supplier_Order = new JComboBox();
-		list_Supplier_Order.setBounds(50, 111, 158, 32);
+		ComboBox list_Supplier_Order = new ComboBox(50, 111, 158, 32);
 		panel_Order.add(list_Supplier_Order);
 		
-		JComboBox list_Order = new JComboBox();
-		list_Order.setBounds(219, 42, 339, 32);
+		ComboBox list_Order = new ComboBox(219, 42, 339, 32);
 		panel_Order.add(list_Order);
 		
-		JComboBox list_Product_Order = new JComboBox();
-		list_Product_Order.setBounds(218, 111, 86, 32);
+		ComboBox list_Product_Order = new ComboBox(218, 111, 86, 32);
 		panel_Order.add(list_Product_Order);
 		
-		JComboBox list_Packaging_Order = new JComboBox();
-		list_Packaging_Order.setBounds(314, 111, 86, 32);
+		ComboBox list_Packaging_Order = new ComboBox(314, 111, 86, 32);
 		panel_Order.add(list_Packaging_Order);
+		
+		ComboBox list_of_State = new ComboBox(686, 291, 84, 22);
+		list_of_State.setMaximumRowCount(4);
+		panel_Order.add(list_of_State);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -508,11 +505,7 @@ public class Frame {
 		txtState.setBounds(685, 326, 86, 20);
 		panel_Order.add(txtState);
 		txtState.setColumns(10);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setMaximumRowCount(4);
-		comboBox.setBounds(686, 291, 84, 22);
-		panel_Order.add(comboBox);
+	
 		
 		
 		
@@ -581,16 +574,13 @@ public class Frame {
 		scrollPane_Article.setBounds(55, 158, 476, 172);
 		panel_Article.add(scrollPane_Article);
 		
-		JComboBox list_Article = new JComboBox();
-		list_Article.setBounds(192, 31, 339, 32);
+		ComboBox list_Article = new ComboBox(192, 31, 339, 32);
 		panel_Article.add(list_Article);
 		
-		JComboBox list_Unit_Article = new JComboBox();
-		list_Unit_Article.setBounds(489, 90, 76, 32);
+		ComboBox list_Unit_Article = new ComboBox(489, 90, 76, 32);
 		panel_Article.add(list_Unit_Article);
 		
-		JComboBox list_Product_Article = new JComboBox();
-		list_Product_Article.setBounds(282, 90, 86, 32);
+		ComboBox list_Product_Article = new ComboBox(282, 90, 86, 32);
 		panel_Article.add(list_Product_Article);
 		
 		textField_Quantity_Article = new JTextField();
@@ -691,12 +681,10 @@ public class Frame {
 		Label lblProduct_Unit = new Label("Product Unit",26, 199, 78, 14);
 		panel_Product.add(lblProduct_Unit);
 		
-		JComboBox list_Product_Unit = new JComboBox();
-		list_Product_Unit.setBounds(26, 217, 180, 32);
+		ComboBox list_Product_Unit = new ComboBox(26, 217, 180, 32);
 		panel_Product.add(list_Product_Unit);
 		
-		JComboBox list_ingredient = new JComboBox();
-		list_ingredient.setBounds(26, 109, 180, 32);
+		ComboBox list_ingredient = new ComboBox(26, 109, 180, 32);
 		panel_Product.add(list_ingredient);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -860,8 +848,7 @@ public class Frame {
 		Label lblSearch = new Label("Search",133, 46, 95, 27);
 		panel_Manage.add(lblSearch);
 		
-		JComboBox list = new JComboBox();
-		list.setBounds(190, 43, 339, 32);
+		ComboBox list = new ComboBox(190, 43, 339, 32);
 		panel_Manage.add(list);
 		
 		
