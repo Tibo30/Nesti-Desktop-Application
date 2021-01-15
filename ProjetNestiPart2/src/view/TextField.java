@@ -5,19 +5,19 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 
-public class TextField extends JTextField{
+public class TextField extends JTextField {
 	private String nameField;
-	
-	public TextField(String name, int x, int y) {
-	
-		
-		this.nameField=name;
-		this.setBounds(x, y,226,27);
-		this.setText(nameField);
+
+	public TextField(String name, int x, int y, int L, int l) {
+
+		this.nameField = name;
+		this.setBounds(x, y, L, l);
+		this.setText("");
 		this.setColumns(10);
+		this.setBackground(new Color(255, 222, 173));
 		this.setForeground(new Color(192, 192, 192));
 		this.setFont(new Font("Rockwell Nova", Font.PLAIN, 14));
-}
-	
-	
+
+	}
+
 }

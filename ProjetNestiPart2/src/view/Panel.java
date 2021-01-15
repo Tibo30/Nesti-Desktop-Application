@@ -12,12 +12,7 @@ String name;
 	public Panel(String name) {
 		this.setBackground(new Color(213,167,113));
 		this.name = name;
-		
-	switch (name)  {
-			
-		}
-		
-		
+		this.setLayout(null);
 		
 	}
 	
