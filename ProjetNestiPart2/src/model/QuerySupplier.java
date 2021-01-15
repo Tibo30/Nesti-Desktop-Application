@@ -2,10 +2,7 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import entities.Admin;
 import entities.Supplier;
-import tools.BCrypt;
 
 public class QuerySupplier extends MyConnection {
 
@@ -19,17 +16,17 @@ public class QuerySupplier extends MyConnection {
 		Supplier sup = null;
 		ResultSet rs;
 		try {
-			String query = "SELECT supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, supplier_contact_firstname, supplier_state, supplier_creation_date, supplier_update_date FROM supplier WHERE (supplier_name=?);";
+			String query = "SELECT id_supplier, supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
+					+ "supplier_contact_firstname, supplier_state,supplier_creation_date,supplier_update_date, id_admin FROM supplier WHERE (supplier_name=?);";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, supplierName);
 			rs = declaration.executeQuery();
 			/* Récupération des données */
 			if (rs.next()) {
-				sup = new Supplier(rs.getString("supplier_name"), rs.getString("supplier_adress"),
+				sup = new Supplier(rs.getInt("id_supplier"),rs.getString("supplier_name"), rs.getString("supplier_adress"),
 						rs.getString("supplier_city"), rs.getString("supplier_contact_number"),
 						rs.getString("supplier_contact_lastname"), rs.getString("supplier_contact_firstname"),
-						rs.getString("supplier_state"), rs.getDate("supplier_creation_date"),
-						rs.getDate("supplier_update_date"));
+						rs.getString("supplier_state"),rs.getDate("supplier_creation_date"), rs.getDate("supplier_update_date"), rs.getInt("id_admin"));
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
@@ -50,7 +47,8 @@ public class QuerySupplier extends MyConnection {
 		openConnection();
 		boolean flag = false;
 		try {
-			String query = "INSERT INTO `supplier`(supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, supplier_contact_firstname, supplier_state) VALUES (?,?,?,?,?,?,?)";
+			String query = "INSERT INTO `supplier`(supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
+					+ "supplier_contact_firstname, supplier_state, id_admin) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 
 			declaration.setString(1, supplier.getName());
@@ -60,6 +58,7 @@ public class QuerySupplier extends MyConnection {
 			declaration.setString(5, supplier.getContactLastname());
 			declaration.setString(6, supplier.getContactFirstname());
 			declaration.setString(7, supplier.getState());
+			declaration.setInt(8, supplier.getIdAdmin());
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
@@ -68,14 +67,15 @@ public class QuerySupplier extends MyConnection {
 		closeConnection();
 		return flag;
 	}
-	
+
 	/**
 	 * This method is used to update a value in the database
+	 * 
 	 * @param valueChanged
 	 * @param newValue
 	 * @param email
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public boolean updatePrepared(String valueChanged, String newValue, String name) throws Exception {
 		openConnection();
@@ -84,32 +84,32 @@ public class QuerySupplier extends MyConnection {
 			String query = "";
 			switch (valueChanged) {
 			case "name":
-				query = "UPDATE supplier SET name=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_name=? WHERE supplier_name=?";
 				break;
 			case "adress":
-				query = "UPDATE supplier SET supplier_adress=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_adress=? WHERE supplier_name=?";
 				break;
 			case "city":
-				query = "UPDATE supplier SET supplier_city=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_city=? WHERE supplier_name=?";
 				break;
 			case "contactNumber":
-				query = "UPDATE supplier SET supplier_contact_number=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_contact_number=? WHERE supplier_name=?";
 				break;
 			case "contactLastname":
-				query = "UPDATE supplier SET supplier_contact_lastname=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_contact_lastname=? WHERE supplier_name=?";
 				break;
 			case "contactFirstname":
-				query = "UPDATE supplier SET supplier_contact_firstname=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_contact_firstname=? WHERE supplier_name=?";
 				break;
 			case "state":
-				query = "UPDATE supplier SET supplier_state=? WHERE name=?";
+				query = "UPDATE supplier SET supplier_state=? WHERE supplier_name=?";
 				break;
-			
+
 			}
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, newValue);
 			declaration.setString(2, name);
-			
+
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
