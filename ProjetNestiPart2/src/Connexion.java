@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Image;
@@ -13,12 +14,14 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Connexion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField textField_1;
+	private JTextField username;
+	private JPasswordField password;
 
 	/**
 	 * Launch the application.
@@ -58,17 +61,17 @@ public class Connexion extends JFrame {
 		lblUerName_Connexion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblUerName_Connexion);
 		
-		textField = new JTextField();
-		textField.setBounds(86, 176, 160, 20);
-		textField.setColumns(10);
-		textField.setBackground(new Color(205, 133, 63));
-		contentPane.add(textField);
+		username = new JTextField();
+		username.setBounds(86, 176, 160, 20);
+		username.setColumns(10);
+		username.setBackground(new Color(205, 133, 63));
+		contentPane.add(username);
 		
-		textField_1 = new JPasswordField();
-		textField_1.setBounds(86, 230, 160, 20);
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(205, 133, 63));
-		contentPane.add(textField_1);
+		password = new JPasswordField();
+		password.setBounds(86, 230, 160, 20);
+		password.setColumns(10);
+		password.setBackground(new Color(205, 133, 63));
+		contentPane.add(password);
 		
 		JLabel lblPassword_Connexion = new JLabel("Password");
 		lblPassword_Connexion.setForeground(new Color(0, 0, 0));
@@ -77,6 +80,25 @@ public class Connexion extends JFrame {
 		contentPane.add(lblPassword_Connexion);
 		
 		JButton btnLogin = new JButton("Login");
+		
+		//btnLogin.addActionListener(new ActionListener() {
+			//public void actionPerformed(ActionEvent e) {
+				
+//				//get text from userName
+//				//get text from password
+//				
+//				String user =username.getText();
+//				String psw = password.getText();
+//				
+//				if(user.equals("") && psw.equals("")){
+//				JOptionPane.showMessageDialog(null, "Login Successful");
+//			}
+//			else {
+//				JOptionPane.showMessageDialog(null, "Invalid UserName or Password");
+//				
+//			}
+//		});
+		
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnLogin.setBounds(124, 331, 89, 35);
@@ -91,6 +113,8 @@ public class Connexion extends JFrame {
 		contentPane.add(lblBackground);
 		
 		
-		
+		}		
 	}
-}
+
+
+	
