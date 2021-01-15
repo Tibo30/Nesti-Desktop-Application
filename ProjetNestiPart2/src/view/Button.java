@@ -111,7 +111,7 @@ public class Button extends JButton {
 			if ((name.equals("-_Supplier")) || (name.equals("-_Order"))) {
 				nameField = "-";
 			}
-			if ((name.equals("-_Supplier")) || (name.equals("x_Order"))) {
+			if ( (name.equals("x_Order"))) {
 				nameField = "x";
 			}
 
