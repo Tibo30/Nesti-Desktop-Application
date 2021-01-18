@@ -2,15 +2,14 @@ package view;
 
 import javax.swing.JScrollPane;
 
+import model.QuerySupplier;
+
 public class ScrollPane extends JScrollPane{
-	private String nameField;
 	
 	
+	public ScrollPane(int x, int y, int L, int l) {
 	
-	public ScrollPane(String name, int x, int y) {
-		
-		this.setBounds(x, y, 476, 172);
-		
+		this.setBounds(x, y, L, l);		
 		
 		
 	}

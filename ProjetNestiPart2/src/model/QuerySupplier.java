@@ -2,13 +2,40 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import entities.Supplier;
 
 public class QuerySupplier extends MyConnection {
+	
+	public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
 
 	public QuerySupplier(String url, String login, String mdp, String bdd) {
 		super(url, login, mdp, bdd);
 
+	}
+	
+	/**
+	 * Read all the supplier names
+	 * @throws Exception 
+	 */
+	public ArrayList<String> listAllSupplier() throws Exception {
+		ArrayList<String> listSupplier=new ArrayList<String>();
+		try {
+			openConnection();
+			Statement declaration = accessDataBase.createStatement();
+			String query = "SELECT supplier_name FROM supplier;";
+			ResultSet resultat = declaration.executeQuery(query);
+			/* Récupération des données */
+			while (resultat.next()) {
+				listSupplier.add(resultat.getString("supplier_name"));
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
+		}
+		closeConnection();
+		return listSupplier;
 	}
 
 	public Supplier createSupplierInfo(String supplierName) throws Exception {
