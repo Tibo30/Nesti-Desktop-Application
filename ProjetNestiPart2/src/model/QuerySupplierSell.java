@@ -2,6 +2,7 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,9 +13,11 @@ import entities.SupplierSell;
 import entities.UnitMeasure;
 
 public class QuerySupplierSell extends MyConnection {
+	
+	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
 
 	public static void main(String[] args) throws Exception {
-		QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+		
 		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
 		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
 		Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
@@ -57,6 +60,7 @@ public class QuerySupplierSell extends MyConnection {
 		super(url, login, mdp, bdd);
 	}
 
+
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
 		openConnection();
 		SupplierSell supSell = null;
@@ -70,8 +74,6 @@ public class QuerySupplierSell extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, supplier.getName());
 			rs = declaration.executeQuery();
-			/* Récupération des données */
-			//if (rs.next()) {
 				while (rs.next()) {
 					UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
 					Product product = new Product(rs.getString("product_name"), rs.getString("product_type"),
@@ -81,7 +83,6 @@ public class QuerySupplierSell extends MyConnection {
 
 				}
 				supSell = new SupplierSell(supplier, products, buyingPrices);
-			//}
 
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
@@ -168,5 +169,7 @@ public class QuerySupplierSell extends MyConnection {
 		closeConnection();
 		return flag;
 	}
+	
+	
 
 }

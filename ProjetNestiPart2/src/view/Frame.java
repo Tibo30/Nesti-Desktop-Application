@@ -1,4 +1,5 @@
 package view;
+
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Insets;
@@ -41,9 +42,10 @@ public class Frame {
 
 	private JTable table;
 	private JTable table_1;
-	private JTable table_2;
+	private JTable tSupplier;
 	private JTable table_Order;
 	private JTable table_3;
+	public static ValueNeededSupplier suppl;
 
 	/**
 	 * Launch the application.
@@ -54,7 +56,7 @@ public class Frame {
 				try {
 					Frame window = new Frame();
 					window.frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,15 +66,17 @@ public class Frame {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public Frame() {
+	public Frame() throws Exception {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws Exception 
 	 */
-	private void initialize() {
+	private void initialize() throws Exception {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 854, 526);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -239,6 +243,8 @@ public class Frame {
 		Button btnSupplierDEL = new Button("DEL",699, 365, 62, 32);
 		panelSupplier.add(btnSupplierDEL);
 		
+		Button[] supplierButton= {btnSupplierLaunch,btnSupplierBlock,btnSupplierPlus,btnSupplierCreate,btnSupplierModify,btnSupplierDEL};
+		
 		Label lblSupplierSearch = new Label("Search",125, 34, 95, 27);
 		panelSupplier.add(lblSupplierSearch);
 		
@@ -269,25 +275,25 @@ public class Frame {
 		Label lblSupplierProduct = new Label("Supplier Product",26, 276, 106, 14);
 		panelSupplier.add(lblSupplierProduct);
 		
+		Label[] supplierLabel= {lblSupplierSearch,lblSupplierName,lblSupplierAdress,lblSupplierTown,lblSupplierContactName,lblSupplierContactFistname,
+				lblSupplierContactPhone,lblSupplierProductPrice,lblSupplierUnitProduct,lblSupplierProduct};
 		
-		ComboBox listSupplier = new ComboBox(182, 31, 339, 32);
+		ComboBox listSupplier = new ComboBox("listSupp",182, 31, 339, 32);
 		panelSupplier.add(listSupplier);
 		
-		ComboBox listSupplierProduct = new ComboBox(26, 301, 184, 32);
+		ComboBox listSupplierProduct = new ComboBox("listSuppProd",26, 301, 184, 32);
 		panelSupplier.add(listSupplierProduct);
+		
+		ComboBox[] supplierCombo= {listSupplier,listSupplierProduct};
 		
 		TextField tfSupplierName = new TextField("supplierName", 26, 133, 86, 20);
 		panelSupplier.add(tfSupplierName);
 		
-		
 		TextField tfSupplierAdress = new TextField("supplierAdress", 141, 133, 213, 20);
 		panelSupplier.add(tfSupplierAdress);
 	
-		
-		
 		TextField tfSupplierTown = new TextField ("supplierTown", 375, 133, 86, 20);
 		panelSupplier.add(tfSupplierTown);
-		
 		
 		TextField tfContactName = new TextField("contactName",26, 172, 86, 20);
 		panelSupplier.add(tfContactName );
@@ -295,26 +301,23 @@ public class Frame {
 		TextField tfContactFirstname= new TextField("contactFirstname",168, 172, 86, 20);
 		panelSupplier.add(tfContactFirstname);
 
-		
 		TextField tfContactTel= new  TextField("contactTel",299, 172, 86, 20);
 		panelSupplier.add(tfContactTel);
-
 		
-		TextField tsProductPrice= new TextField("productPrice",268, 307, 86, 20);
-		panelSupplier.add(tsProductPrice);
+		TextField tfProductPrice= new TextField("productPrice",268, 307, 86, 20);
+		panelSupplier.add(tfProductPrice);
 	
-		
 		TextField tfUnitProduct = new TextField("unitProduct",364, 307, 97, 20);
 		panelSupplier.add(tfUnitProduct);
 		
+		TextField[] supplierText= {tfSupplierName,tfSupplierAdress,tfSupplierTown,tfContactName,tfContactFirstname,tfContactTel,tfProductPrice,tfUnitProduct};
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(602, 133, 160, 227);
-		panelSupplier.add(scrollPane_2);
+		ScrollPane spSupplier = new ScrollPane(602, 133, 160, 227);
+		panelSupplier.add(spSupplier);
 		
-		table_2 = new JTable();
-		table_2.setBackground(new Color(255, 222, 173));
-		table_2.setModel(new DefaultTableModel(
+		tSupplier = new JTable();
+		tSupplier.setBackground(new Color(255, 222, 173));
+		tSupplier.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null},
 				{null},
@@ -342,7 +345,9 @@ public class Frame {
 				return columnTypes[columnIndex];
 			}
 		});
-		scrollPane_2.setViewportView(table_2);
+		spSupplier.setViewportView(tSupplier);
+		
+		suppl = new ValueNeededSupplier (this, supplierLabel,supplierCombo,supplierText,supplierButton,panelSupplier,spSupplier,tSupplier);
 		
 		
 		
@@ -399,19 +404,19 @@ public class Frame {
 		Label lblOrderPackaging = new Label("Packaging Order",314, 89, 113, 29);
 		panelOrder.add(lblOrderPackaging);
 		
-		ComboBox listOrderSupplier = new ComboBox(50, 111, 158, 32);
+		ComboBox listOrderSupplier = new ComboBox("listOrdSuppl",50, 111, 158, 32);
 		panelOrder.add(listOrderSupplier);
 		
-		ComboBox listOrder = new ComboBox(219, 42, 339, 32);
+		ComboBox listOrder = new ComboBox("listOrder",219, 42, 339, 32);
 		panelOrder.add(listOrder);
 		
-		ComboBox listOrderProduct = new ComboBox(218, 111, 86, 32);
+		ComboBox listOrderProduct = new ComboBox("listOrdProd",218, 111, 86, 32);
 		panelOrder.add(listOrderProduct);
 		
-		ComboBox listOrderPackaging = new ComboBox(314, 111, 86, 32);
+		ComboBox listOrderPackaging = new ComboBox("listOrdPack",314, 111, 86, 32);
 		panelOrder.add(listOrderPackaging);
 		
-		ComboBox listOrderOfState = new ComboBox(686, 291, 84, 22);
+		ComboBox listOrderOfState = new ComboBox("listOrdState",686, 291, 84, 22);
 		listOrderOfState.setMaximumRowCount(4);
 		panelOrder.add(listOrderOfState);
 		
@@ -519,13 +524,13 @@ public class Frame {
 		scrollPane_Article.setBounds(55, 158, 476, 172);
 		panelArticle.add(scrollPane_Article);
 		
-		ComboBox listArticle = new ComboBox(192, 31, 339, 32);
+		ComboBox listArticle = new ComboBox("listArt",192, 31, 339, 32);
 		panelArticle.add(listArticle);
 		
-		ComboBox listUnitArticle = new ComboBox(489, 90, 76, 32);
+		ComboBox listUnitArticle = new ComboBox("listArtUni",489, 90, 76, 32);
 		panelArticle.add(listUnitArticle);
 		
-		ComboBox listProductArticle = new ComboBox(282, 90, 86, 32);
+		ComboBox listProductArticle = new ComboBox("listArtProd",282, 90, 86, 32);
 		panelArticle.add(listProductArticle);
 		
 		
@@ -618,10 +623,10 @@ public class Frame {
 		Label lblProductUnit = new Label("Product Unit",26, 199, 78, 14);
 		panelProduct.add(lblProductUnit);
 		
-		ComboBox listProductUnit = new ComboBox(26, 217, 180, 32);
+		ComboBox listProductUnit = new ComboBox("listProdUnit",26, 217, 180, 32);
 		panelProduct.add(listProductUnit);
 		
-		ComboBox listProductIngredient = new ComboBox(26, 109, 180, 32);
+		ComboBox listProductIngredient = new ComboBox("listProdIngr",26, 109, 180, 32);
 		panelProduct.add(listProductIngredient);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -780,7 +785,7 @@ public class Frame {
 		Label lblManageSearch = new Label("Search",133, 46, 95, 27);
 		panelManage.add(lblManageSearch);
 		
-		ComboBox list = new ComboBox(190, 43, 339, 32);
+		ComboBox list = new ComboBox("listAdmin",190, 43, 339, 32);
 		panelManage.add(list);
 		
 		
