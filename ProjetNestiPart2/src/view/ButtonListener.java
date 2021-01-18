@@ -2,27 +2,30 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import model.QueryAdmin;
+import entities.Product;
+import entities.Supplier;
+import entities.SupplierSell;
+import model.QuerySupplier;
+import model.QuerySupplierSell;
 
 public class ButtonListener implements ActionListener {
 	String text;
-	ValueNeeded object;
-	private QueryAdmin queryLogin = new QueryAdmin("127.0.0.1", "root", "", "nesti");
 
 	public ButtonListener() {
 	}
 
 	public ButtonListener(String name) {
 		this.text = name;
-	
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		switch (text) {
-		
+
 		case "Profil_Modify_Profile": {
-		
+
 			break;
 		}
 
@@ -62,7 +65,35 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
+
+		case "LaunchSupplier": {
+			try {
+				Supplier supplier = QuerySupplier.querySuppl
+						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
+				System.out.println("test");
+				Frame.suppl.getTextField()[0].setText(supplier.getName());
+				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
+				Frame.suppl.getTextField()[2].setText(supplier.getCity());
+				Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
+				Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
+				Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
+				SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
+				ArrayList<Product> product=supplSell.getProducts();
+				if (product.size()>0) {
+					Frame.suppl.getTable().getModel().setValueAt(product.get(0).getName(), 0, 0);
+				}
+				
+				
+			
+
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			break;
+		}
+
 		case "Supplier_Create": {
 
 			break;
@@ -75,7 +106,7 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
+
 		case "Supplier Adress": {
 
 			break;
@@ -108,7 +139,7 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
+
 		case "Article_Create": {
 
 			break;
@@ -133,7 +164,7 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
+
 		case "Product_Launch": {
 
 			break;
@@ -146,12 +177,12 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
+
 		case "Orders placed": {
 
 			break;
 		}
-		
+
 		case "Orders in progress": {
 
 			break;
@@ -172,12 +203,6 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		
-		
-		
-		
-		
-		
 
 		}
 	}
