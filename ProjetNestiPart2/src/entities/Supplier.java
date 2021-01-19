@@ -33,6 +33,7 @@ public class Supplier {
 
 	}
 	
+	// creating supplier from the app
 	public Supplier(String name, String adress, String city, String contactNumber, String contactLastname,
 			String contactFirstname, String state,int idAdmin) {
 		this.name = name;
