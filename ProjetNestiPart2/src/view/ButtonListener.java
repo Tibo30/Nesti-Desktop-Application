@@ -70,7 +70,6 @@ public class ButtonListener implements ActionListener {
 			try {
 				Supplier supplier = QuerySupplier.querySuppl
 						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
-				System.out.println("test");
 				Frame.suppl.getTextField()[0].setText(supplier.getName());
 				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
 				Frame.suppl.getTextField()[2].setText(supplier.getCity());
