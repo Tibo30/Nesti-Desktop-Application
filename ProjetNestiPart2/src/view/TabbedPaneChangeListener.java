@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import model.QueryProduct;
 import model.QuerySupplier;
 
 public class TabbedPaneChangeListener implements ChangeListener {
@@ -16,7 +17,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
 		
 		if (e.getSource() instanceof JTabbedPane) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
-			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
+			
 
 			if (pane.getSelectedIndex() == 2 && supplier==false) {
 				supplier=true;
@@ -32,9 +33,30 @@ public class TabbedPaneChangeListener implements ChangeListener {
 					
 					e1.printStackTrace();
 				}
+			}else if  (pane.getSelectedIndex() == 5) {
+				
+				try {
+					// create the list of supplier from the database
+					ArrayList<String> listProd=QueryProduct.queryProd.listTypeOfProduct();
+					System.out.println(Frame.prod.getCombo().length);
+					for (int i = 0; i < listProd.size(); i++) {
+						
+						//add the list elements to the search combo box
+						Frame.prod.getCombo()[0].addItem(listProd.get(i));
+				
+					}
+				} catch (Exception e1) {
+					
+					e1.printStackTrace();
+				}
 			}
+		}
+		
+		
+		
+
 		}
 
 	}
 
-}
+

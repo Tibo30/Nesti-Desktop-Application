@@ -51,6 +51,7 @@ public class Frame {
 	private JTable table_Order;
 	private JTable table_3;
 	public static ValueNeededSupplier suppl;
+	public static ValueNeededProduct prod;
 
 	/**
 	 * Launch the application.
@@ -506,13 +507,20 @@ public class Frame {
 		Button btnProductAddTextfield = new Button("+_Product",26, 285, 180, 41);
 		panelProduct.add(btnProductAddTextfield);
 		
+		Button[] productButton = { btnProductBlock, btnProductSave, btnProductAddTextfield};
+		
 		Label lblProductIngredient = new Label("Type of product",31, 84, 121, 14);
 		panelProduct.add(lblProductIngredient);
 		
 		Label lblProductUnit = new Label("Product Unit",26, 224, 78, 14);
 
 		panelProduct.add(lblProductUnit);
+		Label lblProduct = new Label("Product",31, 152, 175, 30);
+		panelProduct.add(lblProduct);
 		
+		Label[] productLabel = {lblProductIngredient,lblProductUnit,lblProduct
+				
+		};
 		ComboBox listProductUnit = new ComboBox("listProdUnit",26, 242, 180, 32);
 
 		panelProduct.add(listProductUnit);
@@ -520,6 +528,7 @@ public class Frame {
 		ComboBox listProductType = new ComboBox("listProdType",26, 109, 180, 32);
 		panelProduct.add(listProductType);
 		
+		ComboBox[] productComboBox = {listProductUnit,listProductType};
 		ScrollPane scrollPane_1 = new ScrollPane(289, 55, 444, 271);
 		scrollPane_1.setEnabled(false);
 		
@@ -530,8 +539,7 @@ public class Frame {
 		panelProduct.add(tfProduct);
 
 
-		Label lblProduct = new Label("Product",31, 152, 175, 30);
-		panelProduct.add(lblProduct);
+		
 		
 		table_1 = new JTable();
 		table_1.setShowHorizontalLines(false);
@@ -569,7 +577,8 @@ public class Frame {
 		scrollPane_1.setViewportView(table_1);
 		
 		
-		
+		prod = new ValueNeededProduct(this, panelProduct, productButton, productLabel, productComboBox, tfProduct,scrollPane_1,
+				table_1);
 		
 		
 		

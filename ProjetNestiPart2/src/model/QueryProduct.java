@@ -18,13 +18,13 @@ public class QueryProduct extends MyConnection {
 	 * @throws Exception
 	 */
 	
-	}
+	
 	public ArrayList<String> listTypeOfProduct() throws Exception {
 		ArrayList<String> listTypeOfProduct = new ArrayList<String>();
 		try {
 			openConnection();
 			Statement declaration = accessDataBase.createStatement();
-			String query = "SELECT Dproduct_type FROM product;";
+			String query = "SELECT DISTINCT product_type FROM product;";
 			ResultSet resultat = declaration.executeQuery(query);
 			/* Récupération des données */
 			while (resultat.next()) {
