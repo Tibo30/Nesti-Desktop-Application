@@ -28,6 +28,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
 						Frame.suppl.getCombo()[0].addItem(listSuppl.get(i));
 						
 					}
+					
 				} catch (Exception e1) {
 					
 					e1.printStackTrace();
