@@ -8,6 +8,9 @@ import tools.BCrypt;
 
 public class QueryAdmin extends MyConnection {
 
+	public static QueryAdmin queryAdmin = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+
+	
 	public QueryAdmin(String url, String login, String mdp, String bdd) {
 		super(url, login, mdp, bdd);
 
