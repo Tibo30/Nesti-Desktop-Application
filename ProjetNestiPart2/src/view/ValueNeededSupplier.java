@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 public class ValueNeededSupplier {
@@ -13,8 +14,9 @@ public class ValueNeededSupplier {
 	JPanel panel;
 	ScrollPane scroll;
 	JTable table;
+	JTabbedPane TabbedPane;
 	
-	public ValueNeededSupplier(Frame frame, Label[] label, ComboBox[] combo,TextField[] textField, Button[] button, Panel panel, ScrollPane scroll, JTable table) {
+	public ValueNeededSupplier(Frame frame, JTabbedPane TabbedPane, Label[] label, ComboBox[] combo,TextField[] textField, Button[] button, Panel panel, ScrollPane scroll, JTable table) {
 		this.frame=frame;
 		this.label=label;
 		this.combo=combo;
@@ -23,6 +25,7 @@ public class ValueNeededSupplier {
 		this.panel=panel;
 		this.scroll=scroll;
 		this.table=table;
+		this.TabbedPane=TabbedPane;
 	}
 
 	public Frame getFrame() {
@@ -95,6 +98,14 @@ public class ValueNeededSupplier {
 
 	public void setTable(JTable table) {
 		this.table = table;
+	}
+
+	public JTabbedPane getTabbedPane() {
+		return TabbedPane;
+	}
+
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		TabbedPane = tabbedPane;
 	}
 	
 	
