@@ -143,65 +143,62 @@ public class Frame {
 		
 		
 		
-		Panel panel_Profil = new Panel("panelProfile");
+		Panel panelProfil = new Panel("panelProfile");
 
-		
-		FlowLayout flowLayout = (FlowLayout) panel_Profil.getLayout();
+		FlowLayout flowLayout = (FlowLayout) panelProfil.getLayout();
 
-		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panel_Profil, null);
-		panel_Profil.setLayout(null);
-		
+		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panelProfil, null);
 		Button btnProfilModifyProfile = new Button("Profil_Modify_Profile",175, 359, 125, 35);
-		panel_Profil.add(btnProfilModifyProfile);
+		panelProfil.add(btnProfilModifyProfile);
 		
 		Button btnProfilModidyPassWord = new Button("Profil_Modify_Password",439, 371, 149, 35);
-		panel_Profil.add(btnProfilModidyPassWord);
+		panelProfil.add(btnProfilModidyPassWord);
 		
 		Button btnProfilSavePassword = new Button("Profil_Save_Password",439, 347, 149, 35);
-		panel_Profil.add(btnProfilSavePassword);
+		panelProfil.add(btnProfilSavePassword);
 		
 		Button btnProfilSaveProfil = new Button("Profil_Save_Profil", 175, 347, 125, 35);
-		panel_Profil.add(btnProfilSaveProfil);
+		panelProfil.add(btnProfilSaveProfil);
 		
 		Label lblProfilFirstname = new Label("FirstName",175, 95, 160, 20);
-		panel_Profil.add(lblProfilFirstname);
+		panelProfil.add(lblProfilFirstname);
 		
 		Label lblProfilLastname = new Label("LastName",173, 147, 162, 20);
-		panel_Profil.add(lblProfilLastname);
+		panelProfil.add(lblProfilLastname);
 		
 		Label lblProfilUsername = new Label("UserName",174, 201, 161, 20);
-		panel_Profil.add(lblProfilUsername);
+		panelProfil.add(lblProfilUsername);
 		
 		Label lblProfilPassword = new Label("Password",439, 95, 138, 14);
-		panel_Profil.add(lblProfilPassword);
+		panelProfil.add(lblProfilPassword);
 		
 		Label lblProfilNewPassword = new Label("New password",439, 142, 138, 22);
-		panel_Profil.add(lblProfilNewPassword);
+		panelProfil.add(lblProfilNewPassword);
 		
 		Label lblProfilConfirmPassword = new Label("Confirm password",439, 198, 138, 14);
-		panel_Profil.add(lblProfilConfirmPassword);
+		panelProfil.add(lblProfilConfirmPassword);
 		
 		TextField tfProfilFirstname = new TextField("profilFirstname",175, 116, 160, 20);
-		panel_Profil.add(tfProfilFirstname);
+		panelProfil.add(tfProfilFirstname);
 		
 				
 		TextField tfProfilLastname= new TextField("profilLastname", 175, 170, 160, 20);		
-		panel_Profil.add(tfProfilLastname);
+		panelProfil.add(tfProfilLastname);
 		
 		
 		TextField TfProfilUsername = new TextField("profilUsername", 175, 223, 160, 20);
-		panel_Profil.add(TfProfilUsername);
+		panelProfil.add(TfProfilUsername);
 
 		
 		PasswordField profilPassword = new PasswordField("Profil Password",439, 113, 138, 20);
-		panel_Profil.add(profilPassword);
+		panelProfil.add(profilPassword);
 		
 		PasswordField profilNewPassword = new PasswordField("Profil NewPassword",439, 167, 138, 20);	
-		panel_Profil.add(profilNewPassword);
+		panelProfil.add(profilNewPassword);
 
 		
 		PasswordField profilConfirmPassword = new PasswordField("Profil Conform Password",439, 220, 138, 20);
-		panel_Profil.add(profilConfirmPassword);
+		panelProfil.add(profilConfirmPassword);
 		
 		
 
