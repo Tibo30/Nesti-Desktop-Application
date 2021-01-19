@@ -68,14 +68,17 @@ public class ButtonListener implements ActionListener {
 
 		case "LaunchSupplier": {
 			try {
+				// create the object supplier from the database according to the name selected in the search combo box
 				Supplier supplier = QuerySupplier.querySuppl
 						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
+				// add all the information in the TextField
 				Frame.suppl.getTextField()[0].setText(supplier.getName());
 				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
 				Frame.suppl.getTextField()[2].setText(supplier.getCity());
 				Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
 				Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
 				Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
+				// create the object supplier sell to have the list of product sold by a supplier
 				SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
 				ArrayList<Product> product=supplSell.getProducts();
 				if (product.size()>0) {
