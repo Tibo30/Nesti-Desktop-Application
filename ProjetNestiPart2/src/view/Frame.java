@@ -605,74 +605,71 @@ public class Frame {
 		Button btnProductSave = new Button("Save",505, 366, 99, 29);
 		panelProduct.add(btnProductSave);
 		
-		Button btnProductLaunch = new Button("Product_Launch",548, 38, 85, 23);
-		panelProduct.add(btnProductLaunch);
-		
-		Button btnProductAddTextfield = new Button("+_Product",165, 161, 41, 23);
+		Button btnProductAddTextfield = new Button("+_Product",26, 285, 180, 41);
 		panelProduct.add(btnProductAddTextfield);
 		
-		Label lblProductSearchSupplier = new Label("Search",142, 36, 95, 27);
-		panelProduct.add(lblProductSearchSupplier);
-		
-		Label lblProductIngredient = new Label("Ingredient",31, 84, 121, 14);
+		Label lblProductIngredient = new Label("Type of product",31, 84, 121, 14);
 		panelProduct.add(lblProductIngredient);
 		
-		Label lblProductUnit = new Label("Product Unit",26, 199, 78, 14);
+		Label lblProductUnit = new Label("Product Unit",26, 224, 78, 14);
+
 		panelProduct.add(lblProductUnit);
 		
-		ComboBox listProductUnit = new ComboBox("listProdUnit",26, 217, 180, 32);
+		ComboBox listProductUnit = new ComboBox("listProdUnit",26, 242, 180, 32);
+
 		panelProduct.add(listProductUnit);
 		
-		ComboBox listProductIngredient = new ComboBox("listProdIngr",26, 109, 180, 32);
-		panelProduct.add(listProductIngredient);
+		ComboBox listProductType = new ComboBox("listProdType",26, 109, 180, 32);
+		panelProduct.add(listProductType);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
+		ScrollPane scrollPane_1 = new ScrollPane(289, 55, 444, 271);
 		scrollPane_1.setEnabled(false);
-		scrollPane_1.setBounds(293, 109, 444, 180);
-		panelProduct.add(scrollPane_1);
 		
-		ComboBox tfProductSearch = new ComboBox("ProductSearch",199, 33, 339, 32);
-		panelProduct.add(tfProductSearch);
+		panelProduct.add(scrollPane_1);
 	
 
-		TextField tfProduct = new TextField("product",26, 156, 180, 32);
+		TextField tfProduct = new TextField("product",26, 181, 180, 32);
 		panelProduct.add(tfProduct);
 
+
+		Label lblProduct = new Label("Product",31, 152, 175, 30);
+		panelProduct.add(lblProduct);
 		
 		table_1 = new JTable();
 		table_1.setShowHorizontalLines(false);
 		table_1.setBackground(new Color(255, 222, 173));
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"", null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+				{"", null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 			},
 			new String[] {
-				"Product", "Nb Articles"
+				"Product", "State", "Nb Articles", "Unit"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, Integer.class
+				String.class, Object.class, Object.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
 		scrollPane_1.setViewportView(table_1);
+		
 		
 		
 		
