@@ -16,9 +16,14 @@ public class ComboBox extends JComboBox {
 		for (int i=0;i<QuerySupplier.querySuppl.listAllSupplier().size();i++) {
 			this.addItem(QuerySupplier.querySuppl.listAllSupplier().get(i));
 		}
+	
+	}
+	if(name.equals("ProductSearch")) {
+		// get the list of the suppliers
+		for (int i=0;i<QuerySupplier.querySuppl.listAllSupplier().size();i++) {
+			
+		}
+		
 		
 	}
-		
-		
-	}
-}
+}}

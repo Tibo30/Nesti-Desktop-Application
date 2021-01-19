@@ -631,7 +631,7 @@ public class Frame {
 		scrollPane_1.setBounds(293, 109, 444, 180);
 		panelProduct.add(scrollPane_1);
 		
-		TextField tfProductSearch = new TextField("productSearch",199, 33, 339, 32);
+		ComboBox tfProductSearch = new ComboBox("ProductSearch",199, 33, 339, 32);
 		panelProduct.add(tfProductSearch);
 	
 
