@@ -28,10 +28,25 @@ public class TabbedPaneChangeListener implements ChangeListener {
 						Frame.suppl.getCombo()[0].addItem(listSuppl.get(i));
 						
 					}
+					
 				} catch (Exception e1) {
 					
 					e1.printStackTrace();
 				}
+			} else if  (pane.getSelectedIndex() == 5) {
+
+                try {
+                    ArrayList<Product> listProd=QueryProduct.queryProd.createProductInfo();
+                    for (int i = 0; i < listProd.size(); i++) {
+                        //add the list elements to the search combo box
+                        Frame.table_1.getTable()[0].addItem(listProd.get(i));
+                    }
+
+
+                } catch (Exception e1) {
+
+                    e1.printStackTrace();
+                }
 			}
 		}
 
