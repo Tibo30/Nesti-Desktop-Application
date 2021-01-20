@@ -2,15 +2,43 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import entities.Admin;
 import tools.BCrypt;
 
 public class QueryAdmin extends MyConnection {
+	
+	public static QueryAdmin queryAdm=new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
 
 	public QueryAdmin(String url, String login, String mdp, String bdd) {
 		super(url, login, mdp, bdd);
 
+	}
+	
+	/**
+	 * Read all the supplier names
+	 * @throws Exception 
+	 */
+	public ArrayList<String> listAllSupplier() throws Exception {
+		ArrayList<String> listAdmin=new ArrayList<String>();
+		
+		openConnection();
+		try {
+			
+			Statement declaration = accessDataBase.createStatement();
+			String query = "SELECT admin_lastname FROM admin;";
+			ResultSet resultat = declaration.executeQuery(query);
+			/* Récupération des données */
+			while (resultat.next()) {
+				listAdmin.add(resultat.getString("admin_lastname"));
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
+		}
+		closeConnection();
+		return listAdmin;
 	}
 
 	public Admin createAdminInfo(String adminUsername) throws Exception {
@@ -30,7 +58,7 @@ public class QueryAdmin extends MyConnection {
 						rs.getBoolean("is_super_admin"));
 			}
 		} catch (Exception e) {
-			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
+			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
 		closeConnection();
 		return adm;
@@ -61,10 +89,52 @@ public class QueryAdmin extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
+			System.err.println("Error in Admin creation: " + e.getMessage());
+		}
+		closeConnection();
+		return flag;
+	}
+	
+	/**
+	 * This method is used to update Admin's values in the database
+	 * 
+	 * @param valueChanged
+	 * @param newValue
+	 * @param login
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean updatePrepared(String valueChanged, String newValue, String name) throws Exception {
+		openConnection();
+		boolean flag = false;
+		try {
+			String query = "";
+			switch (valueChanged) {
+
+			case "admin_Lastname":
+				query = "UPDATE admin SET admin_lastname=? WHERE admin_login=?";
+				break;
+			case "admin_Firstname":
+				query = "UPDATE admin SET admin_firstname=? WHERE admin_login=?";
+				break;
+			case "state":
+				query = "UPDATE admin SET admin_state=? WHERE admin_login=?";
+				break;
+
+			}
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, newValue);
+			declaration.setString(2, name);
+
+			int executeUpdate = declaration.executeUpdate();
+			flag = (executeUpdate == 1);
+		} catch (Exception e) {
+			System.err.println("Error in Admin's modifications: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;
 	}
 
 }
+
+

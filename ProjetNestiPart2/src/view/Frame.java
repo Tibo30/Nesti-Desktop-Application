@@ -123,11 +123,11 @@ public class Frame {
 		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
 
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setLabelFor(lblLogo);
-		lblLogo.setIcon(new ImageIcon(
-				"C:\\Users\\pc po\\Desktop\\Dev\\GRETTA\\eclipse\\ProjetNestiPart2\\doc\\annexe\\logo.jpg"));
-		lblLogo.setBounds(758, 0, 70, 32);
-		panel.add(lblLogo);
+        lblLogo.setLabelFor(lblLogo);
+        lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
+        lblLogo.setBounds(758, 0, 70, 32);
+        panel.add(lblLogo);
+		
 
 		/**
 		 * Profil
@@ -337,6 +337,10 @@ public class Frame {
 		panelOrder.add(btnOrderAddTextfield2);
 
 		Button btnOrderSubmit = new Button("Order_Submit", 330, 371, 113, 32);
+		btnOrderSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		panelOrder.add(btnOrderSubmit);
 
 		Button btnOrderModify = new Button("Order_Modify", 154, 371, 113, 32);
@@ -637,9 +641,14 @@ public class Frame {
 		PasswordField pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
 		panelManage.add(pwManageConfPassword);
 		
+		Button btnManageCreate = new Button("Create Profile", 496, 371, 113, 32);
+		panelManage.add(btnManageCreate);
+		btnManageCreate.setBounds(344, 372, 113, 32);
+		
+		
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
 
-
+		
 	}
 }

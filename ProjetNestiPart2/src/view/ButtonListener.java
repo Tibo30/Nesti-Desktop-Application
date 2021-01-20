@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import entities.Admin;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
+import model.QueryAdmin;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
 
@@ -83,10 +85,8 @@ public class ButtonListener implements ActionListener {
 				ArrayList<Product> product=supplSell.getProducts();
 				if (product.size()>0) {
 					Frame.suppl.getTable().getModel().setValueAt(product.get(0).getName(), 0, 0);
-				}
+				}	
 				
-				
-			
 
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -189,6 +189,11 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
+		
+		case "Manage_Create": {
+
+			break;
+		}
 		case "Manage_Modify_Profile": {
 
 			break;
@@ -202,11 +207,22 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 		case "Manage_Launch": {
-
+			try {
+				// create the object admin from the database according to its first name and/or last name selected in the search combo box
+				Admin adm = QueryAdmin.queryAdm
+						.createAdminInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
+				// add all the information in the TextField
+				Frame.suppl.getTextField()[0].setText(adm.getFirstname());
+				Frame.suppl.getTextField()[1].setText(adm.getLastname());
+				Frame.suppl.getTextField()[2].setText(adm.getUsername());
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
-		}
 
 		}
 	}
-
+	}
 }
