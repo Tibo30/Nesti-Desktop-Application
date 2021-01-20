@@ -22,8 +22,10 @@ public class QuerySupplier extends MyConnection {
 	 */
 	public ArrayList<String> listAllSupplier() throws Exception {
 		ArrayList<String> listSupplier=new ArrayList<String>();
+		
+		openConnection();
 		try {
-			openConnection();
+			
 			Statement declaration = accessDataBase.createStatement();
 			String query = "SELECT supplier_name FROM supplier;";
 			ResultSet resultat = declaration.executeQuery(query);
@@ -89,7 +91,7 @@ public class QuerySupplier extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
+			System.err.println("Error in supplier insertion: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;
@@ -140,7 +142,7 @@ public class QuerySupplier extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
+			System.err.println("Error in supplier modifications: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;
