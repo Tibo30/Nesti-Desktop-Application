@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import entities.Product;
 import model.QueryProduct;
 import model.QuerySupplier;
 
@@ -36,15 +37,13 @@ public class TabbedPaneChangeListener implements ChangeListener {
 			}else if  (pane.getSelectedIndex() == 5) {
 				
 				try {
-					// create the list of supplier from the database
-					ArrayList<String> listProd=QueryProduct.queryProd.listTypeOfProduct();
-					System.out.println(Frame.prod.getCombo().length);
+					ArrayList<Product> listProd=QueryProduct.queryProd.createProductInfo();
 					for (int i = 0; i < listProd.size(); i++) {
-						
 						//add the list elements to the search combo box
-						Frame.prod.getCombo()[0].addItem(listProd.get(i));
-				
+						Frame.table_1.getTable()[0].addItem(listProd.get(i));
 					}
+					
+					
 				} catch (Exception e1) {
 					
 					e1.printStackTrace();

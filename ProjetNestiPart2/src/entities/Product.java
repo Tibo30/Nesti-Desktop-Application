@@ -1,15 +1,25 @@
 package entities;
 
 public class Product {
+	int id;
 	String name;
 	String type;
 	String state;
-	UnitMeasure unit;
+	String unit;
+	
 
-	public Product(String name, String type, String state, UnitMeasure unit) {
+	public Product(int id,String name, String type, String state, String unit) {
+		this.id= id;
 		this.name = name;
-		this.type = type;
 		this.state = state;
+		this.type = type;
+		this.unit=unit;
+	}
+	public Product(String name,  String state, String unit,String type) {
+		
+		this.name = name;
+		this.state = state;
+		this.type = type;
 		this.unit=unit;
 	}
 
@@ -37,11 +47,11 @@ public class Product {
 		this.state = state;
 	}
 
-	public UnitMeasure getUnit() {
+	public String getUnit() {
 		return unit;
 	}
 
-	public void setUnit(UnitMeasure unit) {
+	public void setUnit(String unit) {
 		this.unit = unit;
 	}
 	

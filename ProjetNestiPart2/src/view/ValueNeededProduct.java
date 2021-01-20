@@ -25,7 +25,6 @@ public class ValueNeededProduct {
 		this.label= label;
 		this.combo=combo;
 		this.textField=textField;
-	
 		this.button=button;
 		this.panel=panel;
 		this.scroll=scroll;
