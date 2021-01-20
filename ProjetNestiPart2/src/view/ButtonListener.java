@@ -3,12 +3,6 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-<<<<<<< HEAD
-
-import javax.swing.table.DefaultTableModel;
-
-=======
->>>>>>> master
 import entities.Admin;
 import entities.Product;
 import entities.Supplier;
@@ -75,125 +69,16 @@ public class ButtonListener implements ActionListener {
 		}
 
 		case "LaunchSupplier": {
-<<<<<<< HEAD
-            try {
-                // create the object supplier from the database according to the name selected
-                // in the search combo box
-
-                Supplier supplier = QuerySupplier.querySuppl
-                        .createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
-                // add all the information in the TextField
-                Frame.suppl.getTextField()[0].setText(supplier.getName());
-                Frame.suppl.getTextField()[1].setText(supplier.getAdress());
-                Frame.suppl.getTextField()[2].setText(supplier.getCity());
-                Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
-                Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
-                Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
-                // create the object supplier sell to have the list of product sold by a
-                // supplier
-                SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
-                ArrayList<Product> product = supplSell.getProducts();
-                ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-                DefaultTableModel model = (DefaultTableModel) Frame.suppl.getTable().getModel(); // cast the model as a defaultTableModel
-                for (int j = model.getRowCount() - 1; j >= 0; j--) {
-                    model.removeRow(j);
-                }
-                if (product.size() > 0) {
-                    for (int i = 0; i < product.size(); i++) {
-                        Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " €/u" };
-                        model.addRow(test);
-//                        model.setValueAt(product.get(i).getName(), i, 0);
-//                        model.setValueAt(buyingPrices.get(i) + " €/u", i, 2);
-                    }
-
-                }
-
-            }
- catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-            break;
-        }
-
-		case "Supplier_Create": {
-
-            try {
-                Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35");
-
-                Supplier supplCreate = new Supplier(Frame.suppl.getTextField()[0].getText(),
-                        Frame.suppl.getTextField()[1].getText(), Frame.suppl.getTextField()[2].getText(),
-                        Frame.suppl.getTextField()[3].getText(), Frame.suppl.getTextField()[4].getText(),
-                        Frame.suppl.getTextField()[5].getText(), "Unblocked", admin.getId());
-
-                QuerySupplier.querySuppl.createPrepared(supplCreate);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-            break;
-
-=======
-			try {
-				// create the object supplier from the database according to the name selected
-				// in the search combo box
-
-				Supplier supplier = QuerySupplier.querySuppl
-						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
-				// add all the information in the TextField
-				Frame.suppl.getTextField()[0].setText(supplier.getName());
-				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
-				Frame.suppl.getTextField()[2].setText(supplier.getCity());
-				Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
-				Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
-				Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
-				// create the object supplier sell to have the list of product sold by a
-				// supplier
-				SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
-				ArrayList<Product> product = supplSell.getProducts();
-				ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-				DefaultTableModel model = (DefaultTableModel) Frame.suppl.getTable().getModel(); // cast the model as a defaultTableModel
-				for (int j = model.getRowCount() - 1; j >= 0; j--) {
-					model.removeRow(j);
-				}
-				if (product.size() > 0) {
-					for (int i = 0; i < product.size(); i++) {
-						Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " €/u" };
-						model.addRow(test);
-//						model.setValueAt(product.get(i).getName(), i, 0);
-//						model.setValueAt(buyingPrices.get(i) + " €/u", i, 2);
-					}
-
-				}
-
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 
 			break;
 		}
 
 		case "Supplier_Create": {
 
-			try {
-				Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35");
-
-				Supplier supplCreate = new Supplier(Frame.suppl.getTextField()[0].getText(),
-						Frame.suppl.getTextField()[1].getText(), Frame.suppl.getTextField()[2].getText(),
-						Frame.suppl.getTextField()[3].getText(), Frame.suppl.getTextField()[4].getText(),
-						Frame.suppl.getTextField()[5].getText(), "Unblocked", admin.getId());
-
-				QuerySupplier.querySuppl.createPrepared(supplCreate);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 
 			break;
->>>>>>> master
 		}
 		case "Supplier_Modify": {
 

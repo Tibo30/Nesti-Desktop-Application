@@ -2,6 +2,7 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class QuerySupplierSell extends MyConnection {
 		// querySupp.updatePrepared("adress", "13 chemin des lilas", "Supplier2");
 
 		// test de la fonction createObject suppl
-		Supplier supp=querySupp.createSupplierInfo("Supplier3");
+		//Supplier supp=querySupp.createSupplierInfo("Supplier3");
 		// System.out.println(supp.getName()+ " et "+supp.getAdress());
 
 		// test fonction createPrepare de Sell
@@ -51,8 +52,8 @@ public class QuerySupplierSell extends MyConnection {
 //		querySell.createPrepared(supplier);
 		
 		// test de la fonction createObject supplierSell
-		SupplierSell suppSell= querySell.createSupplierSellInfo(supp);
-		System.out.println(suppSell.getProducts().size());
+		//SupplierSell suppSell= querySell.createSupplierSellInfo(supp);
+		//System.out.println(suppSell.getProducts().size());
 
 	}
 
@@ -108,8 +109,8 @@ public class QuerySupplierSell extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 
 			declaration.setString(1, supplier.getSupplier().getName());
-			declaration.setString(2, supplier.getProducts().get(0).getName());
-			declaration.setDouble(3, supplier.getBuyingPrices().get(0));
+			declaration.setString(2, supplier.getProduct().getName());
+			declaration.setDouble(3, supplier.getBuyingPrice());
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
@@ -134,10 +135,12 @@ public class QuerySupplierSell extends MyConnection {
 		try {
 			String query = "";
 			switch (valueChanged) {
-			case "name":
-				query = "UPDATE supplier SET name=? WHERE name=?";
+			case "productName":
+				query = "INSERT INTO `product` JOIN sell ON product.id_product=sell.id_product SET product.product_name=? WHERE sell.name=?";
+				
+				query = "UPDATE product JOIN sell ON product.id_product=sell.id_product SET product.product_name=? WHERE sell.name=?";
 				break;
-			case "adress":
+			case "price":
 				query = "UPDATE supplier SET supplier_adress=? WHERE name=?";
 				break;
 			case "city":
@@ -168,6 +171,22 @@ public class QuerySupplierSell extends MyConnection {
 		}
 		closeConnection();
 		return flag;
+	}
+	
+	public boolean deletePrepared(String productName) throws Exception {
+		boolean success = false;
+		openConnection();
+		try {
+			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product WHERE product.product_name = ?";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, productName);
+			int executeUpdate = declaration.executeUpdate();
+			success = (executeUpdate == 1);
+		} catch (SQLException e) {
+			System.err.println("Erreur suppression ingredient: " + e.getMessage());
+		}
+		closeConnection();
+		return success;
 	}
 	
 	

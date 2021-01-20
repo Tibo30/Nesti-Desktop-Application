@@ -1,4 +1,3 @@
-
 package entities;
 
 import java.util.Date;
@@ -14,27 +13,27 @@ public class Admin {
 	Date updateDate;
 	boolean superAdmin;
 
-	public Admin(int id, String lastname, String firstname, String username, String password, String state,
-			Date creationDate, Date updateDate, boolean superAdmin) {
-		this.id = id;
-		this.lastname = lastname;
-		this.firstname = firstname;
-		this.username = username;
-		this.password = password;
-		this.state = state;
-		this.creationDate = creationDate;
-		this.updateDate = updateDate;
-		this.superAdmin = superAdmin;
+	public Admin(int id, String lastname, String firstname, String username, String password, String state, Date creationDate, Date updateDate, boolean superAdmin) {
+		this.id=id;
+		this.lastname=lastname;
+		this.firstname=firstname;
+		this.username=username;
+		this.password=password;
+		this.state=state;
+		this.creationDate=creationDate;
+		this.updateDate=updateDate;
+		this.superAdmin=superAdmin;
 	}
-	public Admin(String lastname, String firstname, String username, String password, String state) {
-        this.lastname=lastname;
-        this.firstname=firstname;
-        this.username=username;
-        this.password=password;
-        this.state=state;
-    }
 	
-
+	public Admin(String lastname, String firstname, String username, String password, String state) {
+		this.lastname=lastname;
+		this.firstname=firstname;
+		this.username=username;
+		this.password=password;
+		this.state=state;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -103,6 +102,8 @@ public class Admin {
 		return superAdmin;
 	}
 
-	public void setSuperAdmin(boolean superAdmin) { this.superAdmin = superAdmin;
-  }
+	public void setSuperAdmin(boolean superAdmin) {
+		this.superAdmin = superAdmin;
+	}
+	
 }
