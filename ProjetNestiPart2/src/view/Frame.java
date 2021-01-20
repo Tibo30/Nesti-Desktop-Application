@@ -198,8 +198,8 @@ public class Frame {
 		panelSupplier.setLayout(null);
 
 		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
-		btnSupplierLaunch.setBounds(531, 36, 113, 23);
 		panelSupplier.add(btnSupplierLaunch);
+		
 
 		Button btnSupplierBlock = new Button("SupplierBlock / Unblock", 10, 72, 122, 23);
 		panelSupplier.add(btnSupplierBlock);
