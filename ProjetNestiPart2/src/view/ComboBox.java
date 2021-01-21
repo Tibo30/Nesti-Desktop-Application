@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.MouseAdapter;
+
 import javax.swing.JComboBox;
 
 import model.QuerySupplier;
@@ -14,4 +16,6 @@ public class ComboBox extends JComboBox {
 		
 		
 	}
+
+	
 }

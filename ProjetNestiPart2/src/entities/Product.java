@@ -1,7 +1,6 @@
 package entities;
 
 public class Product {
-	int id;
 	String name;
 	String type;
 	String state;
@@ -11,7 +10,6 @@ public class Product {
 	public Product(int id, String name, String type, String state, UnitMeasure unit, Article quantity) {
 		this.id = id;
 		this.name = name;
-		this.state = state;
 		this.type = type;
 		this.unit = unit;
 
@@ -33,6 +31,9 @@ public class Product {
 		this.unit = unit;
 		
 	}
+	
+
+	
 
 	public String getName() {
 		return name;
@@ -79,5 +80,8 @@ public class Product {
 	public void setQuantity(Article quantity) {
 		this.quantity = quantity;
 	}
-
+	public Object[] toRowProduct() {
+		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
+		return prod;
+	}
 }

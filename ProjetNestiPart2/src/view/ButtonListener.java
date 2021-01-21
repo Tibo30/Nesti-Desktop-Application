@@ -3,11 +3,16 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.table.DefaultTableModel;
+
 import entities.Admin;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
+import entities.UnitMeasure;
 import model.QueryAdmin;
+import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
 import javax.swing.table.DefaultTableModel;
@@ -139,6 +144,23 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 		case "Block /Unblock selected Element": {
+			int row = ProductPanel.prod.table.getSelectedRow();
+			boolean only = true;
+			if (ProductPanel.prod.table.getValueAt(row, 1).equals("Unblocked") && (only == true)) {
+				// Block
+				only = false;
+				Object toto = "Blocked";
+				DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+				model.setValueAt(toto, row, 1);
+
+			} else {
+				only = true;
+				Object toto = "Unblocked";
+				DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+				model.setValueAt(toto, row, 1);
+
+			}
+			;
 
 			break;
 		}
@@ -147,12 +169,54 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 
-		case "Product_Launch": {
+		case "+_Product": { ///////////////////BUGG/////////////////
+
+			UnitMeasure unit = new UnitMeasure(ProductPanel.prod.getCombo()[0].getSelectedItem().toString());
+			int row1 = ProductPanel.prod.table.getSelectedRow();
+			
+			Product product = new Product(
+					ProductPanel.prod.textField.getText(),
+					ProductPanel.prod.table.getValueAt(row1, 1).toString(),
+					ProductPanel.prod.getCombo()[1].getSelectedItem().toString(),
+					unit);
+			
+			Object[] row = product.toRowProduct();
+			System.out.println(row);
+			DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+			model.addRow(row);
 
 			break;
 		}
-		case "+_Product": {
-
+		case "Product Modify": {
+			int row = ProductPanel.prod.table.getSelectedRow();
+			
+			System.out.println(ProductPanel.prod.textField.getText());
+			System.out.println(ProductPanel.prod.combo[0].getSelectedItem());	
+			System.out.println(ProductPanel.prod.combo[1].getSelectedItem());
+			System.out.println(row);
+			DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+			String[] product = {ProductPanel.prod.textField.getText(),"Unblocked",ProductPanel.prod.combo[1].getSelectedItem().toString(),ProductPanel.prod.combo[0].getSelectedItem().toString(),""};
+			for (int i = 0; i < ProductPanel.prod.table.getColumnCount() ;i++) {
+				model.setValueAt(product[i], row, i);
+			}
+			
+			/*
+			UnitMeasure unit = new UnitMeasure(ProductPanel.prod.getCombo()[0].getSelectedItem().toString());
+			int row1 = ProductPanel.prod.table.getSelectedRow();
+			
+			Product product = new Product(
+					ProductPanel.prod.textField.getText(),
+					ProductPanel.prod.table.getValueAt(row1, 1).toString(),
+					ProductPanel.prod.getCombo()[1].getSelectedItem().toString(),
+					unit);
+			
+		
+			Object[] row = product.toRowProduct();
+			
+			for (int i = 0; i<row.length;i++) {
+			System.out.println(row[i].toString());}
+			//DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+	*/
 			break;
 		}
 		case "History_Submit": {
@@ -181,24 +245,24 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		case "Manage_Launch": {
-            try {
-                // create the object admin from the database according to its first name and/or last name selected in the search combo box
-                Admin adm = QueryAdmin.queryAdm
-                        .createAdminInfo(String.valueOf(Frame.adm.getCombo()[0].getSelectedItem()));
-                // add all the information in the TextField
-                Frame.adm.getTextField()[0].setText(adm.getFirstname());
-                Frame.adm.getTextField()[1].setText(adm.getLastname());
-                Frame.adm.getTextField()[2].setText(adm.getUsername());
-
-            } catch (Exception e1) {
-
-                e1.printStackTrace();
-            }
-            break;
-
+//		case "Manage_Launch": {
+//            try {
+//                // create the object admin from the database according to its first name and/or last name selected in the search combo box
+//                Admin adm = QueryAdmin.queryAdm
+//                        .createAdminInfo(String.valueOf(Frame.adm.getCombo()[0].getSelectedItem()));
+//                // add all the information in the TextField
+//                Frame.adm.getTextField()[0].setText(adm.getFirstname());
+//                Frame.adm.getTextField()[1].setText(adm.getLastname());
+//                Frame.adm.getTextField()[2].setText(adm.getUsername());
+//
+//            } catch (Exception e1) {
+//
+//                e1.printStackTrace();
+//            }
+//            break;
+//
+//		}
 		}
-	}
 
-}
+	}
 }

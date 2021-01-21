@@ -13,6 +13,8 @@ public class Admin {
 	Date updateDate;
 	boolean superAdmin;
 
+	
+	
 	public Admin(int id, String lastname, String firstname, String username, String password, String state, Date creationDate, Date updateDate, boolean superAdmin) {
 		this.id=id;
 		this.lastname=lastname;
@@ -34,6 +36,19 @@ public class Admin {
 	}
 	
 	
+	public Admin(int id, String username, String lastname, String firstname, String state, java.sql.Date creationDate,
+			java.sql.Date updateDate) {
+		this.id = id;
+		this.lastname=lastname;
+		this.firstname=firstname;
+		this.username=username;
+		
+		this.state=state;
+		this.creationDate=creationDate;
+		this.updateDate=updateDate;
+		
+	}
+
 	public int getId() {
 		return id;
 	}
