@@ -100,10 +100,10 @@ public class ButtonListener implements ActionListener {
 				}
 				if (product.size() > 0) {
 					for (int i = 0; i < product.size(); i++) {
-						Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " €/u" };
+						Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " ï¿½/u" };
 						model.addRow(test);
 //                        model.setValueAt(product.get(i).getName(), i, 0);
-//                        model.setValueAt(buyingPrices.get(i) + " €/u", i, 2);
+//                        model.setValueAt(buyingPrices.get(i) + " ï¿½/u", i, 2);
 					}
 
 				}
@@ -295,24 +295,23 @@ public class ButtonListener implements ActionListener {
 
 			break;
 		}
-		case "Manage_Launch": {
-			try {
-				// create the object admin from the database according to its first name and/or
-				// last name selected in the search combo box
-				Admin adm = QueryAdmin.queryAdm
-						.createAdminInfo(String.valueOf(Frame.adm.getCombo()[0].getSelectedItem()));
-				// add all the information in the TextField
-				Frame.adm.getTextField()[0].setText(adm.getFirstname());
-				Frame.adm.getTextField()[1].setText(adm.getLastname());
-				Frame.adm.getTextField()[2].setText(adm.getUsername());
-
-			} catch (Exception e1) {
-
-				e1.printStackTrace();
-			}
-			break;
-
-		}
+//		case "Manage_Launch": {
+//            try {
+//                // create the object admin from the database according to its first name and/or last name selected in the search combo box
+//                Admin adm = QueryAdmin.queryAdm
+//                        .createAdminInfo(String.valueOf(Frame.adm.getCombo()[0].getSelectedItem()));
+//                // add all the information in the TextField
+//                Frame.adm.getTextField()[0].setText(adm.getFirstname());
+//                Frame.adm.getTextField()[1].setText(adm.getLastname());
+//                Frame.adm.getTextField()[2].setText(adm.getUsername());
+//
+//            } catch (Exception e1) {
+//
+//                e1.printStackTrace();
+//            }
+//            break;
+//
+//		}
 		}
 
 	}

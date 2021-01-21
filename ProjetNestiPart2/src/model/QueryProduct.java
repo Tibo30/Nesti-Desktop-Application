@@ -33,7 +33,7 @@ public class QueryProduct extends MyConnection {
 			String query = "SELECT p.id_product, p.product_name, p.product_type, p.product_state, u.unit_measure_name, a.article_quantity FROM product AS p INNER JOIN unit_measure AS u ON p.id_unit_measure = u.id_unit_measure LEFT JOIN article AS a ON p.id_product = a.id_product ";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet resultat = declaration.executeQuery();
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			while (resultat.next()) {
 				Article quant = new Article(resultat.getInt("article_quantity"));
 				UnitMeasure unit = new UnitMeasure(resultat.getString("unit_measure_name"));

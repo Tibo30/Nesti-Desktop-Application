@@ -5,54 +5,78 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import java.util.Date;
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import entities.Admin;
+import entities.Supplier;
 import tools.BCrypt;
+import view.LoginFrame;
+import view.ManagePanel;
 
 public class QueryAdmin extends MyConnection {
-	
-	public static QueryAdmin queryAdm=new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+
+	public static QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
 
 	public QueryAdmin(String url, String login, String mdp, String bdd) {
 		super(url, login, mdp, bdd);
 
 	}
-	
+
 	/**
-	 * Read all the supplier names
-	 * @throws Exception 
+	 * Read all the Admins names
+	 * 
+	 * @throws Exception
 	 */
-	public ArrayList<String> listAllSupplier() throws Exception {
-		ArrayList<String> listAdmin=new ArrayList<String>();
-		
-		openConnection();
+
+	public ArrayList<Admin> listAllAdmin() throws Exception {
+
+		ArrayList<Admin> listAdmin = new ArrayList<Admin>();
+		Admin adm = null;
+
 		try {
-			
-			Statement declaration = accessDataBase.createStatement();
-			String query = "SELECT admin_lastname FROM admin;";
-			ResultSet resultat = declaration.executeQuery(query);
+
+			openConnection();
+
+			String query = "SELECT id_admin, admin_lastname, admin_firstname, admin_password, admin_login, "
+					+ "admin_state,admin_creation_date,admin_update_date, is_super_admin FROM admin;";
+
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			ResultSet rs = declaration.executeQuery();
+
 			/* Récupération des données */
-			while (resultat.next()) {
-				listAdmin.add(resultat.getString("admin_lastname"));
+
+			while (rs.next()) {
+				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_login"), rs.getString("admin_lastname"),
+						rs.getString("admin_firstname"), rs.getString("admin_state"), rs.getDate("admin_creation_date"),
+						rs.getDate("admin_update_date"));
+				listAdmin.add(adm);
 			}
+
 		} catch (Exception e) {
-			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
+			System.err.println("Error in display Admin's informations: " + e.getMessage());
 		}
 		closeConnection();
 		return listAdmin;
 	}
+	
 
-	public Admin createAdminInfo(String adminUsername) throws Exception {
+	public Admin selectAdminInfo(String login) throws Exception {
 		openConnection();
 		Admin adm = null;
 		ResultSet rs;
 		try {
-			String query = "SELECT id_admin, admin_lastname, admin_firstname, admin_login, admin_password, admin_state, admin_creation_date, admin_update_date, is_super_admin FROM admin WHERE (admin_login=?);";
+			String query = "SELECT id_admin, admin_lastname, admin_firstname, admin_login, admin_password, admin_state, admin_creation_date, admin_update_date, is_super_admin FROM admin WHERE admin_login=? ;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			declaration.setString(1, adminUsername);
+			declaration.setString(1, login);
 			rs = declaration.executeQuery();
+
 			/* Récupération des données */
 			if (rs.next()) {
-				adm = new Admin(rs.getInt("id_admin"),rs.getString("admin_lastname"), rs.getString("admin_firstname"),
+				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
 						rs.getDate("admin_creation_date"), rs.getDate("admin_update_date"),
 						rs.getBoolean("is_super_admin"));
@@ -65,8 +89,8 @@ public class QueryAdmin extends MyConnection {
 	}
 
 	/**
-	 * This method is used to create a new Admin in the database, during the register
-	 * process
+	 * This method is used to create a new Admin in the database, during the
+	 * register process
 	 * 
 	 * @param admin
 	 * @return
@@ -94,7 +118,7 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return flag;
 	}
-	
+
 	/**
 	 * This method is used to update Admin's values in the database
 	 * 
@@ -134,7 +158,87 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return flag;
 	}
+	
+	
+	
+	
+	
+
+	
+	/**
+	 * This method is used to check Admin's username and password
+	 * 
+	
+	 * @param login
+	 * * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	
+	public boolean checkPassword(String username, String password) throws Exception {
+		openConnection();
+		
+		PreparedStatement declaration;
+		ResultSet rs;
+		
+		boolean checkPassword = false;
+		
+		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
+
+		try {
+			declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, password);
+			declaration.setString(2, username);
+
+			rs = declaration.executeQuery();
+
+		if(rs.next()) {
+			
+			if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
+                checkPassword = true;
+
+            }
+		}
+			
+		} catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		closeConnection();
+		return checkPassword;
+
+	}
+	
+	
+	/**
+	 * This method check if the username is already taken
+	 * 
+	 * @param username
+	 * @return
+	 * @throws Exception 
+	 */
+	public boolean checkUsername(String username) throws Exception {
+		openConnection();
+		PreparedStatement declaration;
+		ResultSet rs;
+		boolean checkUser = false;
+		String query = "SELECT * FROM admin WHERE admin_login =?";
+
+		try {
+			declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, username);
+
+			rs = declaration.executeQuery();
+
+			if (rs.next()) { 
+				checkUser = true;
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(ManagePanel.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		closeConnection();
+		return checkUser;
+	}
+
+	
 
 }
-
-
