@@ -6,6 +6,7 @@ public class Product {
 	String state;
 	UnitMeasure unit;
 	Article quantity;
+	int id;
 
 	public Product(int id, String name, String type, String state, UnitMeasure unit, Article quantity) {
 		this.id = id;

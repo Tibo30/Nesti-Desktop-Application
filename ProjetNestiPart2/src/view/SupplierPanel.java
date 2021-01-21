@@ -33,7 +33,7 @@ public class SupplierPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	public static JTable table;
-	Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35"); // a enlever lorsque admin sera déclaré dans Admin
+	Admin admin = QueryAdmin.queryAdm.selectAdminInfo("JohnnyDoe35"); // a enlever lorsque admin sera déclaré dans Admin
 	public static Admin activAdmin;// pareil
 
 	public SupplierPanel() throws Exception {

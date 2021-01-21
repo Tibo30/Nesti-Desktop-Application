@@ -114,7 +114,29 @@ public class QueryProduct extends MyConnection {
 		return type;
 		
 		}
-	public boolean createProductInfo(Product product,UnitMeasure unit) throws Exception {
+	public Product createProductInfo(String productName) throws Exception {
+        openConnection();
+        Product prod = null;
+        ResultSet rs;
+
+        try {
+
+            String query = "SELECT product.product_name,product.product_type, product.product_state, unit_measure.unit_measure_name  FROM product JOIN unit_measure ON product.id_unit_measure = unit_measure.id_unit_measure WHERE (product.product_name=?);";
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+            declaration.setString(1, productName);
+            rs = declaration.executeQuery();
+            /* Récupération des données */
+            if (rs.next()) {
+                UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
+                prod = new Product(rs.getString("product_name"),rs.getString("product_type"), rs.getString("product_state"), unit);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
+        }
+        closeConnection();
+        return prod;
+    }
+	public boolean createPrepared(Product product,UnitMeasure unit) throws Exception {
 		openConnection();
 		boolean flag = false;
 		try {
