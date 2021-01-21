@@ -5,19 +5,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 public class ValueNeededSupplier {
-	Frame frame;
+	
 	Label[] label;
 	ComboBox[] combo;
 	TextField[] textField;
 	PasswordField passwordField[];
 	Button[] button;
-	JPanel panel;
+	SupplierPanel panel;
 	ScrollPane scroll;
 	JTable table;
-	JTabbedPane TabbedPane;
+
 	
-	public ValueNeededSupplier(Frame frame, JTabbedPane TabbedPane, Label[] label, ComboBox[] combo,TextField[] textField, Button[] button, Panel panel, ScrollPane scroll, JTable table) {
-		this.frame=frame;
+	public ValueNeededSupplier(Label[] label, ComboBox[] combo,TextField[] textField, Button[] button, SupplierPanel panel, ScrollPane scroll, JTable table) {
+	
 		this.label=label;
 		this.combo=combo;
 		this.textField=textField;
@@ -25,16 +25,9 @@ public class ValueNeededSupplier {
 		this.panel=panel;
 		this.scroll=scroll;
 		this.table=table;
-		this.TabbedPane=TabbedPane;
+		
 	}
 
-	public Frame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(Frame frame) {
-		this.frame = frame;
-	}
 
 	public Label[] getLabel() {
 		return label;
@@ -68,13 +61,17 @@ public class ValueNeededSupplier {
 		this.button = button;
 	}
 
-	public JPanel getPanel() {
+	
+
+	public SupplierPanel getPanel() {
 		return panel;
 	}
 
-	public void setPanel(JPanel panel) {
+
+	public void setPanel(SupplierPanel panel) {
 		this.panel = panel;
 	}
+
 
 	public ComboBox[] getCombo() {
 		return combo;
@@ -100,13 +97,6 @@ public class ValueNeededSupplier {
 		this.table = table;
 	}
 
-	public JTabbedPane getTabbedPane() {
-		return TabbedPane;
-	}
-
-	public void setTabbedPane(JTabbedPane tabbedPane) {
-		TabbedPane = tabbedPane;
-	}
 	
 	
 	
