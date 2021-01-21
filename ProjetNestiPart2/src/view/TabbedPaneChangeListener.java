@@ -6,49 +6,39 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import entities.Admin;
 import entities.Product;
 import entities.Supplier;
+import model.QueryAdmin;
 import model.QueryProduct;
 import model.QuerySupplier;
 
 public class TabbedPaneChangeListener implements ChangeListener {
-	boolean supplier=false;
-	
+	boolean supplier = false;
+
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		
+
 		if (e.getSource() instanceof JTabbedPane) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
 			if (pane.getSelectedIndex() == 2) {
-				SupplierPanel.clearTextFields();
+				SupplierPanel.clearAndEnableFalse();
 				SupplierPanel.clearTable();
-				
-				if (supplier==false) {
-					supplier=true;
-					try {
-						// create the list of supplier from the database
-						ArrayList<Supplier> listSuppl=QuerySupplier.querySuppl.listAllSupplier();
-						for (int i = 0; i < listSuppl.size(); i++) {
-							//add the list elements to the search combo box
-							SupplierPanel.combo[0].addItem(listSuppl.get(i).getName());
-							
-						}
-						
-						ArrayList<Product> listProduct=QueryProduct.queryProd.listAllProduct();
-						for (int i = 0; i < listProduct.size(); i++) {
-							//add the list elements to the search combo box
-							SupplierPanel.combo[1].addItem(listProduct.get(i).getName());
-							
-						}
-						
-					} catch (Exception e1) {
-						
-						e1.printStackTrace();
-					}
+
+				try {
+					// create the list of supplier from the database
+					SupplierPanel.updateListSupplier();
+					// create the list of products from the database
+					SupplierPanel.updateListProduct();
+
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
 				}
-				}
-				
+
+			}
+
 //			 else if  (pane.getSelectedIndex() == 5) {
 //
 //                try {

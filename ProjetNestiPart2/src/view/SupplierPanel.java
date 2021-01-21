@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import entities.Admin;
 import entities.Product;
 import entities.Supplier;
@@ -19,11 +19,12 @@ import model.QuerySupplier;
 import model.QuerySupplierSell;
 
 public class SupplierPanel extends JPanel {
+
 	private JTable tSupplier;
 	public static ValueNeededSupplier suppl;
-	private Supplier activSupplier;
-	private SupplierSell activSupplierSell;
-	
+	public static Supplier activSupplier;
+	public static SupplierSell activSupplierSell;
+
 	public static Label[] label;
 	public static ComboBox[] combo;
 	public static TextField[] textField;
@@ -32,10 +33,13 @@ public class SupplierPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	public static JTable table;
+	Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35"); // a enlever lorsque admin sera déclaré dans Admin
+	public static Admin activAdmin;// pareil
 
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
+		activAdmin = admin;
 
 		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
 		this.add(btnSupplierLaunch);
@@ -57,7 +61,7 @@ public class SupplierPanel extends JPanel {
 
 		Button[] supplierButton = { btnSupplierLaunch, btnSupplierBlock, btnSupplierPlus, btnSupplierCreate,
 				btnSupplierModify, btnSupplierDEL };
-		this.button=supplierButton;
+		button = supplierButton;
 
 		Label lblSupplierSearch = new Label("Search", 125, 34, 95, 27);
 		this.add(lblSupplierSearch);
@@ -89,7 +93,7 @@ public class SupplierPanel extends JPanel {
 		Label[] supplierLabel = { lblSupplierSearch, lblSupplierName, lblSupplierAdress, lblSupplierTown,
 				lblSupplierContactName, lblSupplierContactFistname, lblSupplierContactPhone, lblSupplierProductPrice,
 				lblSupplierProduct };
-		this.label=supplierLabel;
+		label = supplierLabel;
 
 		ComboBox listSupplier = new ComboBox("listSupp", 182, 31, 339, 32);
 		this.add(listSupplier);
@@ -98,7 +102,7 @@ public class SupplierPanel extends JPanel {
 		this.add(listSupplierProduct);
 
 		ComboBox[] supplierCombo = { listSupplier, listSupplierProduct };
-		this.combo=supplierCombo;
+		combo = supplierCombo;
 
 		TextField tfSupplierName = new TextField("supplierName", 26, 133, 115, 20);
 		this.add(tfSupplierName);
@@ -123,51 +127,90 @@ public class SupplierPanel extends JPanel {
 
 		TextField[] supplierText = { tfSupplierName, tfSupplierAdress, tfSupplierTown, tfContactName,
 				tfContactFirstname, tfContactTel, tfProductPrice };
-		this.textField=supplierText;
-		
+
+		textField = supplierText;
+
 		ScrollPane spSupplier = new ScrollPane(499, 158, 301, 202);
 		this.add(spSupplier);
-		this.scroll=spSupplier;
+		scroll = spSupplier;
 
 		tSupplier = new JTable();
 		tSupplier.setBackground(new Color(255, 222, 173));
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {,},
-				new String[] { "Product", "Unit", "Price" });
+				new String[] { "Product", "Unit", "Price" }) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				boolean editable = true;
+				if (column < 2) {
+					editable = false;
+				}
+				return editable;
+			}
+		};
 		tSupplier.setModel(model);
 		spSupplier.setViewportView(tSupplier);
 		suppl = new ValueNeededSupplier(supplierLabel, supplierCombo, supplierText, supplierButton, this, spSupplier,
 				tSupplier);
-		this.table=tSupplier;
-		
+		table = tSupplier;
+		//table.setEnabled(false);
+		//table.enable
+		//table.setEditingColumn(2);
+
+		btnSupplierBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (btnSupplierBlock.getText().equals("Unblocked")) {
+						btnSupplierBlock.setText("Blocked");
+						btnSupplierBlock.setBackground(new Color(243, 101, 101));
+					} else if (btnSupplierBlock.getText().equals("Blocked")) {
+						btnSupplierBlock.setText("Unblocked");
+						btnSupplierBlock.setBackground(new Color(173, 246, 100));
+					}
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
 		btnSupplierLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// create the object supplier from the database according to the name selected
-					// in the search combo box
-					Supplier supplier = QuerySupplier.querySuppl
-							.createSupplierInfo(String.valueOf(listSupplier.getSelectedItem()));
-					// add all the information in the TextField
-					tfSupplierName.setText(supplier.getName());
-					tfSupplierAdress.setText(supplier.getAdress());
-					tfSupplierTown.setText(supplier.getCity());
-					tfContactName.setText(supplier.getContactLastname());
-					tfContactFirstname.setText(supplier.getContactFirstname());
-					tfContactTel.setText(supplier.getContactNumber());
-					// create the object supplier sell to have the list of product sold by a
-					// supplier
-					SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
-					ArrayList<Product> product = supplSell.getProducts();
-					ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
 					clearTable();
-					if (product.size() > 0) {
-						for (int i = 0; i < product.size(); i++) {
-							Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-									buyingPrices.get(i) + " €/u" };
-							model.addRow(row);
+					if (!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
+						btnSupplierCreate.setEnabled(false);
+						btnSupplierModify.setEnabled(true);
+						
+						// create the object supplier from the database according to the name selected
+						// in the search combo box
+						Supplier supplier = QuerySupplier.querySuppl
+								.createSupplierInfo(String.valueOf(listSupplier.getSelectedItem()));
+						// add all the information in the TextField
+						fillTextField(supplier);
+						// create the object supplier sell to have the list of product sold by a
+						// supplier
+						activSupplierSell = fillProductSupplierTable(supplier);
+						activSupplier = supplier;
+						btnSupplierBlock.setText(activSupplier.getState());
+						if (btnSupplierBlock.getText().equals("Blocked")) {
+							btnSupplierBlock.setBackground(new Color(243, 101, 101));
+						} else {
+							btnSupplierBlock.setBackground(new Color(173, 246, 100));
 						}
+					} else { // if it is a new supplier
+						
+						emptyTextField();
+						btnSupplierModify.setEnabled(false);
+						btnSupplierCreate.setEnabled(true);
+						btnSupplierBlock.setText("Unblocked");
+						btnSupplierBlock.setBackground(new Color(173, 246, 100));
 					}
-					activSupplier = supplier;
-					activSupplierSell = supplSell;
+
+					btnSupplierBlock.setEnabled(true);
+					btnSupplierPlus.setEnabled(true);
+					btnSupplierDEL.setEnabled(true);
+					listSupplierProduct.setEnabled(true);
+					editableText();
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -178,13 +221,29 @@ public class SupplierPanel extends JPanel {
 		btnSupplierCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35");
 
 					Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
 							tfSupplierTown.getText(), tfContactName.getText(), tfContactFirstname.getText(),
 							tfContactTel.getText(), "Unblocked", admin.getId());
 
 					QuerySupplier.querySuppl.createPrepared(supplCreate);
+					// update supplier list in the combo box
+					updateListSupplier();
+					//clearAll
+					clearAndEnableFalse();
+					clearTable();
+					// if we added product in the table, we have to add it to the database
+					// erreur avec le model et la table, la table se met pas à jour!
+					DefaultTableModel model2 = (DefaultTableModel) table.getModel();
+					System.out.println(model2.getRowCount());
+					for (int i=0;i<model2.getRowCount();i++) {
+						System.out.println("test");
+						Product prod = QueryProduct.queryProd.createProductInfo((String) model.getValueAt(i,0));
+						double price = Double.parseDouble( ((String) model.getValueAt(i, 2)).split(" ")[0]);
+						SupplierSell supplSellCreate=new SupplierSell(supplCreate,prod,price);
+						QuerySupplierSell.querySell.createPrepared(supplSellCreate);
+					}
+					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -195,16 +254,32 @@ public class SupplierPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String nameProduct = (String) listSupplierProduct.getSelectedItem();
+					ArrayList<String> listProductInTable=new ArrayList<String>();
+					// this loop is used to have the list of the table products.
+					for (int i = 0; i < model.getRowCount(); i++) {
+						listProductInTable.add((String) model.getValueAt(i, 0));
+					}
 					String unit = (String) QueryProduct.queryProd.createProductInfo(nameProduct).getUnit().getName();
-					Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
-					model.addRow(row);
-
+					// check if the price is a numerical value
+					if (isNumeric(tfProductPrice.getText())){
+						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
+						// if the product selected in the comboBox is not already in the table
+						if (listProductInTable.indexOf(listSupplierProduct.getSelectedItem())==-1) {
+							model.addRow(row); // we add the product to the table
+						} else {
+							JOptionPane.showMessageDialog(null, "This product is already in the list, you can delete it or modify the price directly in the table");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Please enter a valid (numerical) price");
+					}
+					
+					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		btnSupplierDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -219,30 +294,56 @@ public class SupplierPanel extends JPanel {
 		btnSupplierModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					// if we change the name of the selected supplier
+					if (!activSupplier.getName().equals(tfSupplierName.getText())) {
+						// loop on all the suppliers in the comboBox (same as database)
+						for (int i=0;i<combo[0].getItemCount();i++) {
+							// if the new name is not already taken
+							if (!combo[0].getItemAt(i).equals(tfSupplierName.getText())) {
+								QuerySupplier.querySuppl.updatePrepared("name", tfSupplierName.getText(),
+										activSupplier.getName());
+								activSupplier.setName(tfSupplierName.getText());
+							} else {
+								JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
+							}
+						}
+					}
+					if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("adress", tfSupplierAdress.getText(),
+								activSupplier.getName());
+					}
+					if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("city", tfSupplierTown.getText(),
+								activSupplier.getName());
+					}
+					if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("contactLastname", tfContactName.getText(),
+								activSupplier.getName());
+					}
+					if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("contactFirstname", tfContactFirstname.getText(),
+								activSupplier.getName());
+					}
+					if (!activSupplier.getContactNumber().equals(tfContactTel.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("contactNumber", tfContactTel.getText(),
+								activSupplier.getName());
+					}
 
-//				if (!activSupplier.getName().equals(tfSupplierName.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("name", tfSupplierName.getText(), activSupplier.getName());
-//				} 
-//				if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("adress", tfSupplierAdress.getText(), activSupplier.getName());
-//				}
-//				if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("city", tfSupplierTown.getText(), activSupplier.getName());
-//				}
-//				if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("contactLastname", tfContactName.getText(), activSupplier.getName());
-//				}
-//				if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("contactFirstname", tfContactFirstname.getText(), activSupplier.getName());
-//				}
-//				if (!activSupplier.getContactNumber().equals(tfContactTel.getText())) {
-//					QuerySupplier.querySuppl.updatePrepared("contactNumber", tfContactTel.getText(), activSupplier.getName());
-//				}
+					if (!activSupplier.getState().equals(btnSupplierBlock.getText())) {
+						QuerySupplier.querySuppl.updatePrepared("state", btnSupplierBlock.getText(),
+								activSupplier.getName());
+					}
 
 					modifyFromTable();
+					// update in the program the activ supplier and activSupplierSell objects
+					activSupplier = QuerySupplier.querySuppl.createSupplierInfo(activSupplier.getName());
+					activSupplierSell = QuerySupplierSell.querySell.createSupplierSellInfo(activSupplier);
+					// update List of supplier in the combo box
+					updateListSupplier();
+					//clearAll
+					clearAndEnableFalse();
+					clearTable();
 					
-					activSupplier=QuerySupplier.querySuppl.createSupplierInfo(activSupplier.getName()); // update in java activ supplier
-					activSupplierSell=QuerySupplierSell.querySell.createSupplierSellInfo(activSupplier);
 
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -250,56 +351,158 @@ public class SupplierPanel extends JPanel {
 				}
 			}
 		});
-		
 
 	}
-	
+
 	public void modifyFromTable() throws Exception {
 		ArrayList<String> newListProduct = new ArrayList<String>();
 		ArrayList<Double> newListPrice = new ArrayList<Double>();
 		ArrayList<String> listProductName = new ArrayList<String>();
+		String[] prices;
 		// in this loop, we collect the lists of prices and products from the table
-		DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		for (int i = 0; i < model.getRowCount(); i++) {
+			// add products from table
 			newListProduct.add((String) model.getValueAt(i, 0));
-			String[] prices = ((String) model.getValueAt(i, 2)).split(" ");
+			// get prices from the table by splitting the string
+			prices = ((String) model.getValueAt(i, 2)).split(" ");
+			// add prices from table
 			newListPrice.add(Double.parseDouble(prices[0]));
 		}
 		// create the list of the product names sold from the activSupplier
 		for (int i = 0; i < activSupplierSell.getProducts().size(); i++) {
 			listProductName.add(activSupplierSell.getProducts().get(i).getName());
 		}
-		// if a product from the table is not already in the database, we add it
+		// we look over the list of products from the table
 		for (int i = 0; i < newListProduct.size(); i++) {
-				if (listProductName.indexOf(newListProduct.get(i)) == -1) {
-					Product newProduct = QueryProduct.queryProd.createProductInfo(newListProduct.get(i));
-					SupplierSell newSupplierSellProduct = activSupplierSell;
-					newSupplierSellProduct.setBuyingPrice(newListPrice.get(i));
-					newSupplierSellProduct.setProduct(newProduct);
-					QuerySupplierSell.querySell.createPrepared(newSupplierSellProduct);
-				}						
+			// if a product from the table is not already in the database, we add it
+			if (listProductName.indexOf(newListProduct.get(i)) == -1) {
+				Product newProduct = QueryProduct.queryProd.createProductInfo(newListProduct.get(i));
+				SupplierSell newSupplierSellProduct = activSupplierSell;
+				newSupplierSellProduct.setBuyingPrice(newListPrice.get(i));
+				newSupplierSellProduct.setProduct(newProduct);
+				QuerySupplierSell.querySell.createPrepared(newSupplierSellProduct);
+			} else {
+				// if a product from the table is already in the database but the price is
+				// different
+				if (!String.valueOf(activSupplierSell.getBuyingPrices().get(i)).equals(String.valueOf(newListPrice.get(i)))) {
+					QuerySupplierSell.querySell.updatePrice(String.valueOf(newListPrice.get(i)),
+							newListProduct.get(i), activSupplierSell.getSupplier().getName());
+				}
+			}
 		}
-		for (int i=0;i<listProductName.size();i++) {
-			if (newListProduct.indexOf(listProductName.get(i))==-1) {
+		// if a product is in the database but not in the table (delete), we delete it
+		// in the database
+		for (int i = 0; i < listProductName.size(); i++) {
+			if (newListProduct.indexOf(listProductName.get(i)) == -1) {
 				QuerySupplierSell.querySell.deletePrepared(listProductName.get(i));
 			}
 		}
 	}
-	
-	
+
 	public static void clearTable() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
 			model.removeRow(j);
 		}
 	}
-	public static void clearTextFields() {
-		for (int i=0;i<textField.length;i++) {
-			textField[i].setText("");
+
+	public static void clearAndEnableFalse() {
+		for (TextField text : textField) {
+			text.setEditable(false);
+			text.setBackground(new Color(216, 206, 209));
+			text.setText("");
 		}
-		
-		
-		
+		for (int i = 1; i < button.length; i++) {
+			button[i].setEnabled(false);
+		}
+		combo[1].setEnabled(false);
+		button[1].setText("Block/Unblock");
+		button[1].setBackground(new Color(191, 244, 255));
 	}
 
+	public static void emptyTextField() {
+		for (TextField text : textField) {
+			text.setText("");
+		}
+	}
+
+	public static void editableText() {
+		for (TextField text : textField) {
+			text.setEditable(true);
+			text.setForeground(Color.BLACK);
+			text.setBackground(new Color(255, 222, 173));
+		}
+	}
+
+	public static void updateListSupplier() throws Exception {
+		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
+		combo[0].removeAllItems();
+		Supplier newSupplier = new Supplier("Create New Supplier", "", "", "", "", "", "",
+				SupplierPanel.activAdmin.getId());
+		listSuppl.add(newSupplier);
+		for (Supplier sup : QuerySupplier.querySuppl.listAllSupplier()) {
+			listSuppl.add(sup);
+		}
+		for (int i = 0; i < listSuppl.size(); i++) {
+			// add the list elements to the search combo box
+			combo[0].addItem(listSuppl.get(i).getName());
+
+		}
+
+		combo[0].setSelectedIndex(0);
+	}
+
+	public static void updateListProduct() throws Exception {
+		combo[1].removeAllItems();
+		ArrayList<Product> listProduct = QueryProduct.queryProd.listAllProduct();
+		for (int i = 0; i < listProduct.size(); i++) {
+			// add the list elements to the search combo box
+			SupplierPanel.combo[1].addItem(listProduct.get(i).getName());
+
+		}
+	}
+
+	public static SupplierSell fillProductSupplierTable(Supplier supplier) throws Exception {
+		SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
+		ArrayList<Product> product = supplSell.getProducts();
+		ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
+		clearTable();
+		if (product.size() > 0) {
+			for (int i = 0; i < product.size(); i++) {
+				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
+						buyingPrices.get(i) + " €/u" };
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(row);
+			}
+		}
+		return supplSell;
+	}
+	
+	
+
+	public static void fillTextField(Supplier supplier) {
+
+		textField[0].setText(supplier.getName());
+		textField[1].setText(supplier.getAdress());
+		textField[2].setText(supplier.getCity());
+		textField[3].setText(supplier.getContactLastname());
+		textField[4].setText(supplier.getContactFirstname());
+		textField[5].setText(supplier.getContactNumber());
+	}
+	
+	public static boolean isNumeric(String str) { 
+		boolean numeric = false;
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+			  System.err.println("Erreur numeric : " + e.getMessage());
+		  } 
+		  return numeric;
+		}
+
+	
+
+	
 }
