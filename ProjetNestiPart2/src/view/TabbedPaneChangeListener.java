@@ -6,9 +6,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import entities.Product;
-import model.QueryProduct;
+import entities.Admin;
+import model.QueryAdmin;
 import model.QuerySupplier;
+
+
 
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
@@ -18,7 +20,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 		if (e.getSource() instanceof JTabbedPane) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
-			
+			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
 
 			if (pane.getSelectedIndex() == 2 && supplier == false) {
 				supplier = true;
@@ -30,40 +32,49 @@ public class TabbedPaneChangeListener implements ChangeListener {
 						Frame.suppl.getCombo()[0].addItem(listSuppl.get(i));
 
 					}
-					
-				} catch (Exception e1) {
-
-					e1.printStackTrace();
-				}
-			} else if (pane.getSelectedIndex() == 5) {
-
-				try {
-					ArrayList<Product> listProd = QueryProduct.queryProd.createProductInfo();
-					for (int i = 0; i < listProd.size(); i++) {
-						// add the list elements to the search combo box
-						Frame.table_1.getTable()[0].addItem(listProd.get(i));
-					}
 
 				} catch (Exception e1) {
 
 					e1.printStackTrace();
 				}
-			} else if  (pane.getSelectedIndex() == 5) {
-
-                try {
-                    ArrayList<Product> listProd=QueryProduct.queryProd.createProductInfo();
-                    for (int i = 0; i < listProd.size(); i++) {
-                        //add the list elements to the search combo box
-                        Frame.table_1.getTable()[0].addItem(listProd.get(i));
-                    }
-
-
-                } catch (Exception e1) {
-
-                    e1.printStackTrace();
-                }
 			}
-
+//			else if (pane.getSelectedIndex() == 5) {
+//
+//				try {
+//					ArrayList<Product> listProd = QueryProduct.queryProd.createProductInfo();
+//					for (int i = 0; i < listProd.size(); i++) {
+//						// add the list elements to the search combo box
+//						Frame.table_1.getTable()[0].addItem(listProd.get(i));
+//					}
+//
+//				} catch (Exception e1) {
+//
+//					e1.printStackTrace();
+//
+//				}
+//			}
+			else if (pane.getSelectedIndex() == 7) {
+				
+				try {
+					
+					ArrayList<Admin> listAdmin =  QueryAdmin.queryAdm.listAllAdmin();
+					for (int i=0; i< listAdmin.size(); i++) {
+					
+						ManagePanel.combo.addItem(listAdmin.get(i).getLastname()+ " " +listAdmin.get(i).getFirstname()+ " - "+listAdmin.get(i).getUsername());
+						
+					}
+					
+					
+					
+				}catch (Exception e1) {
+					e1.printStackTrace();
+					
+				}
+				
+				
+				
+			}
 		}
+
 	}
 }
