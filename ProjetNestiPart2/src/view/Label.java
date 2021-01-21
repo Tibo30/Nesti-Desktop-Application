@@ -31,7 +31,7 @@ public class Label extends JLabel {
 				|| (name.equals("Article Ref"))|| (name.equals("Article Name"))|| (name.equals("Quantity Article"))
 				|| (name.equals("Unit Article"))|| (name.equals("Packaging Article"))|| (name.equals("Stock Article"))
 				|| (name.equals("Supplier Order"))|| (name.equals("Product Order"))|| (name.equals("Packaging Order"))|| (name.equals("Product Article"))
-				|| (name.equals("Ingredient"))|| (name.equals("Product"))
+				|| (name.equals("Ingredient"))
 				|| (name.equals("Product Unit"))) {
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));
 			

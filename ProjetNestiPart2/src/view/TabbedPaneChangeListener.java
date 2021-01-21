@@ -8,10 +8,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import entities.Admin;
+import model.QueryAdmin;
 import entities.Product;
 import entities.UnitMeasure;
 import model.QueryProduct;
 import model.QuerySupplier;
+
+
 
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
@@ -50,10 +54,12 @@ public class TabbedPaneChangeListener implements ChangeListener {
 							 listProd.get(i).getUnit().getName(),	listProd.get(i).getQuantity() };
 						model.addRow(row);
 					}
-
-				} catch (Exception e1) {
-
+					
+					
+					
+				}catch (Exception e1) {
 					e1.printStackTrace();
+					
 				}
 				try {
 					ArrayList<UnitMeasure> listUnit = QueryProduct.queryProd.AllUnit();
@@ -87,6 +93,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				e2.printStackTrace();
 
 			}
+		}
 
 		}
 		}
