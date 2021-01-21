@@ -125,7 +125,7 @@ public class QueryProduct extends MyConnection {
             PreparedStatement declaration = accessDataBase.prepareStatement(query);
             declaration.setString(1, productName);
             rs = declaration.executeQuery();
-            /* Récupération des données */
+            /* Rï¿½cupï¿½ration des donnï¿½es */
             if (rs.next()) {
                 UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
                 prod = new Product(rs.getString("product_name"),rs.getString("product_type"), rs.getString("product_state"), unit);
@@ -155,4 +155,6 @@ public class QueryProduct extends MyConnection {
 		closeConnection();
 		return flag;
 	} 
+	
+	
 }
