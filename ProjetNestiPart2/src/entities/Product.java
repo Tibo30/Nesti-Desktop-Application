@@ -1,41 +1,17 @@
 package entities;
 
 public class Product {
-	int id;
 	String name;
 	String type;
 	String state;
 	UnitMeasure unit;
-	Article quantity;
 
-	public Product(int id, String name, String type, String state, UnitMeasure unit, Article quantity) {
-		this.id = id;
+	public Product(String name, String type, String state, UnitMeasure unit) {
 		this.name = name;
-		this.state = state;
 		this.type = type;
-		this.unit = unit;
-
-	}
-
-	public Product(String name, String state, String type, UnitMeasure unit, Article quantity) {
-
-		this.name = name;
 		this.state = state;
-		this.type = type;
-		this.unit = unit;
-		this.quantity = quantity;
+		this.unit=unit;
 	}
-	public Product(String name, String state, String type, UnitMeasure unit) {
-
-		this.name = name;
-		this.state = state;
-		this.type = type;
-		this.unit = unit;
-		
-	}
-	
-
-	
 
 	public String getName() {
 		return name;
@@ -68,22 +44,7 @@ public class Product {
 	public void setUnit(UnitMeasure unit) {
 		this.unit = unit;
 	}
-
-	/**
-	 * @return the quantity
-	 */
-	public Article getQuantity() {
-		return quantity;
-	}
-
-	/**
-	 * @param quantity the quantity to set
-	 */
-	public void setQuantity(Article quantity) {
-		this.quantity = quantity;
-	}
-	public Object[] toRowProduct() {
-		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
-		return prod;
-	}
+	
+	
+	
 }

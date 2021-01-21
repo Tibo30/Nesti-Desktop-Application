@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import entities.Admin;
-import entities.Article;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
@@ -77,7 +76,6 @@ public class QuerySupplierSell extends MyConnection {
 			rs = declaration.executeQuery();
 				while (rs.next()) {
 					UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
-					
 					Product product = new Product(rs.getString("product_name"), rs.getString("product_type"),
 							rs.getString("product_state"), unit);
 					products.add(product);

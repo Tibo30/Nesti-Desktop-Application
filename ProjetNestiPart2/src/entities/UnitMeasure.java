@@ -15,8 +15,6 @@ public class UnitMeasure {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 	
 	
 }
