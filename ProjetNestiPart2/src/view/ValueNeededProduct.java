@@ -5,12 +5,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 public class ValueNeededProduct {
-	Frame frame;
+	
 	Label[] label;
 	ComboBox[] combo;
 	TextField textField;
 	Button[] button;
-	JPanel panel;
+	ProductPanel panel;
 	ScrollPane scroll;
 	JTable table;
 	
@@ -19,9 +19,9 @@ public class ValueNeededProduct {
 
 
 
-	public ValueNeededProduct(Frame frame, Panel panel, Button[] button, Label[] label,
+	public ValueNeededProduct( ProductPanel panel, Button[] button, Label[] label,
 			ComboBox[] combo, TextField textField, ScrollPane scroll, JTable table) {
-		this.frame = frame;
+		
 		this.label= label;
 		this.combo=combo;
 		this.textField=textField;
@@ -32,14 +32,7 @@ public class ValueNeededProduct {
 		
 	}
 
-	public Frame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(Frame frame) {
-		this.frame = frame;
-	}
-
+	
 	public Label[] getLabel() {
 		return label;
 	}
@@ -69,7 +62,7 @@ public class ValueNeededProduct {
 		return panel;
 	}
 
-	public void setPanel(JPanel panel) {
+	public void setPanel(ProductPanel panel) {
 		this.panel = panel;
 	}
 
