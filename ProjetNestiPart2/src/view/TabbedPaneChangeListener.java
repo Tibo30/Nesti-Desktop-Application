@@ -1,26 +1,29 @@
 package view;
 
+import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
-import entities.Admin;
-import model.QueryAdmin;
+import entities.Product;
+import entities.UnitMeasure;
+import model.QueryProduct;
 import model.QuerySupplier;
 
 
 
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
+	boolean product = false;
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
 		if (e.getSource() instanceof JTabbedPane) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
-			System.out.println("Selected paneNo : " + pane.getSelectedIndex());
 
 			if (pane.getSelectedIndex() == 2 && supplier == false) {
 				supplier = true;
@@ -37,31 +40,17 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 					e1.printStackTrace();
 				}
-			}
-//			else if (pane.getSelectedIndex() == 5) {
-//
-//				try {
-//					ArrayList<Product> listProd = QueryProduct.queryProd.createProductInfo();
-//					for (int i = 0; i < listProd.size(); i++) {
-//						// add the list elements to the search combo box
-//						Frame.table_1.getTable()[0].addItem(listProd.get(i));
-//					}
-//
-//				} catch (Exception e1) {
-//
-//					e1.printStackTrace();
-//
-//				}
-//			}
-			else if (pane.getSelectedIndex() == 7) {
-				
+
+			} else if (pane.getSelectedIndex() == 5 && product == false) {
+				product = true;
 				try {
-					
-					ArrayList<Admin> listAdmin =  QueryAdmin.queryAdm.listAllAdmin();
-					for (int i=0; i< listAdmin.size(); i++) {
-					
-						ManagePanel.combo.addItem(listAdmin.get(i).getLastname()+ " " +listAdmin.get(i).getFirstname()+ " - "+listAdmin.get(i).getUsername());
-						
+					ArrayList<Product> listProd = QueryProduct.queryProd.listAllProduct();
+					DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.getTable().getModel();
+					for (int i = 0; i < listProd.size(); i++) {
+						// add the list elements to the search combo box
+						Object[] row = { listProd.get(i).getName(), listProd.get(i).getState(),listProd.get(i).getType(),
+							 listProd.get(i).getUnit().getName(),	listProd.get(i).getQuantity() };
+						model.addRow(row);
 					}
 					
 					
@@ -70,11 +59,41 @@ public class TabbedPaneChangeListener implements ChangeListener {
 					e1.printStackTrace();
 					
 				}
+				try {
+					ArrayList<UnitMeasure> listUnit = QueryProduct.queryProd.AllUnit();
+
+					// add the list elements to the search combo box
+					for (int i = 0; i < listUnit.size(); i++) {
+
+						ProductPanel.prod.getCombo()[0].addItem(listUnit.get(i).getName());
+
+					}
+
+				} catch (Exception e2) {
+
+					e2.printStackTrace();
+
+				}
+
+			
+			try {
+				ArrayList<String> listType = QueryProduct.queryProd.AllType();
+
+				// add the list elements to the search combo box
+				for (int i = 0; i < listType.size(); i++) {
 				
-				
-				
+					ProductPanel.prod.getCombo()[1].addItem(listType.get(i));
+
+				}
+
+			} catch (Exception e2) {
+
+				e2.printStackTrace();
+
 			}
 		}
 
+		}
+		}
 	}
 }

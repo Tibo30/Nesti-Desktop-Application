@@ -3,11 +3,16 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.table.DefaultTableModel;
+
 import entities.Admin;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
+import entities.UnitMeasure;
 import model.QueryAdmin;
+import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
 import javax.swing.table.DefaultTableModel;
@@ -68,65 +73,68 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 
-//		case "LaunchSupplier": {
-//			try {
-//				// create the object supplier from the database according to the name selected
-//				// in the search combo box
-//
-//				Supplier supplier = QuerySupplier.querySuppl
-//						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
-//				// add all the information in the TextField
-//				Frame.suppl.getTextField()[0].setText(supplier.getName());
-//				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
-//				Frame.suppl.getTextField()[2].setText(supplier.getCity());
-//				Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
-//				Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
-//				Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
-//				// create the object supplier sell to have the list of product sold by a
-//				// supplier
-//				SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
-//				ArrayList<Product> product = supplSell.getProducts();
-//				ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-//				DefaultTableModel model = (DefaultTableModel) Frame.suppl.getTable().getModel(); // cast the model as a defaultTableModel
-//				for (int j = model.getRowCount() - 1; j >= 0; j--) {
-//					model.removeRow(j);
-//				}
-//				if (product.size() > 0) {
-//					for (int i = 0; i < product.size(); i++) {
-//						Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " €/u" };
-//						model.addRow(test);
-////						model.setValueAt(product.get(i).getName(), i, 0);
-////						model.setValueAt(buyingPrices.get(i) + " €/u", i, 2);
-//					}
-//
-//				}
-//
-//			} catch (Exception e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//
-//			break;
-//		}
+		case "LaunchSupplier": {
 
-//		case "Supplier_Create": {
+			try {
+				// create the object supplier from the database according to the name selected
+				// in the search combo box
 
-//			try {
-//				Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35");
-//
-//				Supplier supplCreate = new Supplier(Frame.suppl.getTextField()[0].getText(),
-//						Frame.suppl.getTextField()[1].getText(), Frame.suppl.getTextField()[2].getText(),
-//						Frame.suppl.getTextField()[3].getText(), Frame.suppl.getTextField()[4].getText(),
-//						Frame.suppl.getTextField()[5].getText(), "Unblocked", admin.getId());
-//
-//				QuerySupplier.querySuppl.createPrepared(supplCreate);
-//			} catch (Exception e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//
-//			break;
-//		}
+				Supplier supplier = QuerySupplier.querySuppl
+						.createSupplierInfo(String.valueOf(Frame.suppl.getCombo()[0].getSelectedItem()));
+				// add all the information in the TextField
+				Frame.suppl.getTextField()[0].setText(supplier.getName());
+				Frame.suppl.getTextField()[1].setText(supplier.getAdress());
+				Frame.suppl.getTextField()[2].setText(supplier.getCity());
+				Frame.suppl.getTextField()[3].setText(supplier.getContactLastname());
+				Frame.suppl.getTextField()[4].setText(supplier.getContactFirstname());
+				Frame.suppl.getTextField()[5].setText(supplier.getContactNumber());
+				// create the object supplier sell to have the list of product sold by a
+				// supplier
+				SupplierSell supplSell = QuerySupplierSell.querySell.createSupplierSellInfo(supplier);
+				ArrayList<Product> product = supplSell.getProducts();
+				ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
+				DefaultTableModel model = (DefaultTableModel) Frame.suppl.getTable().getModel(); // cast the model as a
+																									// defaultTableModel
+				for (int j = model.getRowCount() - 1; j >= 0; j--) {
+					model.removeRow(j);
+				}
+				if (product.size() > 0) {
+					for (int i = 0; i < product.size(); i++) {
+						Object[] test = { product.get(i).getName(), "", buyingPrices.get(i) + " ï¿½/u" };
+						model.addRow(test);
+//                        model.setValueAt(product.get(i).getName(), i, 0);
+//                        model.setValueAt(buyingPrices.get(i) + " ï¿½/u", i, 2);
+					}
+
+				}
+
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			break;
+		}
+
+		case "Supplier_Create": {
+
+			try {
+				Admin admin = QueryAdmin.queryAdm.createAdminInfo("JohnnyDoe35");
+
+				Supplier supplCreate = new Supplier(Frame.suppl.getTextField()[0].getText(),
+						Frame.suppl.getTextField()[1].getText(), Frame.suppl.getTextField()[2].getText(),
+						Frame.suppl.getTextField()[3].getText(), Frame.suppl.getTextField()[4].getText(),
+						Frame.suppl.getTextField()[5].getText(), "Unblocked", admin.getId());
+
+				QuerySupplier.querySuppl.createPrepared(supplCreate);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			break;
+
+		}
 		case "Supplier_Modify": {
 
 			break;
@@ -186,6 +194,23 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 		case "Block /Unblock selected Element": {
+			int row = ProductPanel.prod.table.getSelectedRow();
+			boolean only = true;
+			if (ProductPanel.prod.table.getValueAt(row, 1).equals("Unblocked") && (only == true)) {
+				// Block
+				only = false;
+				Object toto = "Blocked";
+				DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+				model.setValueAt(toto, row, 1);
+
+			} else {
+				only = true;
+				Object toto = "Unblocked";
+				DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+				model.setValueAt(toto, row, 1);
+
+			}
+			;
 
 			break;
 		}
@@ -194,12 +219,54 @@ public class ButtonListener implements ActionListener {
 			break;
 		}
 
-		case "Product_Launch": {
+		case "+_Product": { ///////////////////BUGG/////////////////
+
+			UnitMeasure unit = new UnitMeasure(ProductPanel.prod.getCombo()[0].getSelectedItem().toString());
+			int row1 = ProductPanel.prod.table.getSelectedRow();
+			
+			Product product = new Product(
+					ProductPanel.prod.textField.getText(),
+					ProductPanel.prod.table.getValueAt(row1, 1).toString(),
+					ProductPanel.prod.getCombo()[1].getSelectedItem().toString(),
+					unit);
+			
+			Object[] row = product.toRowProduct();
+			System.out.println(row);
+			DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+			model.addRow(row);
 
 			break;
 		}
-		case "+_Product": {
-
+		case "Product Modify": {
+			int row = ProductPanel.prod.table.getSelectedRow();
+			
+			System.out.println(ProductPanel.prod.textField.getText());
+			System.out.println(ProductPanel.prod.combo[0].getSelectedItem());	
+			System.out.println(ProductPanel.prod.combo[1].getSelectedItem());
+			System.out.println(row);
+			DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+			String[] product = {ProductPanel.prod.textField.getText(),"Unblocked",ProductPanel.prod.combo[1].getSelectedItem().toString(),ProductPanel.prod.combo[0].getSelectedItem().toString(),""};
+			for (int i = 0; i < ProductPanel.prod.table.getColumnCount() ;i++) {
+				model.setValueAt(product[i], row, i);
+			}
+			
+			/*
+			UnitMeasure unit = new UnitMeasure(ProductPanel.prod.getCombo()[0].getSelectedItem().toString());
+			int row1 = ProductPanel.prod.table.getSelectedRow();
+			
+			Product product = new Product(
+					ProductPanel.prod.textField.getText(),
+					ProductPanel.prod.table.getValueAt(row1, 1).toString(),
+					ProductPanel.prod.getCombo()[1].getSelectedItem().toString(),
+					unit);
+			
+		
+			Object[] row = product.toRowProduct();
+			
+			for (int i = 0; i<row.length;i++) {
+			System.out.println(row[i].toString());}
+			//DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.table.getModel();
+	*/
 			break;
 		}
 		case "History_Submit": {

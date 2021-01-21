@@ -25,7 +25,7 @@ public class Button extends JButton {
 		if ((name.equals("Profil_Modify_Profile")) || (name.equals("Profil_Modify_Password"))
 				|| (name.equals("Supplier_Modify")) || (name.equals("Order_Modify"))
 				|| (name.equals("Article_Modify")) || (name.equals("Manage_Modify_Profile"))
-				|| (name.equals("Manage_Modify_PassWord")) || (name.equals("Order_Modify"))) {
+				|| (name.equals("Manage_Modify_PassWord")) || (name.equals("Order_Modify"))|| (name.equals("Product Modify"))) {
 
 			this.setBackground(new Color(232, 250, 126));
 			if (name.equals("Profil_Modify_Profile")) {
@@ -49,6 +49,9 @@ public class Button extends JButton {
 			}
 			if (name.equals("Manage_Modify_PassWord")) {
 				nameField = "Modify Password";
+			}
+			if(name.equals("Product Modify")) {
+				nameField = "Modify";
 			}
 		}
 		if ((name.equals("Profil_Save_Password")) || (name.equals("Order_Submit")) || (name.equals("Order_Create"))
@@ -105,7 +108,7 @@ public class Button extends JButton {
 			nameField = "Launch";
 		}
 		if ((name.equals("+_Supplier")) || (name.equals("+_Order1")) || (name.equals("+_Order2"))
-				|| (name.equals("-_Order")) || (name.equals("+_Product")) || (name.equals("x_Order"))) {
+				|| (name.equals("-_Order")) || (name.equals("+_Product")) || (name.equals("x_Order"))|| (name.equals("+_Product"))) {
 
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));
 
@@ -123,7 +126,11 @@ public class Button extends JButton {
 			if (name.equals("x_Order")) {
 				this.setBackground(new Color(243, 101, 101));
 			}
+			if (name.equals("+_Product")){
+				this.setBackground(new Color(173, 246, 100));
+			}
 		}
+		
 		this.setText(nameField);
 		this.addActionListener(new ButtonListener(name)); // We add actionListener to all the buttons
 	}
