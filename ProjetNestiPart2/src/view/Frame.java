@@ -31,6 +31,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import entities.Admin;
 import model.QuerySupplier;
 
 import javax.swing.ListSelectionModel;
@@ -53,7 +54,7 @@ public class Frame {
 	public static ValueNeededSupplier suppl;
 	public static ValueNeededProduct prod;
 	public static ValueNeededAdmin adm;
-
+	public static Admin activAdmin;
 	/**
 	 * Launch the application.
 	 */
@@ -134,60 +135,12 @@ public class Frame {
 		 * Profil
 		 */
 
-		Panel panel_Profil = new Panel("panelProfile");
+		ProfilePanel panelProfil = new ProfilePanel();
 
-		FlowLayout flowLayout = (FlowLayout) panel_Profil.getLayout();
+		
 
-		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panel_Profil, null);
-		panel_Profil.setLayout(null);
-
-		Button btnProfilModifyProfile = new Button("Profil_Modify_Profile", 175, 359, 125, 35);
-		panel_Profil.add(btnProfilModifyProfile);
-
-		Button btnProfilModidyPassWord = new Button("Profil_Modify_Password", 439, 371, 149, 35);
-		panel_Profil.add(btnProfilModidyPassWord);
-
-		Button btnProfilSavePassword = new Button("Profil_Save_Password", 439, 347, 149, 35);
-		panel_Profil.add(btnProfilSavePassword);
-
-		Button btnProfilSaveProfil = new Button("Profil_Save_Profil", 175, 347, 125, 35);
-		panel_Profil.add(btnProfilSaveProfil);
-
-		Label lblProfilFirstname = new Label("FirstName", 175, 95, 160, 20);
-		panel_Profil.add(lblProfilFirstname);
-
-		Label lblProfilLastname = new Label("LastName", 173, 147, 162, 20);
-		panel_Profil.add(lblProfilLastname);
-
-		Label lblProfilUsername = new Label("UserName", 174, 201, 161, 20);
-		panel_Profil.add(lblProfilUsername);
-
-		Label lblProfilPassword = new Label("Password", 439, 95, 138, 14);
-		panel_Profil.add(lblProfilPassword);
-
-		Label lblProfilNewPassword = new Label("New password", 439, 142, 138, 22);
-		panel_Profil.add(lblProfilNewPassword);
-
-		Label lblProfilConfirmPassword = new Label("Confirm password", 439, 198, 138, 14);
-		panel_Profil.add(lblProfilConfirmPassword);
-
-		TextField tfProfilFirstname = new TextField("profilFirstname", 175, 116, 160, 20);
-		panel_Profil.add(tfProfilFirstname);
-
-		TextField tfProfilLastname = new TextField("profilLastname", 175, 170, 160, 20);
-		panel_Profil.add(tfProfilLastname);
-
-		TextField TfProfilUsername = new TextField("profilUsername", 175, 223, 160, 20);
-		panel_Profil.add(TfProfilUsername);
-
-		PasswordField profilPassword = new PasswordField("Profil Password", 439, 113, 138, 20);
-		panel_Profil.add(profilPassword);
-
-		PasswordField profilNewPassword = new PasswordField("Profil NewPassword", 439, 167, 138, 20);
-		panel_Profil.add(profilNewPassword);
-
-		PasswordField profilConfirmPassword = new PasswordField("Profil Conform Password", 439, 220, 138, 20);
-		panel_Profil.add(profilConfirmPassword);
+		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panelProfil, null);
+		
 
 		/**
 		 * Supplier
@@ -620,61 +573,11 @@ public class Frame {
 		 * Manage
 		 */
 
-		Panel panelManage = new Panel("panelManager");
+		ManagePanel panelManage = new ManagePanel();
 
 		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage, null);
 
-		Button btnManageModifyProfile = new Button("Manage_Modify_Profile", 154, 372, 138, 29);
-		panelManage.add(btnManageModifyProfile);
-
-		Button btnManageModifyPassWord = new Button("Manage_Modify_PassWord", 507, 372, 147, 34);
-		panelManage.add(btnManageModifyPassWord);
-
-		Button btnManageBlockAdmin = new Button("Manage_Block / Unblock", 324, 315, 147, 29);
-		panelManage.add(btnManageBlockAdmin);
-
-		Button btnManageLaunch = new Button("Manage_Launch", 539, 48, 86, 23);
-		panelManage.add(btnManageLaunch);
-
-		Label lblManageSearch = new Label("Search", 133, 46, 95, 27);
-		panelManage.add(lblManageSearch);
-
-		ComboBox list = new ComboBox("listAdmin", 190, 43, 339, 32);
-		panelManage.add(list);
-
-		TextField tfManageFirstname = new TextField("manageFirstname", 59, 151, 160, 20);
-		panelManage.add(tfManageFirstname);
-
-		Label lblManageFirsName = new Label("Firstname", 59, 130, 160, 20);
-		panelManage.add(lblManageFirsName);
-
-		TextField tfManageLastname = new TextField("manageLastname", 59, 205, 160, 20);
-		panelManage.add(tfManageLastname);
-
-		Label lblManageLastName = new Label("Lastname", 57, 182, 162, 20);
-		panelManage.add(lblManageLastName);
-
-		Label lblManageUserName = new Label("Username", 58, 236, 161, 20);
-		panelManage.add(lblManageUserName);
-
-		TextField tfManageUsername = new TextField("", 59, 258, 160, 20);
-		panelManage.add(tfManageUsername);
-
-		Label lblManagePassword = new Label("Password", 584, 141, 138, 14);
-		panelManage.add(lblManagePassword);
-
-		PasswordField pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
-		panelManage.add(pwManagePassword);
-
-		Label lblManageConfirmPassword = new Label("Confirm password", 584, 190, 138, 14);
-		panelManage.add(lblManageConfirmPassword);
-
-		PasswordField pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
-		panelManage.add(pwManageConfPassword);
 		
-		Button btnManageCreate = new Button("Create Profile", 496, 371, 113, 32);
-        panelManage.add(btnManageCreate);
-        btnManageCreate.setBounds(344, 372, 113, 32);
 		
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
