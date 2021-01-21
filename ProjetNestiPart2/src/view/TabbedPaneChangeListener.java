@@ -9,8 +9,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Admin;
-import model.QueryAdmin;
 import entities.Product;
+import entities.Supplier;
+import model.QueryAdmin;
 import entities.UnitMeasure;
 import model.QueryProduct;
 import model.QuerySupplier;
@@ -26,17 +27,18 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 		if (e.getSource() instanceof JTabbedPane) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
+			
+			if (pane.getSelectedIndex() == 2) {
+				SupplierPanel.clearAndEnableFalse();
+				SupplierPanel.clearTable();
 
-			if (pane.getSelectedIndex() == 2 && supplier == false) {
-				supplier = true;
 				try {
 					// create the list of supplier from the database
-					ArrayList<String> listSuppl = QuerySupplier.querySuppl.listAllSupplier();
-					for (int i = 0; i < listSuppl.size(); i++) {
-						// add the list elements to the search combo box
-						Frame.suppl.getCombo()[0].addItem(listSuppl.get(i));
+					SupplierPanel.updateListSupplier();
+					// create the list of products from the database
+					SupplierPanel.updateListProduct();
 
-					}
+					
 
 				} catch (Exception e1) {
 
@@ -95,7 +97,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
 			}
 		}
 
-		}
-		}
+		
+	
 	}
 }
