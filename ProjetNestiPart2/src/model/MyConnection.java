@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class MyConnection {
 	static Connection accessDataBase = null;
 	private String url;
-	private String login;
+	protected String login;
 	private String mdp;
 	private String bdd;
 
