@@ -1,6 +1,7 @@
 package entities;
 
 public class Product {
+	int id;
 	String name;
 	String type;
 	String state;
