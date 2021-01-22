@@ -20,18 +20,23 @@ public class QuerySupplier extends MyConnection {
 	 * Read all the supplier names
 	 * @throws Exception 
 	 */
-	public ArrayList<String> listAllSupplier() throws Exception {
-		ArrayList<String> listSupplier=new ArrayList<String>();
-		
-		openConnection();
+	public ArrayList<Supplier> listAllSupplier() throws Exception {
+		ArrayList<Supplier> listSupplier=new ArrayList<Supplier>();
+		Supplier sup = null;
 		try {
+			openConnection();
 			
-			Statement declaration = accessDataBase.createStatement();
-			String query = "SELECT supplier_name FROM supplier;";
-			ResultSet resultat = declaration.executeQuery(query);
+			String query = "SELECT id_supplier, supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
+					+ "supplier_contact_firstname, supplier_state,supplier_creation_date,supplier_update_date, id_admin FROM supplier;";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			ResultSet rs = declaration.executeQuery();
 			/* Récupération des données */
-			while (resultat.next()) {
-				listSupplier.add(resultat.getString("supplier_name"));
+			while (rs.next()) {
+				sup = new Supplier(rs.getInt("id_supplier"),rs.getString("supplier_name"), rs.getString("supplier_adress"),
+						rs.getString("supplier_city"), rs.getString("supplier_contact_number"),
+						rs.getString("supplier_contact_lastname"), rs.getString("supplier_contact_firstname"),
+						rs.getString("supplier_state"),rs.getDate("supplier_creation_date"), rs.getDate("supplier_update_date"), rs.getInt("id_admin"));
+				listSupplier.add(sup);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
@@ -91,7 +96,7 @@ public class QuerySupplier extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Error in supplier insertion: " + e.getMessage());
+			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;
@@ -142,7 +147,7 @@ public class QuerySupplier extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Error in supplier modifications: " + e.getMessage());
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;

@@ -15,7 +15,7 @@ public class TextField extends JTextField {
 		this.setText("");
 		this.setColumns(10);
 		this.setBackground(new Color(255, 222, 173));
-		this.setForeground(new Color(192, 192, 192));
+		this.setForeground(Color.BLACK);
 		this.setFont(new Font("Rockwell Nova", Font.PLAIN, 14));
 
 	}
