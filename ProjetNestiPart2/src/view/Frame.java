@@ -132,6 +132,7 @@ public class Frame {
         lblLogo.setBounds(758, 0, 70, 32);
         panel.add(lblLogo);
 
+
 		/**
 		 * Profil
 		 */
@@ -185,7 +186,7 @@ public class Frame {
 
         
 
-		/**
+        /**
 		 * History
 		 */
 

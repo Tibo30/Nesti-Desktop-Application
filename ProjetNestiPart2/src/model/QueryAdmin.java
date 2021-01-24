@@ -47,7 +47,7 @@ public class QueryAdmin extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 
 			while (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_login"), rs.getString("admin_lastname"),
@@ -73,7 +73,7 @@ public class QueryAdmin extends MyConnection {
 			declaration.setString(1, login);
 			rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			if (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
@@ -175,26 +175,26 @@ public class QueryAdmin extends MyConnection {
 
 		boolean checkPassword = false;
 
-//		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
-//
-//		try {
-//			declaration = accessDataBase.prepareStatement(query);
-//			
-//			declaration.setString(1, username);
-//
-//			rs = declaration.executeQuery();
-//
-//			if (rs.next()) {
-//
-//				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
-//					checkPassword = true;
-//
-//				}
-//			}
-//
-//		} catch (SQLException ex) {
-//			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-//		}
+		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
+
+		try {
+			declaration = accessDataBase.prepareStatement(query);
+			
+			declaration.setString(1, username);
+
+			rs = declaration.executeQuery();
+
+			if (rs.next()) {
+
+				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
+					checkPassword = true;
+
+				}
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+		}
 		
 //		return checkPassword;
 		return true;

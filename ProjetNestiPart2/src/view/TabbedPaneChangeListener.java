@@ -119,7 +119,7 @@ public class TabbedPaneChangeListener implements ChangeListener {
                     ArrayList<Admin> listAdmin =  queryAdmin.listAllAdmin();
                     for (int i=0; i< listAdmin.size(); i++) {
 
-//                        liste d'objets dans combo avec toString pas besoin de requête
+//                        liste d'objets dans combo avec toString pas besoin de requï¿½te
 
                         ManagePanel.combo.addItem(listAdmin.get(i));
 
@@ -132,7 +132,6 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
                 }
 			}
-
 		}
 	}
 }

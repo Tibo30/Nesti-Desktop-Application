@@ -25,7 +25,7 @@ public class QueryOrder extends MyConnection{
 			String query = "SELECT request_order.id_order,request_order.order_validation_date,request_order.order_delivery_date,request_order.order_state,request_order.id_admin, supplier.supplier_name FROM request_order JOIN supplier ON request_order.id_supplier=supplier.id_supplier;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			while (rs.next()) {
 				Supplier supplier = querySupplier.createSupplierInfo(rs.getString("supplier_name"));
 				ord = new Order(rs.getInt("id_order"), rs.getDate("order_validation_date"),
@@ -49,7 +49,7 @@ public class QueryOrder extends MyConnection{
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setInt(1, idOrder);
 			ResultSet rs = declaration.executeQuery();
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			while (rs.next()) {
 				ordLine = new OrderLine(rs.getInt("id_article"),rs.getInt("id_order"),rs.getInt("request_order_line_quantity"));
 				listOrderLine.add(ordLine);

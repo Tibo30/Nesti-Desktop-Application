@@ -22,7 +22,7 @@ public class QueryArticle extends MyConnection {
 					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			while (rs.next()) {
 				Packaging packaging = new Packaging(rs.getString("packaging_name"));
 				Product product = queryProduct.createProductInfo(rs.getString("product_name"));
@@ -48,7 +48,7 @@ public class QueryArticle extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setInt(1, idArticle);
 			rs = declaration.executeQuery();
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			if (rs.next()) {
 				Packaging packaging = new Packaging(rs.getString("packaging_name"));
 				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
