@@ -15,13 +15,13 @@ import entities.UnitMeasure;
 
 public class QuerySupplierSell extends MyConnection {
 
-	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+	//public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
 
 	public static void main(String[] args) throws Exception {
 
-		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
-		Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
+		//QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+		//QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+		//Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
 
 		// test de la fonction createPrepared de l'admin
 		// queryAdm.createPrepared(adm);
@@ -55,10 +55,6 @@ public class QuerySupplierSell extends MyConnection {
 		// SupplierSell suppSell= querySell.createSupplierSellInfo(supp);
 		// System.out.println(suppSell.getProducts().size());
 
-	}
-
-	public QuerySupplierSell(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
 	}
 
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {

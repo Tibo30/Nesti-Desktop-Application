@@ -11,13 +11,7 @@ import entities.Supplier;
 import entities.UnitMeasure;
 
 public class QueryProduct extends MyConnection {
-	public static QueryProduct queryProd = new QueryProduct("127.0.0.1", "root", "", "java_nesti");
-
-	public QueryProduct(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
-
-	}
-
+	
 	/**
 	 * Read all the supplier names
 	 * 
@@ -35,17 +29,20 @@ public class QueryProduct extends MyConnection {
 			ResultSet resultat = declaration.executeQuery();
 			/* R�cup�ration des donn�es */
 			while (resultat.next()) {
-				Article quant = new Article(resultat.getInt("article_quantity"));
+				
 				UnitMeasure unit = new UnitMeasure(resultat.getString("unit_measure_name"));
-				Product toto = new Product(resultat.getInt("id_product"),resultat.getString("product_name"),resultat.getString("product_type"), resultat.getString("product_state"), unit,quant);
-			prod.add(toto);
+				Product toto = new Product(resultat.getInt("id_product"),resultat.getString("product_name"),resultat.getString("product_type"), resultat.getString("product_state"), unit);
+				
+				prod.add(toto);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
 		closeConnection();
+		
 		return prod;
 	}
+	
 	
 	
 	
@@ -71,28 +68,7 @@ public class QueryProduct extends MyConnection {
 		}
 	
 	
-	public   Object findUnit(String Prod ) throws Exception {
-		String fofo="";
-		ResultSet rs;
-		openConnection();
-		boolean flag = false;
-		try {
-			
-			String query = "SELECT unit_measure.unit_measure_name FROM unit_measure INNER JOIN product ON product.id_unit_measure=unit_measure.id_unit_measure WHERE (product.product_name=?)";
-			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			ResultSet resultat = declaration.executeQuery();
-			
-			declaration.setString(0, (String) Prod);
-			rs = declaration.executeQuery();
-			 fofo = rs.getString("unit_measure.unit_measure_name");
-		}
-		 catch (Exception e) {
-			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
-		}
-		closeConnection();
 	
-		return fofo ;
-		}
 	
 	public  ArrayList<String> AllType() throws Exception {
 		ArrayList<String> type = new ArrayList<String>();
@@ -131,30 +107,116 @@ public class QueryProduct extends MyConnection {
                 prod = new Product(rs.getString("product_name"),rs.getString("product_type"), rs.getString("product_state"), unit);
             }
         } catch (Exception e) {
-            System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
+            System.err.println("Erreur d'affichage d'utilisateur createProductInfo: " + e.getMessage());
         }
         closeConnection();
         return prod;
     }
-	public boolean createPrepared(Product product,UnitMeasure unit) throws Exception {
-		openConnection();
-		boolean flag = false;
-		try {
-			String query = "INSERT INTO `product`(product_name,product_type,product_state) VALUES (?,?,?)";
-			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+	public UnitMeasure createUnitInfo(String unitName) throws Exception {
+        openConnection();
+        UnitMeasure unit = null;
+        ResultSet rs;
 
-			declaration.setString(1, product.getName());
-			declaration.setString(2, product.getType());
-			declaration.setString(3, product.getState());
-			
+        try {
+
+            String query = "SELECT id_unit_measure, unit_measure_name  FROM unit_measure WHERE (unit_measure_name=?);";
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+            declaration.setString(1, unitName);
+            rs = declaration.executeQuery();
+            /* R�cup�ration des donn�es */
+            if (rs.next()) {
+               unit = new UnitMeasure(rs.getInt("id_unit_measure"),rs.getString("unit_measure_name"));
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur d'affichage d'utilisateur createUnitInfo: " + e.getMessage());
+        }
+        closeConnection();
+        return unit;
+    }
+	
+	public boolean createPrepared(Product product) throws Exception {
+        openConnection();
+        boolean flag = false;
+        try {
+            String query = "INSERT INTO product(product_name, product_type, product_state, id_unit_measure) VALUES (?,?,?,(SELECT id_unit_measure FROM unit_measure WHERE (unit_measure_name=?)))";
+           
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+
+            declaration.setString(1, product.getName());
+            declaration.setString(2, product.getType());
+            declaration.setString(3, product.getState());
+            declaration.setString(4, product.getUnit().getName());
+            int executeUpdate = declaration.executeUpdate();
+            flag = (executeUpdate == 1);
+        } catch (Exception e) {
+            System.err.println("Erreur d'insertion utilisateur createPrepared: " + e.getMessage());
+        }
+        closeConnection();
+        return flag;
+    } 
+	
+	/*
+	 * Utilise un switch  type querrry sup l 110
+	 * */
+	public boolean UpdateProductPrepared(String valueChanged, String newValue, String name) throws Exception {
+        openConnection();
+        boolean flag = false;
+        try {
+			String query = "";
+			switch (valueChanged) {
+			case "name":
+				query = "UPDATE product SET product_name=? WHERE product_name=?";
+				break;
+			case "type":
+				query = "UPDATE product SET product_type=? WHERE product_name=?";
+				break;
+			case "state":
+				query = "UPDATE product SET product_state=? WHERE product_name=?";
+				break;
+			case "unit":
+				query = "UPDATE product JOIN unit_measure ON unit_measure.id_unit_measure = product.id_unit_measure SET product.id_unit_measure = ( SELECT id_unit_measure FROM unit_measure WHERE unit_measure_name = '?' ) WHERE (product_name = '?') ";
+				break;
+			/*case "contactLastname":
+				query = "UPDATE supplier SET supplier_contact_lastname=? WHERE supplier_name=?";
+				break;
+			case "contactFirstname":
+				query = "UPDATE supplier SET supplier_contact_firstname=? WHERE supplier_name=?";
+				break;
+			case "state":
+				query = "UPDATE supplier SET supplier_state=? WHERE supplier_name=?";
+				break;*/
+
+			}
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, newValue);
+			declaration.setString(2, name);
+
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
 		closeConnection();
 		return flag;
-	} 
 	
+        /*
+        try {
+            String query = "UPDATE product JOIN unit_measure ON unit_measure.id_unit_measure = product.id_unit_measure SET product_name = '?', product_type = '?', product_state = '?', product.id_unit_measure = ( SELECT id_unit_measure FROM unit_measure WHERE unit_measure_name = '?' ) WHERE (product_name = '?')" ;
+           
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+       
+            declaration.setString(1, product.getName());
+            declaration.setString(2, product.getType());
+            declaration.setString(3, product.getState());
+            declaration.setString(4, product.getUnit().getName());
+            declaration.setString(5, product.getName());
+            int executeUpdate = declaration.executeUpdate();
+            flag = (executeUpdate == 1);
+        } catch (Exception e) {
+            System.err.println("Erreur d'insertion utilisateur UpdateProductPrepared: " + e.getMessage());
+        }
+        closeConnection();
+        return flag;*/
+    } 
 	
 }

@@ -19,8 +19,11 @@ public class ManagePanel extends JPanel {
 	public static PasswordField passwordField[];
 	public static Button[] button;
 	public static JTabbedPane TabbedPane;
+	private QueryAdmin queryAdmin;
 
 	public ManagePanel() throws Exception {
+		
+		this.queryAdmin = new QueryAdmin();
 
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -103,12 +106,12 @@ public class ManagePanel extends JPanel {
 		btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// create the object admin from the database according to its first name, 
-					// last name and username selected in the drop down combo box search 
+					// create the object admin from the database according to its first name,
+					// last name and username selected in the drop down combo box search
 
-					String[] username = ((String) list.getSelectedItem()).split(" ");
+					Admin adm =  (Admin) list.getSelectedItem();
 
-					Admin adm = QueryAdmin.queryAdm.selectAdminInfo(username[2]);
+//					Admin adm = queryAdmin.selectAdminInfo(username[3]);
 					// add all the information in the TextField
 					tfManageFirstname.setText(adm.getFirstname());
 					tfManageLastname.setText(adm.getLastname());
@@ -117,39 +120,32 @@ public class ManagePanel extends JPanel {
 					pwManageConfPassword.setText("********");
 
 				} catch (Exception e1) {
+					System.err.println("message base de donnée non connectée");
 
 					e1.printStackTrace();
 				}
 
 			}
 		});
-		
-		
-		
+
 		/*
 		 * Action to create an admin
 		 */
-		
-		btnManageCreate.addActionListener((ActionListener) new ActionListener(){
+
+		btnManageCreate.addActionListener((ActionListener) new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-			
-				
+
 				try {
-					
-					
-					
-				}catch (Exception ex) {
-					
+
+				} catch (Exception ex) {
+
 				}
-				
+
 			}
-			
+
 		});
 
-		
-		
 		/*
 		 * Action to modify Admin profile
 		 */
@@ -157,7 +153,7 @@ public class ManagePanel extends JPanel {
 		btnManageModifyProfile.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+
 //					ToDO
 
 				} catch (Exception e1) {
@@ -174,9 +170,7 @@ public class ManagePanel extends JPanel {
 		btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
-					
-					
+
 //					ToDO
 
 				} catch (Exception e1) {

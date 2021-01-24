@@ -9,6 +9,7 @@ Config.java
 # Ignorer les fichiers project
 .project
 # Ignorer les fichiers classpath
+.classpath
 ProjetNestiPart2/.classpath
 # Ignorer les fichiers settings
 ProjetNestiPart2/.settings/

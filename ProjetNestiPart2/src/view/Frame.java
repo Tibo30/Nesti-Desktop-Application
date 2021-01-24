@@ -47,10 +47,8 @@ public class Frame {
 	private final JPanel panel = new JPanel();
 
 	private JTable table;
-	private JTable table_1;
-	private JTable tSupplier;
 	private JTable table_Order;
-	private JTable table_3;
+
 	public static ValueNeededSupplier suppl;
 	
 
@@ -131,6 +129,7 @@ public class Frame {
         lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
         lblLogo.setBounds(758, 0, 70, 32);
         panel.add(lblLogo);
+
 
 		/**
 		 * Profil
@@ -256,7 +255,7 @@ public class Frame {
 
         
 
-		/**
+        /**
 		 * History
 		 */
 
@@ -309,5 +308,20 @@ public class Frame {
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
 
 
+	}
+
+	public void show() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frame window = new Frame();
+					window.frame.setVisible(true);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 	}
 }

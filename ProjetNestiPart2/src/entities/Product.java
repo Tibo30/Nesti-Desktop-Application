@@ -6,25 +6,15 @@ public class Product {
 	String type;
 	String state;
 	UnitMeasure unit;
-	Article quantity;
-	int id;
-
-	public Product(int id, String name, String type, String state, UnitMeasure unit, Article quantity) {
+	
+	public Product(int id, String name, String type, String state, UnitMeasure unit) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.unit = unit;
-
-	}
-
-	public Product(String name, String state, String type, UnitMeasure unit, Article quantity) {
-
-		this.name = name;
 		this.state = state;
-		this.type = type;
-		this.unit = unit;
-		this.quantity = quantity;
 	}
+
 	public Product(String name, String state, String type, UnitMeasure unit) {
 
 		this.name = name;
@@ -57,7 +47,7 @@ public class Product {
 		return state;
 	}
 
-	public void setState(String state) {
+	public  void setState(String state) {
 		this.state = state;
 	}
 
@@ -72,17 +62,13 @@ public class Product {
 	/**
 	 * @return the quantity
 	 */
-	public Article getQuantity() {
-		return quantity;
-	}
-
-	/**
-	 * @param quantity the quantity to set
-	 */
-	public void setQuantity(Article quantity) {
-		this.quantity = quantity;
-	}
+	
 	public Object[] toRowProduct() {
+		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
+		return prod;
+	}
+	public Object[] giveProduct(String name) {
+		
 		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
 		return prod;
 	}
