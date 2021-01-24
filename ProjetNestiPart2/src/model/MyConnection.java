@@ -22,12 +22,14 @@ public class MyConnection {
 		closeConnection();
 	}
 	*/
-	public MyConnection(String url, String login, String mdp, String bdd) {
-		setUrl("jdbc:mysql://"+url+"/"+bdd);
-		setLogin(login);
-		setMdp(mdp);
+	public MyConnection() {
+		setUrl("jdbc:mysql://"+Config.HOSTNAME+"/"+Config.DATABASE);
+		setLogin(Config.USERNAME);
+		setMdp(Config.PASSWORD);
 	}
 	
+	
+
 	/**
 	 * Connection to database NESTI
 	 * @throws Exception 
@@ -35,13 +37,17 @@ public class MyConnection {
 	 * @throws SQLException
 	 */
 	public void openConnection() throws Exception {
-		try {
-			System.out.println("try to connect");
-			// we add the parameters
-			accessDataBase = DriverManager.getConnection(getUrl(), getLogin(), getMdp());
-		} catch (SQLException ex) {
-			throw new Exception("Erreur connexion");
-		}
+		
+	
+			try {
+				System.out.println("try to connect");
+				// we add the parameters
+				accessDataBase = DriverManager.getConnection(getUrl(), getLogin(), getMdp());
+			} catch (SQLException ex) {
+				throw new Exception("Erreur connexion");
+			}
+		
+		
 	}
 
 	/**

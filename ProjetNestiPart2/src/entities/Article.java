@@ -1,126 +1,112 @@
 package entities;
 
+import java.util.Date;
+
 public class Article {
 	int id;
-	int quantity;
+	double quantity;
 	int realQuant;
 	String state;
-	Admin admin;
-	Product product;
+	Date creationDate;
+	Date updateDate;
 	Packaging packaging;
-	/**
-	 * @param quantity
-	 */
-	public Article(int quantity) {
-		
-		this.quantity = quantity;
-		
-	}
+	Product product;
+	int idAdmin;
+
 	
-	/**
-	 * @param id
-	 * @param quantity
-	 * @param realQuant
-	 * @param state
-	 * @param admin
-	 * @param product
-	 * @param packaging
-	 */
-	public Article(int id, int quantity, int realQuant, String state, Admin admin, Product product,
-			Packaging packaging) {
+
+	public Article(int id, double quantity, int realQuant, String state,Date creationDate,Date updateDate,Packaging packaging, Product product, int idAdmin) {
 		
 		this.id = id;
 		this.quantity = quantity;
 		this.realQuant = realQuant;
 		this.state = state;
-		this.admin = admin;
+		this.creationDate=creationDate;
+		this.updateDate=updateDate;
 		this.product = product;
 		this.packaging = packaging;
+		this.idAdmin = idAdmin;
+	}
+	
+	public Article() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public String toString() {
+		return  packaging.getName() + " de " + quantity + " " + product.getUnit().getName() + " de " + product.getName() ;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the quantity
-	 */
-	public int getQuantity() {
+
+	public double getQuantity() {
 		return quantity;
 	}
-	/**
-	 * @param quantity the quantity to set
-	 */
-	public void setQuantity(int quantity) {
+
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	/**
-	 * @return the realQuant
-	 */
+
 	public int getRealQuant() {
 		return realQuant;
 	}
-	/**
-	 * @param realQuant the realQuant to set
-	 */
+
 	public void setRealQuant(int realQuant) {
 		this.realQuant = realQuant;
 	}
-	/**
-	 * @return the state
-	 */
+
 	public String getState() {
 		return state;
 	}
-	/**
-	 * @param state the state to set
-	 */
+
 	public void setState(String state) {
 		this.state = state;
 	}
-	/**
-	 * @return the admin
-	 */
-	public Admin getAdmin() {
-		return admin;
+
+	public Date getCreationDate() {
+		return creationDate;
 	}
-	/**
-	 * @param admin the admin to set
-	 */
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
-	/**
-	 * @return the product
-	 */
-	public Product getProduct() {
-		return product;
+
+	public Date getUpdateDate() {
+		return updateDate;
 	}
-	/**
-	 * @param product the product to set
-	 */
-	public void setProduct(Product product) {
-		this.product = product;
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
-	/**
-	 * @return the packaging
-	 */
+
 	public Packaging getPackaging() {
 		return packaging;
 	}
-	/**
-	 * @param packaging the packaging to set
-	 */
+
 	public void setPackaging(Packaging packaging) {
 		this.packaging = packaging;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public int getIdAdmin() {
+		return idAdmin;
+	}
+
+	public void setIdAdmin(int idAdmin) {
+		this.idAdmin = idAdmin;
 	}
 
 	

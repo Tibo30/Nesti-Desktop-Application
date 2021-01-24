@@ -15,13 +15,13 @@ import entities.UnitMeasure;
 
 public class QuerySupplierSell extends MyConnection {
 
-	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+	//public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
 
 	public static void main(String[] args) throws Exception {
 
-		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
-		Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
+		//QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+		//QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+		//Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
 
 		// test de la fonction createPrepared de l'admin
 		// queryAdm.createPrepared(adm);
@@ -55,10 +55,6 @@ public class QuerySupplierSell extends MyConnection {
 		// SupplierSell suppSell= querySell.createSupplierSellInfo(supp);
 		// System.out.println(suppSell.getProducts().size());
 
-	}
-
-	public QuerySupplierSell(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
 	}
 
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
@@ -146,6 +142,28 @@ public class QuerySupplierSell extends MyConnection {
 		}
 		closeConnection();
 		return flag;
+	}
+	
+	public double getPrice(String productName, String supplierName) throws Exception {
+		openConnection();
+		double price = 0;
+		ResultSet rs;
+		try {
+			String query = "SELECT sell.buying_price FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier WHERE (product.product_name=?) AND (supplier.supplier_name=?);";
+				
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, productName);
+			declaration.setString(2, supplierName);
+
+			rs = declaration.executeQuery();
+			if (rs.next()) {
+			price = rs.getDouble("buying_price");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		return price;
 	}
 
 	public boolean deletePrepared(String productName) throws Exception {

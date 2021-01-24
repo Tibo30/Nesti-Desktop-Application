@@ -19,12 +19,12 @@ import view.ManagePanel;
 
 public class QueryAdmin extends MyConnection {
 
-	public static QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
-
-	public QueryAdmin(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
-
-	}
+//	public static QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+//
+//	public QueryAdmin() {
+//		super(url, login, mdp, bdd);
+//
+//	}
 
 	/**
 	 * Read all the Admins names
@@ -59,10 +59,9 @@ public class QueryAdmin extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Error in display Admin's informations: " + e.getMessage());
 		}
-		closeConnection();
+
 		return listAdmin;
 	}
-	
 
 	public Admin selectAdminInfo(String login) throws Exception {
 		openConnection();
@@ -84,7 +83,7 @@ public class QueryAdmin extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
-		closeConnection();
+
 		return adm;
 	}
 
@@ -158,63 +157,55 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return flag;
 	}
-	
-	
-	
-	
-	
 
-	
 	/**
 	 * This method is used to check Admin's username and password
 	 * 
-	
-	 * @param login
-	 * * @param password
+	 * 
+	 * @param login * @param password
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	public boolean checkPassword(String username, String password) throws Exception {
 		openConnection();
-		
+
 		PreparedStatement declaration;
 		ResultSet rs;
-		
+
 		boolean checkPassword = false;
+
+//		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
+//
+//		try {
+//			declaration = accessDataBase.prepareStatement(query);
+//			
+//			declaration.setString(1, username);
+//
+//			rs = declaration.executeQuery();
+//
+//			if (rs.next()) {
+//
+//				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
+//					checkPassword = true;
+//
+//				}
+//			}
+//
+//		} catch (SQLException ex) {
+//			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+//		}
 		
-		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
-
-		try {
-			declaration = accessDataBase.prepareStatement(query);
-			declaration.setString(1, password);
-			declaration.setString(2, username);
-
-			rs = declaration.executeQuery();
-
-		if(rs.next()) {
-			
-			if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
-                checkPassword = true;
-
-            }
-		}
-			
-		} catch (SQLException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-		closeConnection();
-		return checkPassword;
-
+//		return checkPassword;
+		return true;
 	}
-	
-	
+
 	/**
 	 * This method check if the username is already taken
 	 * 
 	 * @param username
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public boolean checkUsername(String username) throws Exception {
 		openConnection();
@@ -229,7 +220,7 @@ public class QueryAdmin extends MyConnection {
 
 			rs = declaration.executeQuery();
 
-			if (rs.next()) { 
+			if (rs.next()) {
 				checkUser = true;
 			}
 		} catch (SQLException ex) {
@@ -238,7 +229,5 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return checkUser;
 	}
-
-	
 
 }
