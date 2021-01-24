@@ -37,9 +37,7 @@ public class SupplierPanel extends JPanel {
 	public static Supplier activSupplier;
 	public static SupplierSell activSupplierSell;
 
-	static QuerySupplier querySupp;
-	static QuerySupplierSell querySell;
-	static QueryProduct queryProd;
+	
 
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
