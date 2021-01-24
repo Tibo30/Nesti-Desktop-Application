@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import entities.Admin;
-
+import model.MyConnection;
 import model.QueryAdmin;
 
 public class LoginFrame extends JFrame {
@@ -29,28 +29,39 @@ public class LoginFrame extends JFrame {
 	private TextField username;
 	private PasswordField password;
 	private Label UserName;
+	private QueryAdmin queryAdmin;
 
 //	private Label password;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginFrame frame = new LoginFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
+//	public static void main(String[] args) {
+//		
+//		MyConnection co= new MyConnection();
+//		
+//		
+//		
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					LoginFrame frame = new LoginFrame();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
+
 	public LoginFrame() {
+
+		this.queryAdmin = new QueryAdmin();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 329, 476);
 		contentPane = new JPanel();
@@ -108,13 +119,22 @@ public class LoginFrame extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				String user = username.getText();
+				String user = tfUsername.getText();
 				char[] psw = password.getPassword();
 
+//				Ecrire en dur le mot de passe et username
+
 				try {
-					if (QueryAdmin.queryAdm.checkPassword(user, String.valueOf(psw))) {
+					if (queryAdmin.checkPassword(user, String.valueOf(psw))) {
 						JOptionPane.showMessageDialog(null, "Connection successful");
-						Frame.activAdmin = QueryAdmin.queryAdm.selectAdminInfo(user);
+						
+						
+						Frame window = new view.Frame() ;
+						window.show();
+						dispose();
+						
+
+						Frame.activAdmin = queryAdmin.selectAdminInfo("JohnnyDoe35");
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Invalid Username or Password");

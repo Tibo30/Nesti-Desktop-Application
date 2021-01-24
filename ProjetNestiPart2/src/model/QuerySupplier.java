@@ -9,12 +9,8 @@ import entities.Supplier;
 
 public class QuerySupplier extends MyConnection {
 	
-	public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+//public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
 
-	public QuerySupplier(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
-
-	}
 	
 	/**
 	 * Read all the supplier names

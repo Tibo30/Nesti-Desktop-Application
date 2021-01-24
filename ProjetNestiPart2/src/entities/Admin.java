@@ -49,6 +49,16 @@ public class Admin {
 		
 	}
 
+	@Override
+	public String toString() {
+		return  lastname + " " + firstname +"("+ username + ")" ;
+	}
+
+	public Admin(int id, String username) {
+		this.id = id;
+		this.username=username;
+	}
+
 	public int getId() {
 		return id;
 	}
