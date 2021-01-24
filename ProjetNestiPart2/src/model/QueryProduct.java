@@ -90,6 +90,7 @@ public class QueryProduct extends MyConnection {
 		return type;
 		
 		}
+	
 	public Product createProductInfo(String productName) throws Exception {
         openConnection();
         Product prod = null;
@@ -218,5 +219,6 @@ public class QueryProduct extends MyConnection {
         closeConnection();
         return flag;*/
     } 
+	
 	
 }

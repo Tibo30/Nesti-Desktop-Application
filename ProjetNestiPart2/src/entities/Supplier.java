@@ -33,6 +33,11 @@ public class Supplier {
 
 	}
 	
+	@Override
+	public String toString() {
+		return  name ;
+	}
+	
 	// creating supplier from the app
 	public Supplier(String name, String adress, String city, String contactNumber, String contactLastname,
 			String contactFirstname, String state,int idAdmin) {

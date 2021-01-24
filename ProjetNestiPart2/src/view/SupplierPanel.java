@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import entities.Admin;
+import entities.Order;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
@@ -21,10 +22,6 @@ import model.QuerySupplierSell;
 public class SupplierPanel extends JPanel {
 
 	private JTable tSupplier;
-	public static ValueNeededSupplier suppl;
-	public static Supplier activSupplier;
-	public static SupplierSell activSupplierSell;
-
 	public static Label[] label;
 	public static ComboBox[] combo;
 	public static TextField[] textField;
@@ -33,6 +30,12 @@ public class SupplierPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	public static JTable table;
+	
+	static QuerySupplier querySupp;
+	static QuerySupplierSell querySell;
+	static QueryProduct queryProd;
+	public static Supplier activSupplier;
+	public static SupplierSell activSupplierSell;
 
 	static QuerySupplier querySupp;
 	static QuerySupplierSell querySell;
@@ -41,9 +44,9 @@ public class SupplierPanel extends JPanel {
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
-		querySupp = new QuerySupplier();
-		querySell = new QuerySupplierSell();
-		queryProd = new QueryProduct();
+		querySupp=new QuerySupplier();
+		querySell=new QuerySupplierSell();
+		queryProd=new QueryProduct();
 
 		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
 		this.add(btnSupplierLaunch);
@@ -153,8 +156,7 @@ public class SupplierPanel extends JPanel {
 		};
 		tSupplier.setModel(model);
 		spSupplier.setViewportView(tSupplier);
-		suppl = new ValueNeededSupplier(supplierLabel, supplierCombo, supplierText, supplierButton, this, spSupplier,
-				tSupplier);
+		
 		table = tSupplier;
 
 		btnSupplierBlock.addActionListener(new ActionListener() {
@@ -182,10 +184,9 @@ public class SupplierPanel extends JPanel {
 						btnSupplierCreate.setEnabled(false);
 						btnSupplierModify.setEnabled(true);
 
-						// create the object supplier from the database according to the name selected
+						// get the object supplier from the database according to the name selected
 						// in the search combo box
-						Supplier supplier = querySupp
-								.createSupplierInfo(String.valueOf(listSupplier.getSelectedItem()));
+						Supplier supplier = (Supplier) listSupplier.getSelectedItem();
 						// add all the information in the TextField
 						fillTextField(supplier);
 						// create the object supplier sell to have the list of product sold by a
@@ -268,7 +269,7 @@ public class SupplierPanel extends JPanel {
 					String unit = (String) queryProd.createProductInfo(nameProduct).getUnit().getName();
 					// check if the price is a numerical value
 					if (isNumeric(tfProductPrice.getText())) {
-						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
+						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " ï¿½/u" };
 						// if the product selected in the comboBox is not already in the table
 						if (listProductInTable.indexOf(listSupplierProduct.getSelectedItem()) == -1) {
 							model.addRow(row); // we add the product to the table
@@ -303,7 +304,8 @@ public class SupplierPanel extends JPanel {
 					// if we change the name of the selected supplier
 					if (!activSupplier.getName().equals(tfSupplierName.getText())) {
 						if (isNameTaken(tfSupplierName.getText()) == false) {
-							querySupp.updatePrepared("name", tfSupplierName.getText(), activSupplier.getName());
+							querySupp.updatePrepared("name", tfSupplierName.getText(),
+									activSupplier.getName());
 							activSupplier.setName(tfSupplierName.getText());
 						} else {
 							JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
@@ -311,24 +313,29 @@ public class SupplierPanel extends JPanel {
 						}
 					}
 					if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
-						querySupp.updatePrepared("adress", tfSupplierAdress.getText(), activSupplier.getName());
+						querySupp.updatePrepared("adress", tfSupplierAdress.getText(),
+								activSupplier.getName());
 					}
 					if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
-						querySupp.updatePrepared("city", tfSupplierTown.getText(), activSupplier.getName());
+						querySupp.updatePrepared("city", tfSupplierTown.getText(),
+								activSupplier.getName());
 					}
 					if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-						querySupp.updatePrepared("contactLastname", tfContactName.getText(), activSupplier.getName());
+						querySupp.updatePrepared("contactLastname", tfContactName.getText(),
+								activSupplier.getName());
 					}
 					if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
 						querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
 								activSupplier.getName());
 					}
 					if (!activSupplier.getContactNumber().equals(tfContactTel.getText())) {
-						querySupp.updatePrepared("contactNumber", tfContactTel.getText(), activSupplier.getName());
+						querySupp.updatePrepared("contactNumber", tfContactTel.getText(),
+								activSupplier.getName());
 					}
 
 					if (!activSupplier.getState().equals(btnSupplierBlock.getText())) {
-						querySupp.updatePrepared("state", btnSupplierBlock.getText(), activSupplier.getName());
+						querySupp.updatePrepared("state", btnSupplierBlock.getText(),
+								activSupplier.getName());
 					}
 
 					modifyFromTable();
@@ -433,16 +440,17 @@ public class SupplierPanel extends JPanel {
 	}
 
 	public static void updateListSupplier() throws Exception {
+
+		
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[0].removeAllItems();
-		Supplier newSupplier = new Supplier("Create New Supplier", "", "", "", "", "", "", Frame.activAdmin.getId());
-		listSuppl.add(newSupplier);
+		combo[0].addItem("Create New Supplier");
 		for (Supplier sup : querySupp.listAllSupplier()) {
 			listSuppl.add(sup);
 		}
 		for (int i = 0; i < listSuppl.size(); i++) {
 			// add the list elements to the search combo box
-			combo[0].addItem(listSuppl.get(i).getName());
+			combo[0].addItem(listSuppl.get(i));
 
 		}
 
@@ -454,7 +462,7 @@ public class SupplierPanel extends JPanel {
 		ArrayList<Product> listProduct = queryProd.listAllProduct();
 		for (int i = 0; i < listProduct.size(); i++) {
 			// add the list elements to the search combo box
-			SupplierPanel.combo[1].addItem(listProduct.get(i).getName());
+			combo[1].addItem(listProduct.get(i).getName()); // faire un tostring pour product et enlever le getName
 
 		}
 	}
@@ -467,7 +475,7 @@ public class SupplierPanel extends JPanel {
 		if (product.size() > 0) {
 			for (int i = 0; i < product.size(); i++) {
 				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-						buyingPrices.get(i) + " €/u" };
+						buyingPrices.get(i) + " ï¿½/u" };
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
 			}
@@ -504,7 +512,7 @@ public class SupplierPanel extends JPanel {
 			list.add((String) combo[0].getItemAt(i));
 		}
 		// if the new name is not already taken
-		if (list.indexOf(name) == -1) {
+		if (list.indexOf(name)==-1) {
 			taken = false;
 		}
 		return taken;

@@ -101,7 +101,7 @@ public class Button extends JButton {
 			}
 		}
 
-		if (name.equals("Launch_Supplier") || (name.equals("Order_Launch")) || (name.equals("Article_Launch"))
+		if (name.equals("OrderArticle_Launch") || name.equals("Launch_Supplier") || (name.equals("Order_Launch")) || (name.equals("Article_Launch"))
 				|| (name.equals("Product_Launch")) || (name.equals("Manage_Launch"))) {
 			nameField = "Launch";
 		}

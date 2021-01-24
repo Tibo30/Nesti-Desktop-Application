@@ -143,6 +143,28 @@ public class QuerySupplierSell extends MyConnection {
 		closeConnection();
 		return flag;
 	}
+	
+	public double getPrice(String productName, String supplierName) throws Exception {
+		openConnection();
+		double price = 0;
+		ResultSet rs;
+		try {
+			String query = "SELECT sell.buying_price FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier WHERE (product.product_name=?) AND (supplier.supplier_name=?);";
+				
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, productName);
+			declaration.setString(2, supplierName);
+
+			rs = declaration.executeQuery();
+			if (rs.next()) {
+			price = rs.getDouble("buying_price");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		return price;
+	}
 
 	public boolean deletePrepared(String productName) throws Exception {
 		boolean success = false;

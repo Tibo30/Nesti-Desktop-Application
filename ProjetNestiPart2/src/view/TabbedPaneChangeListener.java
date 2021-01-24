@@ -19,9 +19,8 @@ import model.QuerySupplier;
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
 	boolean product = false;
-	private QueryAdmin queryAdmin;
+	private QueryAdmin queryAdmin = new QueryAdmin();
 	private QueryProduct queryProd = new QueryProduct();
-
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
@@ -43,18 +42,38 @@ public class TabbedPaneChangeListener implements ChangeListener {
 					e1.printStackTrace();
 				}
 
+			} else if (pane.getSelectedIndex() == 3) {
+				
+				OrderPanel.clearTable();
+				OrderPanel.clearAndEnableFalse();
+				
+				try {					
+					OrderPanel.listOfOrder();
+					OrderPanel.listOfArticle();
+					OrderPanel.listOfSupplier();
+					OrderPanel.listOfProduct();
+					OrderPanel.listOfPackaging();
+					OrderPanel.listState();
+
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+
 			} else if (pane.getSelectedIndex() == 5 && product == false) {
 				product = true;
 				try {
-					ArrayList<Product> listProd = queryProd.listAllProduct();
-
+					ArrayList<Product> listProd =queryProd.listAllProduct();
+				
 					DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
 					for (int i = 0; i < listProd.size(); i++) {
 						// add the list elements to the search combo box
-						// System.out.println(listProd.get(i).getState());
-						Object[] row = { listProd.get(i).getName(), listProd.get(i).getState(),
-								listProd.get(i).getType(), listProd.get(i).getUnit().getName(), "" };
-
+					//	System.out.println(listProd.get(i).getState());
+						Object[] row = { 
+								listProd.get(i).getName(), listProd.get(i).getState(),
+								listProd.get(i).getType(), listProd.get(i).getUnit().getName(),""
+								 };
+						
 						model.addRow(row);
 					}
 
@@ -95,21 +114,23 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				}
 			} else if (pane.getSelectedIndex() == 7) {
 
-				try {
+                try { 
 
-					ArrayList<Admin> listAdmin = queryAdmin.listAllAdmin();
-					for (int i = 0; i < listAdmin.size(); i++) {
+                    ArrayList<Admin> listAdmin =  queryAdmin.listAllAdmin();
+                    for (int i=0; i< listAdmin.size(); i++) {
 
-//                        liste d'objets dans combo avec toString pas besoin de requête
+//                        liste d'objets dans combo avec toString pas besoin de requï¿½te
 
-						ManagePanel.combo.addItem(listAdmin.get(i));
+                        ManagePanel.combo.addItem(listAdmin.get(i));
 
-					}
+                    }
 
-				} catch (Exception e1) {
-					e1.printStackTrace();
 
-				}
+
+                }catch (Exception e1) {
+                    e1.printStackTrace();
+
+                }
 			}
 		}
 	}

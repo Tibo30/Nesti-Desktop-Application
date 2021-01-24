@@ -47,7 +47,7 @@ public class QueryAdmin extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 
 			while (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_login"), rs.getString("admin_lastname"),
@@ -73,7 +73,7 @@ public class QueryAdmin extends MyConnection {
 			declaration.setString(1, login);
 			rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Rï¿½cupï¿½ration des donnï¿½es */
 			if (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
@@ -83,7 +83,7 @@ public class QueryAdmin extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
-		closeConnection();
+
 		return adm;
 	}
 
