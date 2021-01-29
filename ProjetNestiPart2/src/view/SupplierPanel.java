@@ -154,7 +154,6 @@ public class SupplierPanel extends JPanel {
 		};
 		tSupplier.setModel(model);
 		spSupplier.setViewportView(tSupplier);
-		
 		table = tSupplier;
 
 		btnSupplierBlock.addActionListener(new ActionListener() {

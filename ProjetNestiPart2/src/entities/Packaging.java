@@ -29,7 +29,9 @@ public class Packaging {
 	public void setPackagingId(int packagingId) {
 		this.packagingId = packagingId;
 	}
-	
+	public String toString() {
+        return  name ;
+    }
 	
 
 	

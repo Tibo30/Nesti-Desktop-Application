@@ -56,6 +56,7 @@ public class Frame {
 
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
+	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -124,8 +125,8 @@ public class Frame {
 
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 		panelHome.add(lblNewLabel);
-		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
-
+		
+		
 		JLabel lblLogo = new JLabel("");
         lblLogo.setLabelFor(lblLogo);
         lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
@@ -171,6 +172,11 @@ public class Frame {
 		ArticlePanel panelArticle = new ArticlePanel();
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
+		
+		textField = new JTextField();
+		textField.setBounds(391, 91, 60, 31);
+		panelArticle.add(textField);
+		textField.setColumns(10);
 		
 
 		

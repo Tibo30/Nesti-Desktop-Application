@@ -2,15 +2,18 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import entities.Article;
 import entities.Packaging;
 import entities.Product;
 import entities.Supplier;
+import entities.SupplierSell;
 
 public class QueryArticle extends MyConnection {
 	private QueryProduct queryProduct = new QueryProduct();
+	private QuerySupplier querySupplier = new QuerySupplier();
 
 	public ArrayList<Article> listAllArticle() throws Exception {
 		ArrayList<Article> listArticle = new ArrayList<Article>();
@@ -48,7 +51,7 @@ public class QueryArticle extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setInt(1, idArticle);
 			rs = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
+			
 			if (rs.next()) {
 				Packaging packaging = new Packaging(rs.getString("packaging_name"));
 				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
@@ -61,5 +64,71 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return art;
 	}
+	public ArrayList<SupplierSell> giveTableInfo(int idArticle) throws Exception {
+		openConnection();
+	ArrayList<SupplierSell> supSell = new ArrayList<SupplierSell>() ;
+		ResultSet rs;
+		String query = "SELECT supplier.supplier_name, sell.buying_price, product.product_name FROM sell JOIN supplier ON supplier.id_supplier = sell.id_supplier JOIN product ON product.id_product = sell.id_product JOIN article ON article.id_product = product.id_product WHERE article.id_article = ? ";
+		PreparedStatement declaration = accessDataBase.prepareStatement(query);
+		declaration.setInt(1, idArticle);
+		rs = declaration.executeQuery();
+		while (rs.next()) {
+			Supplier sup = querySupplier.createSupplierInfo(rs.getString("supplier_name"));
+			Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
+			SupplierSell  oneSupSell = new SupplierSell(sup,prod, rs.getDouble("buying_price"));	
+			 supSell.add(oneSupSell);
+		}
+		closeConnection();
+		return supSell;
+		}
+	
+	public boolean createPrepared(Article article) throws Exception {
+        openConnection();
+        boolean flag = false;
+        try {
+            String query = "INSERT INTO article(article_quantity,id_packaging,id_admin,id_product) "
+                    + "VALUES (?,(SELECT id_packaging FROM packaging WHERE packaging_name=?),?,(SELECT id_product FROM product WHERE product_name=?))";
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
 
+            declaration.setDouble(1, article.getQuantity());
+            declaration.setString(2, article.getPackaging().getName());
+            declaration.setInt(3, article.getIdAdmin());
+            declaration.setString(4, article.getProduct().getName());
+            
+            
+            int executeUpdate = declaration.executeUpdate();
+            flag = (executeUpdate == 1);
+        } catch (Exception e) {
+            System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
+        }
+        closeConnection();
+        return flag;
+    }
+
+public int createPreparedID(Article article) throws Exception {
+        openConnection();
+        int last_inserted_id=0;
+        try {
+            String query = "INSERT INTO article(article_quantity,id_packaging,id_admin,id_product) "
+                    + "VALUES (?,(SELECT id_packaging FROM packaging WHERE packaging_name=?),?,(SELECT id_product FROM product WHERE product_name=?))";
+            PreparedStatement declaration = accessDataBase.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+
+            declaration.setDouble(1, article.getQuantity());
+            declaration.setString(2, article.getPackaging().getName());
+            declaration.setInt(3, article.getIdAdmin());
+            declaration.setString(4, article.getProduct().getName());
+            
+            
+            int executeUpdate = declaration.executeUpdate();
+            ResultSet rs= declaration.getGeneratedKeys();
+            if(rs.next())
+            {
+            last_inserted_id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
+        }
+        closeConnection();
+        return last_inserted_id;
+    }
 }

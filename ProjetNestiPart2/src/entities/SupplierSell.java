@@ -23,6 +23,7 @@ public class SupplierSell {
 		this.buyingPrice=buyingPrice;
 	}
 
+
 	public Supplier getSupplier() {
 		return supplier;
 	}

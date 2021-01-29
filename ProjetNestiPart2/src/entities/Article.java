@@ -28,6 +28,19 @@ public class Article {
 		this.idAdmin = idAdmin;
 	}
 	
+public Article(int id, double quantity, int realQuant, String state,Date creationDate,Date updateDate,Packaging packaging, Product product) {
+		
+		this.id = id;
+		this.quantity = quantity;
+		this.realQuant = realQuant;
+		this.state = state;
+		this.creationDate=creationDate;
+		this.updateDate=updateDate;
+		this.product = product;
+		this.packaging = packaging;
+		
+	}
+	
 	public Article() {
 		// TODO Auto-generated constructor stub
 	}

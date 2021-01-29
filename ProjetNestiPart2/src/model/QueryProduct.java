@@ -160,6 +160,7 @@ public class QueryProduct extends MyConnection {
 	 * Utilise un switch  type querrry sup l 110
 	 * */
 	public boolean UpdateProductPrepared(String valueChanged, String newValue, String name) throws Exception {
+		System.out.println(valueChanged+"   "+newValue+"  "+name);
         openConnection();
         boolean flag = false;
         try {
@@ -175,17 +176,9 @@ public class QueryProduct extends MyConnection {
 				query = "UPDATE product SET product_state=? WHERE product_name=?";
 				break;
 			case "unit":
-				query = "UPDATE product JOIN unit_measure ON unit_measure.id_unit_measure = product.id_unit_measure SET product.id_unit_measure = ( SELECT id_unit_measure FROM unit_measure WHERE unit_measure_name = '?' ) WHERE (product_name = '?') ";
+				query = "UPDATE product JOIN unit_measure ON unit_measure.id_unit_measure = product.id_unit_measure SET product.id_unit_measure = ( SELECT id_unit_measure FROM unit_measure WHERE unit_measure_name = ? ) WHERE (product_name = ?) ";
 				break;
-			/*case "contactLastname":
-				query = "UPDATE supplier SET supplier_contact_lastname=? WHERE supplier_name=?";
-				break;
-			case "contactFirstname":
-				query = "UPDATE supplier SET supplier_contact_firstname=? WHERE supplier_name=?";
-				break;
-			case "state":
-				query = "UPDATE supplier SET supplier_state=? WHERE supplier_name=?";
-				break;*/
+		
 
 			}
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -200,24 +193,7 @@ public class QueryProduct extends MyConnection {
 		closeConnection();
 		return flag;
 	
-        /*
-        try {
-            String query = "UPDATE product JOIN unit_measure ON unit_measure.id_unit_measure = product.id_unit_measure SET product_name = '?', product_type = '?', product_state = '?', product.id_unit_measure = ( SELECT id_unit_measure FROM unit_measure WHERE unit_measure_name = '?' ) WHERE (product_name = '?')" ;
-           
-            PreparedStatement declaration = accessDataBase.prepareStatement(query);
-       
-            declaration.setString(1, product.getName());
-            declaration.setString(2, product.getType());
-            declaration.setString(3, product.getState());
-            declaration.setString(4, product.getUnit().getName());
-            declaration.setString(5, product.getName());
-            int executeUpdate = declaration.executeUpdate();
-            flag = (executeUpdate == 1);
-        } catch (Exception e) {
-            System.err.println("Erreur d'insertion utilisateur UpdateProductPrepared: " + e.getMessage());
-        }
-        closeConnection();
-        return flag;*/
+      
     } 
 	
 	
