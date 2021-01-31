@@ -10,6 +10,7 @@ import entities.Packaging;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
+import entities.UnitMeasure;
 
 public class QueryArticle extends MyConnection {
 	private QueryProduct queryProduct = new QueryProduct();
@@ -82,6 +83,30 @@ public class QueryArticle extends MyConnection {
 		return supSell;
 		}
 	
+	public ArrayList<UnitMeasure> listUnit() throws Exception {
+		openConnection();
+		ArrayList<UnitMeasure> unit = new ArrayList<UnitMeasure>();
+		
+		try {
+			
+			String query = "SELECT unit_measure_name FROM unit_measure  ";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			ResultSet resultat = declaration.executeQuery();
+			/* R�cup�ration des donn�es */
+			while (resultat.next()) {
+				
+				UnitMeasure unit1 = new UnitMeasure(resultat.getString("unit_measure_name"));
+				
+				unit.add(unit1);
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		
+		return unit;
+	}
+	
 	public boolean createPrepared(Article article) throws Exception {
         openConnection();
         boolean flag = false;
@@ -131,4 +156,6 @@ public int createPreparedID(Article article) throws Exception {
         closeConnection();
         return last_inserted_id;
     }
+
+
 }

@@ -63,8 +63,9 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				}
 			}else if (pane.getSelectedIndex() == 4 ) {
 				try {
-					ArticlePanel.creatListOfArticle();
 					
+					ArticlePanel.creatListOfArticle();
+					ArticlePanel.updateListArticle();
 					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

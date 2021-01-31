@@ -56,7 +56,6 @@ public class Frame {
 
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
-	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -173,10 +172,7 @@ public class Frame {
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
 		
-		textField = new JTextField();
-		textField.setBounds(391, 91, 60, 31);
-		panelArticle.add(textField);
-		textField.setColumns(10);
+		
 		
 
 		

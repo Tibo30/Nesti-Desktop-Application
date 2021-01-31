@@ -18,6 +18,8 @@ public class TextField extends JTextField {
 		this.setForeground(Color.BLACK);
 		this.setFont(new Font("Rockwell Nova", Font.PLAIN, 14));
 
+	
+	
+	
 	}
-
 }
