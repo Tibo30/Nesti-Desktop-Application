@@ -25,7 +25,10 @@ public class Product {
 		
 	}
 	
-
+	@Override
+	public String toString() {
+		return  name ;
+	}
 	
 
 	public String getName() {
@@ -59,7 +62,17 @@ public class Product {
 	public void setUnit(UnitMeasure unit) {
 		this.unit = unit;
 	}
+	
+	
 
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Object[] toRowProduct() {
 		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
