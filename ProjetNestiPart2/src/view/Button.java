@@ -96,6 +96,9 @@ public class Button extends JButton {
 		}
 		if ((name.equals("DEL")) || (name.equals("Block /Unblock selected Element"))) {
 			this.setBackground(new Color(243, 101, 101));
+			if ( name.equals("Unblock selected Element")) {
+				this.setBackground(new Color(0, 0, 101));
+			}
 		}
 
 		if (name.equals("OrderArticle_Launch") || name.equals("Launch_Supplier") || (name.equals("Order_Launch")) || (name.equals("Article_Launch"))

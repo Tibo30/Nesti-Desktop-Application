@@ -38,6 +38,8 @@ public class SupplierPanel extends JPanel {
 	public static Supplier activSupplier;
 	public static SupplierSell activSupplierSell;
 
+	
+
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -266,7 +268,7 @@ public class SupplierPanel extends JPanel {
 					String unit = (String) queryProd.createProductInfo(nameProduct).getUnit().getName();
 					// check if the price is a numerical value
 					if (isNumeric(tfProductPrice.getText())) {
-						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
+						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " ï¿½/u" };
 						// if the product selected in the comboBox is not already in the table
 						if (listProductInTable.indexOf(listSupplierProduct.getSelectedItem()) == -1) {
 							model.addRow(row); // we add the product to the table
@@ -346,7 +348,7 @@ public class SupplierPanel extends JPanel {
 					clearTable();
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					System.out.println("actionPerformed");
 					e1.printStackTrace();
 				}
 			}
@@ -471,7 +473,7 @@ public class SupplierPanel extends JPanel {
 		if (product.size() > 0) {
 			for (int i = 0; i < product.size(); i++) {
 				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-						buyingPrices.get(i) + " €/u" };
+						buyingPrices.get(i) + " ï¿½/u" };
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
 			}

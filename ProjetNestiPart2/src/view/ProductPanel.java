@@ -9,11 +9,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Product;
+import entities.Supplier;
 import entities.UnitMeasure;
 import model.QueryProduct;
 import model.QuerySupplier;
@@ -29,7 +31,7 @@ public class ProductPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	private QueryProduct queryProd;
-	
+	public static Product activProduct;
 	
 	
 	boolean flag;
@@ -37,6 +39,9 @@ public class ProductPanel extends JPanel {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
  this.queryProd = new QueryProduct();
+ 
+ /*Move and change it
+  * */
 		Button btnProductBlock = new Button("Block /Unblock selected Element", 166, 368, 211, 30);
 
 		this.add(btnProductBlock);
@@ -99,13 +104,15 @@ public class ProductPanel extends JPanel {
 				tfProduct.setText((String) table_1.getValueAt(row, 0));
 				listProductUnit.setSelectedItem((String) table_1.getValueAt(row, 3));
 				listProductType.setSelectedItem((String) table_1.getValueAt(row, 2));
-
-				// Product toto = new Product((table_1.getValueAt(row, 0).toString()));
-				// listProductType.setSelectedItem(toto.getType());
-				// System.out.println(toto.getType());
-				// System.out.println(toto.getName());
-				// System.out.println( (table_1.getValueAt(row, 0).toString()));
-				// System.out.println(toto.getType());
+				try {
+					Product Product = queryProd
+							.createProductInfo((String) table_1.getValueAt(row, 0));
+					activProduct = Product;
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 
 			}
 		});
@@ -153,47 +160,90 @@ public class ProductPanel extends JPanel {
 				int row = table_1.getSelectedRow();
 
 			
-				System.out.println(row);
-				DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-				String[] product = { tfProduct.getText(), "Unblocked",
-						combo[1].getSelectedItem().toString(), combo[0].getSelectedItem().toString(), "" };
-				for (int i = 0; i < table_1.getColumnCount(); i++) {
-					model.setValueAt(product[i], row, i);
+				
+				
+				/*TODO 
+				 * **/
 					 try {
-						 //"UPDATE sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier SET sell.buying_price=? WHERE (product.product_name = ?) AND (supplier.supplier_name=?);";
+						if (!activProduct.getName().equals(tfProduct.getText())) {
+							if (SupplierPanel.isNameTaken(tfProduct.getText()) == false) {
+								queryProd.UpdateProductPrepared("name", tfProduct.getText(), activProduct.getName());
+								activProduct.setName(tfProduct.getText());
+							}else {
+								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
+							}
+						}
+						if (!activProduct.getType().equals(listProductType.getSelectedItem().toString())) {
+							queryProd.UpdateProductPrepared("type", listProductType.getSelectedItem().toString(), activProduct.getName());
+						}
+						System.out.println(activProduct.getUnit().getName());
+						System.out.println(listProductUnit.getSelectedItem().toString());
+						if (!activProduct.getUnit().getName().equals(listProductUnit.getSelectedItem().toString())) {
 					
-					 
+							queryProd.UpdateProductPrepared("unit", listProductUnit.getSelectedItem().toString(), activProduct.getName());
+						}
+						/* 
+						String  state = table_1.getValueAt(table_1.getSelectedRow(), 1).toString();
+						 UnitMeasure unitinfo = queryProd.createUnitInfo((String) listProductUnit.getSelectedItem());
+		                    Product pro = new Product(tfProduct.getText(),state,(String) listProductType.getSelectedItem(), unitinfo);
+		            
+		                    queryProd.UpdateProductPrepared(pro);
+						
+		                    activProduct = queryProd.createProductInfo(activProduct.getName());
 					 
 					 }catch (Exception e) {
 		                    // TODO Auto-generated catch block
 		                    e.printStackTrace();
 		                }
-
-				}		 
+*/
+					
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						String[] product = { tfProduct.getText(), "Unblocked",
+								combo[1].getSelectedItem().toString(), combo[0].getSelectedItem().toString(), "" };
+						for (int i = 0; i < table_1.getColumnCount(); i++) {
+							model.setValueAt(product[i], row, i);
+							}
 					 
-				}
+				}catch (Exception e) {
+                   System.out.println("modify error");
+                    e.printStackTrace();
+                }
 			
-		});
+		}});
 
+			/*
+			 * Change to the same of Supplier effect
+			 * */
 		btnProductBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				int row =  table_1.getSelectedRow();
 				boolean only = true;
+				
+				
 				if ( table_1.getValueAt(row, 1).equals("Unblocked") && (only == true)) {
 					// Block
 					only = false;
 					Object toto = "Blocked";
 					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 					model.setValueAt(toto, row, 1);
-
+					
 				} else {
 					only = true;
 					Object toto = "Unblocked";
 					DefaultTableModel model = (DefaultTableModel)  table_1.getModel();
 					model.setValueAt(toto, row, 1);
-
+					
 				}
-				;
+				if (!activProduct.getState().equals(table_1.getValueAt(row, 1))) {
+					try {
+					
+						queryProd.UpdateProductPrepared("state", table_1.getValueAt(row, 1).toString(), activProduct.getName());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 	}
