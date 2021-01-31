@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -256,7 +257,7 @@ public class SupplierPanel extends JPanel {
 		btnSupplierPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String nameProduct = (String) listSupplierProduct.getSelectedItem();
+					String nameProduct = ((Product) listSupplierProduct.getSelectedItem()).getName();
 					ArrayList<String> listProductInTable = new ArrayList<String>();
 					// this loop is used to have the list of the table products.
 					for (int i = 0; i < model.getRowCount(); i++) {
@@ -395,7 +396,7 @@ public class SupplierPanel extends JPanel {
 		// in the database
 		for (int i = 0; i < listProductName.size(); i++) {
 			if (newListProduct.indexOf(listProductName.get(i)) == -1) {
-				querySell.deletePrepared(listProductName.get(i));
+				querySell.deletePrepared(activSupplier,listProductName.get(i));
 			}
 		}
 	}
@@ -458,8 +459,7 @@ public class SupplierPanel extends JPanel {
 		ArrayList<Product> listProduct = queryProd.listAllProduct();
 		for (int i = 0; i < listProduct.size(); i++) {
 			// add the list elements to the search combo box
-			combo[1].addItem(listProduct.get(i).getName()); // faire un tostring pour product et enlever le getName
-
+			combo[1].addItem(listProduct.get(i));
 		}
 	}
 
