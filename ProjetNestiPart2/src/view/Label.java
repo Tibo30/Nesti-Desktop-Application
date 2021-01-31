@@ -17,7 +17,7 @@ public class Label extends JLabel {
 		this.setText(nameField);
 		this.setFont(new Font("Tahoma", Font.BOLD, 15));
 
-		if (name.equals("Search") || name.equals("Launch") || name.equals("Search Article") || name.equals("Search Order")) {
+		if (name.equals("Search") || name.equals("Launch") || name.equals("Search Article") || name.equals("Search Order") || (name.equals("Supplier"))) {
 			this.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 		if (name.equals("Joe Smith") || (name.equals("Welcome"))) {
@@ -30,7 +30,7 @@ public class Label extends JLabel {
 				|| (name.equals("Product Price")) || (name.equals("Unit Product"))|| (name.equals("Supplier Product"))
 				|| (name.equals("Article Ref"))|| (name.equals("Article Name"))|| (name.equals("Quantity Article"))
 				|| (name.equals("Unit Article"))|| (name.equals("Packaging Article"))|| (name.equals("Stock Article"))
-				|| (name.equals("Supplier"))|| (name.equals("Product"))|| (name.equals("Packaging"))|| (name.equals("Quantity"))|| (name.equals("Product Article"))
+				|| (name.equals("Product"))|| (name.equals("Packaging"))|| (name.equals("Quantity Order")) || (name.equals("Quantity"))|| (name.equals("Unit"))|| (name.equals("Product Article"))
 				|| (name.equals("Ingredient"))
 				|| (name.equals("Product Unit"))) {
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));
