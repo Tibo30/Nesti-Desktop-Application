@@ -166,13 +166,14 @@ public class QuerySupplierSell extends MyConnection {
 		return price;
 	}
 
-	public boolean deletePrepared(String productName) throws Exception {
+	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
 		openConnection();
 		try {
-			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product WHERE product.product_name = ?";
+			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON sell.id_supplier = supplier.id_supplier WHERE (product.product_name = ?) AND (supplier.supplier_name = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, productName);
+			declaration.setString(2, supplier.getName());
 			int executeUpdate = declaration.executeUpdate();
 			success = (executeUpdate == 1);
 		} catch (SQLException e) {
