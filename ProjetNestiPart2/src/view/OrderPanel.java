@@ -33,6 +33,7 @@ import model.QueryPackaging;
 import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
+import tools.Check;
 
 public class OrderPanel extends JPanel {
 
@@ -203,31 +204,30 @@ public class OrderPanel extends JPanel {
 						listOrderSupplier.setEnabled(true);
 						// put the articles linked to the chosen supplier in the combobox
 						listOfArticle(order.getSupplier());
-
-						// set enable true for the article launch button and list
-						btnOrderArticleLaunch.setEnabled(true);
-						listArticle.setEnabled(true);
-
 						// fill the table
 						fillOrderTable(order);
 						activOrder = order;
-						if (!order.getState().equals("Waiting")) {
-							listOrderState.setSelectedItem(order.getState().toString());
-						} else {
-							listOrderState.setSelectedItem(order.getState().toString());
-						}
+						activSupplier = order.getSupplier();
+						if (order.getState().equals("Waiting")) {
+							btnOrderAdd.setEnabled(true);
+							btnOrderAdd2.setEnabled(true);
+							btnOrderMinus.setEnabled(true);
+							btnOrderRemove.setEnabled(true);
+							// set enable true for the article launch button and list
+							btnOrderArticleLaunch.setEnabled(true);
+							listArticle.setEnabled(true);
+
+						} 
+						listOrderState.setSelectedItem(order.getState().toString());
 						btnOrderCreate.setEnabled(false);
 						btnOrderModify.setEnabled(true);
-						btnOrderAdd.setEnabled(true);
-						btnOrderAdd2.setEnabled(true);
-						btnOrderMinus.setEnabled(true);
-						btnOrderRemove.setEnabled(true);
+						
 
 					} else { // if it is a new order
 						emptyTextField();
+						listOfSupplier();
 						listOrderSupplier.setEnabled(true);
 						btnOrderModify.setEnabled(false);
-						btnOrderCreate.setEnabled(true);
 						listOrderState.setSelectedItem("Waiting");
 
 					}
@@ -250,6 +250,8 @@ public class OrderPanel extends JPanel {
 						listOrderProduct.getModel().setSelectedItem(activArticle.getProduct());
 						listOrderPackaging.getModel().setSelectedItem(activArticle.getPackaging());
 						tfPackagingQuantity.setText(formatD(activArticle.getQuantity()));
+						System.out.println(activArticle.getQuantity());
+						tfPackagingQuantity.setEditable(false);
 						tfProductUnit.setText(String.valueOf(activArticle.getProduct().getUnit()));
 						editableText(2); // tfQuantity
 						listOrderProduct.setEnabled(false);
@@ -266,9 +268,11 @@ public class OrderPanel extends JPanel {
 						listOrderProduct.setEnabled(true);
 						listOrderPackaging.setEnabled(true);
 						btnOrderAdd.setEnabled(true);
-						listOrderProduct.setSelectedIndex(0);
-						activProduct = (Product) listOrderProduct.getSelectedItem();
-						tfProductUnit.setText(activProduct.getUnit().getName());
+						if (listOrderProduct.getItemCount()>0) {
+							listOrderProduct.setSelectedIndex(0);
+							activProduct = (Product) listOrderProduct.getSelectedItem();
+							tfProductUnit.setText(activProduct.getUnit().getName());
+						}
 
 					}
 //					if (String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
@@ -304,11 +308,13 @@ public class OrderPanel extends JPanel {
 										for (Product product : productSold) {
 											listOrderProduct.addItem(product);
 										}
-
 										btnOrderArticleLaunch.setEnabled(true);
 										listArticle.setEnabled(true);
-										// listOrderProduct.setEnabled(true);
-
+										// if it's a new order and the user click first on select a supplier then a supplier name we have to enable the create button
+										if (String.valueOf(listOrder.getSelectedItem()).equals("Create New Order")) {
+											btnOrderCreate.setEnabled(true);
+										}
+										
 									}
 								}
 							} catch (Exception e) {
@@ -327,31 +333,10 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
-		listOrderSupplier.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (String.valueOf(listOrderSupplier.getSelectedItem()).equals("Select a supplier")) {
-					// listOrderSupplier.setEnabled(true);
-				}
-			}
-
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			public void mouseExited(MouseEvent e) {
-			}
-
-			public void mousePressed(MouseEvent e) {
-			}
-
-			public void mouseReleased(MouseEvent e) {
-			}
-		});
-
 		btnOrderAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if (isNumeric(tfPackagingQuantity.getText()) && isNumeric(tfQuantity.getText())) {
+					if (Check.isNumeric(tfPackagingQuantity.getText()) && Check.isNumeric(tfQuantity.getText())) {
 
 						activSupplier = (Supplier) listOrderSupplier.getSelectedItem();
 
@@ -359,12 +344,18 @@ public class OrderPanel extends JPanel {
 							Article article = new Article(Double.parseDouble(tfPackagingQuantity.getText()), 0,
 									(Packaging) listOrderPackaging.getSelectedItem(),
 									(Product) listOrderProduct.getSelectedItem());
-							article.setIdAdmin(Frame.activAdmin.getId());
-							article.setId(queryArticle.createPreparedID(article));
-							btnOrderAdd2.setEnabled(true);
-							btnOrderMinus.setEnabled(true);
-							btnOrderRemove.setEnabled(true);
-							activArticle = article;
+							// if the created article already exist in the database
+							if (queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity()) == null) {
+								article.setIdAdmin(Frame.activAdmin.getId());
+								article.setId(queryArticle.createPreparedID(article));
+								btnOrderAdd2.setEnabled(true);
+								btnOrderMinus.setEnabled(true);
+								btnOrderRemove.setEnabled(true);
+								activArticle = article;
+							} else {
+								activArticle=queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity());
+							}
+							
 
 						}
 						activArticle.setRealQuant(Integer.parseInt(tfQuantity.getText()));
@@ -389,12 +380,16 @@ public class OrderPanel extends JPanel {
 						}
 
 						// if the article isn't already in the table
-						if (product.indexOf(row[0]) == -1 || packagingColumn.indexOf(row[1]) == -1) {
+						if (product.indexOf(row[1]) == -1 || packagingColumn.indexOf(row[2]) == -1) {
 							model.addRow(row);
+							listOrderProduct.setEnabled(false);
+							listOrderPackaging.setEnabled(false);
+							tfPackagingQuantity.setEditable(false);
+							tfProductUnit.setEditable(false);
+							tfQuantity.setEditable(false);
 						} else {
 							JOptionPane.showMessageDialog(null, "This article is already in the table");
 						}
-						// Vector<Object> rowData = model.getDataVector().elementAt(2);
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Please put a number in both quantity fields");
@@ -412,6 +407,7 @@ public class OrderPanel extends JPanel {
 					if (table_Order.getSelectedRow() != -1) {
 						int row = table_Order.getSelectedRow();
 						int quantity = Integer.parseInt((String) table_Order.getValueAt(row, 3)) + 1;
+						activArticle = queryArticle.createArticleInfo((int) table_Order.getValueAt(row, 0));
 						table_Order.setValueAt(formatI(quantity), row, 3);
 						String totalPrice = calculPrice(activSupplier, activArticle, quantity);
 						model.setValueAt(totalPrice, row, 4);
@@ -429,6 +425,7 @@ public class OrderPanel extends JPanel {
 					if (table_Order.getSelectedRow() != -1) {
 						int row = table_Order.getSelectedRow();
 						int quantity = Integer.parseInt((String) table_Order.getValueAt(row, 3)) - 1;
+						activArticle = queryArticle.createArticleInfo((int) table_Order.getValueAt(row, 0));
 						table_Order.setValueAt(formatI(quantity), row, 3);
 						String totalPrice = calculPrice(activSupplier, activArticle, quantity);
 						model.setValueAt(totalPrice, row, 4);
@@ -469,9 +466,11 @@ public class OrderPanel extends JPanel {
 									String selectedItem = String.valueOf(cb.getSelectedItem());
 									if (!selectedItem.equals(activOrder.getState())) {
 										int answer = JOptionPane.showConfirmDialog(null,
-												"Are you sure thant you want to switch to" + selectedItem,"PLEASE CONFIRM",JOptionPane.OK_CANCEL_OPTION);
-										if (answer==2) {
-											listOrderState.setSelectedItem(activOrder.getState());;
+												"Are you sure thant you want to switch to" + selectedItem,
+												"PLEASE CONFIRM", JOptionPane.OK_CANCEL_OPTION);
+										if (answer == 2) {
+											listOrderState.setSelectedItem(activOrder.getState());
+											;
 										}
 									}
 								}
@@ -486,13 +485,116 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
-//		listOrderState.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				// faire apparaitre un JOPTION Pane ou autre pour confirmer le changement d'état
-//				JOptionPane.showConfirmDialog(null, "Are you sure ?");
-//			}
-//		});
+		btnOrderModify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					// if the state changed
+					if (!listOrderState.getSelectedItem().equals((String) activOrder.getState())) {
+						queryOrder.updatePreparedOrder("state", (String) listOrderState.getSelectedItem(),
+								activOrder.getId());
+						JOptionPane.showMessageDialog(null, "The state of the order has been changed");
+						// if "accepted" we change the validation date
+						if (listOrderState.getSelectedItem().equals("Accepted")) {
+							queryOrder.updatePreparedOrder("validation", "current_timestamp", activOrder.getId());
+						} // if "received" we change the delivery date
+						else if (listOrderState.getSelectedItem().equals("Received")) {
+							queryOrder.updatePreparedOrder("delivery", "current_timestamp", activOrder.getId());
+						} // if "blocked" we set NULL both dates
+						else if (listOrderState.getSelectedItem().equals("Blocked")) {
+							queryOrder.updatePreparedOrder("delivery", "NULL", activOrder.getId());
+							queryOrder.updatePreparedOrder("validation", "NULL", activOrder.getId());
+						}
+					}
+					
+					if (listOrderState.getSelectedItem().equals("Waiting")) {
+						modifyFromTable();
+					}
+					
+					clearAndEnableFalse();
+					clearTable();
+					listOfOrder();
+					listOfArticle();
 
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		btnOrderCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Order order = new Order ((String) listOrderState.getSelectedItem(),activSupplier,Frame.activAdmin.getId());
+					int idOrder = queryOrder.createPreparedOrderId(order);
+					for (int i=0;i<model.getRowCount();i++) {
+						int idArticle = (int) model.getValueAt(i, 0);
+						int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
+						OrderLine orderline = new OrderLine(idArticle, idOrder,quantity);
+						queryOrder.createPreparedOrderLine(orderline);
+					}
+					clearAndEnableFalse();
+					clearTable();
+					listOfOrder();
+					listOfArticle();
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+	}
+	
+	public void modifyFromTable() throws Exception {
+	
+			ArrayList<Article> newListArticle = new ArrayList<Article>();
+			ArrayList<Article> listArticleDatabase = new ArrayList<Article>();
+			ArrayList<OrderLine> newListOrderLine = new ArrayList<OrderLine>();
+			ArrayList<Integer> newListOrderLineIdArticle = new ArrayList<Integer>();
+			ArrayList<OrderLine> listOrderLineDatabase= new ArrayList<OrderLine>();
+			ArrayList<Integer> listOrderLineIdArticleDatabase = new ArrayList<Integer>();
+			ArrayList<Integer> listOrderLineQuantityDatabase= new ArrayList<Integer>();
+			
+			// in this loop, we collect the list of orderlines from the table
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			for (int i = 0; i < model.getRowCount(); i++) {
+				// add orderlines from table
+				int iDArticle = (int) model.getValueAt(i, 0);
+				int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
+				OrderLine orderLine = new OrderLine(iDArticle,activOrder.getId(),quantity);
+				newListOrderLine.add(orderLine);
+				newListOrderLineIdArticle.add(orderLine.getIdArticle());
+			}
+			// create the list of the orderlines from the database for this order
+			listOrderLineDatabase=queryOrder.listAllOrderLine(activOrder.getId());
+			for (int i = 0; i < listOrderLineDatabase.size(); i++) {
+				listOrderLineIdArticleDatabase.add(listOrderLineDatabase.get(i).getIdArticle());
+				listOrderLineQuantityDatabase.add(listOrderLineDatabase.get(i).getQuantity());
+			}
+			// we look over the list of orderlines from the table
+			for (int i = 0; i < newListOrderLine.size(); i++) {
+				// if an orderline from the table is not already in the database, we add it
+				if (listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle()) == -1) {
+					OrderLine newOrderLine = new OrderLine (newListOrderLine.get(i).getIdArticle(),activOrder.getId(),newListOrderLine.get(i).getQuantity());
+					queryOrder.createPreparedOrderLine(newOrderLine);
+				} else {
+					// if an orderline from the table is already in the database but the quantity is
+					// different
+					int index = listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle());
+					if (!String.valueOf(newListOrderLine.get(i).getQuantity())
+							.equals(String.valueOf(listOrderLineQuantityDatabase.get(index)))) {
+						queryOrder.updatePreparedQuantityOrderLine(newListOrderLine.get(i).getQuantity(), activOrder.getId(), listOrderLineIdArticleDatabase.get(index));
+					}
+				}
+			}
+			// if an orderline is in the database but not in the table (delete), we delete it
+			// in the database
+			for (int i = 0; i < listOrderLineIdArticleDatabase.size(); i++) {
+				if (newListOrderLineIdArticle.indexOf(listOrderLineIdArticleDatabase.get(i)) == -1) {
+				queryOrder.deletePreparedOrderLine(activOrder.getId(), listOrderLineIdArticleDatabase.get(i));
+				}
+			}
+		
 	}
 
 	public static void listOfOrder() throws Exception {
@@ -656,7 +758,8 @@ public class OrderPanel extends JPanel {
 						+ unit;
 
 				String totalPrice = calculPrice(supplier, article.get(i), quantity);
-				Object[] row = { article.get(i).getId(),article.get(i).getProduct(), packaging, formatI(quantity), totalPrice }; 
+				Object[] row = { article.get(i).getId(), article.get(i).getProduct(), packaging, formatI(quantity),
+						totalPrice };
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
 			}
@@ -677,17 +780,6 @@ public class OrderPanel extends JPanel {
 				+ article.getProduct().getUnit() + " x " + quantity + " = " + (valueTotalPrice) + "€";
 
 		return totalPrice;
-	}
-
-	public static boolean isNumeric(String str) {
-		boolean numeric = false;
-		try {
-			Double.parseDouble(str);
-			return true;
-		} catch (NumberFormatException e) {
-			System.err.println("Erreur numeric : " + e.getMessage());
-		}
-		return numeric;
 	}
 
 	/**
@@ -715,23 +807,5 @@ public class OrderPanel extends JPanel {
 		String resultFormat = df.format(number);
 		return resultFormat;
 	}
-
-//	public static void addArticleToTable(Article article) {
-//		String unit = article.getProduct().getUnit().getName();
-//		String packaging = article.getPackaging().getName() + " de " + article.getQuantity() + " "
-//				+ unit;
-//		double buyingPrice = querySupplierSell.getPrice(article.get(i).getProduct().getName(),
-//				orderSelected.getSupplier().getName());
-//		double quantity = orderLine.get(i).getQuantity();
-//		double valueTotalPrice = article.get(i).getQuantity() * quantity * buyingPrice;
-//		String totalPrice = buyingPrice + "€/" +article.get(i).getProduct().getUnit() + " x "
-//				+ article.get(i).getQuantity() + article.get(i).getProduct().getUnit() + " x " + quantity + " = "
-//				+ (valueTotalPrice) + "€";
-//		
-//		// rajouter un toString à product avec juste le nom
-//		Object[] row = { article.get(i).getProduct(), packaging, quantity,totalPrice};
-//		DefaultTableModel model = (DefaultTableModel) table.getModel();
-//		model.addRow(row);
-//	}
 
 }
