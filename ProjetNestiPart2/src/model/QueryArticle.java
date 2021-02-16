@@ -113,6 +113,7 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return art;
 	}
+
 	
 	public boolean createPrepared(Article article) throws Exception {
 		openConnection();
@@ -162,6 +163,34 @@ public class QueryArticle extends MyConnection {
 		}
 		closeConnection();
 		return last_inserted_id;
+	}
+	
+	
+	public Article checkArticle(String product, String packaging, double quantity) throws Exception {
+		openConnection();
+		Article art = null;
+		ResultSet rs;
+		try {
+			String query = "SELECT * FROM article JOIN product ON article.id_product = product.id_product JOIN packaging ON article.id_packaging = packaging.id_packaging WHERE (product.product_name=?) AND (packaging.packaging_name=?) AND (article.article_quantity=?);";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, product);
+			declaration.setString(2, packaging);
+			declaration.setDouble(3, quantity);
+			rs = declaration.executeQuery();
+			/* R�cup�ration des donn�es */
+			if (rs.next()) {
+				Packaging pack = new Packaging(rs.getString("packaging_name"));
+				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
+				art = new Article(rs.getInt("article.id_article"), rs.getDouble("article_quantity"),
+						rs.getInt("article_quantity_real_stock"), rs.getString("article_state"),
+						rs.getDate("article_creation_date"), rs.getDate("article_update_date"), pack, prod,
+						rs.getInt("id_admin"));
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		return art;
 	}
 	
 	
