@@ -19,6 +19,7 @@ import model.QueryAdmin;
 import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
+import tools.Check;
 
 public class SupplierPanel extends JPanel {
 
@@ -31,21 +32,19 @@ public class SupplierPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	public static JTable table;
-	
+
 	static QuerySupplier querySupp;
 	static QuerySupplierSell querySell;
 	static QueryProduct queryProd;
 	public static Supplier activSupplier;
 	public static SupplierSell activSupplierSell;
 
-	
-
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
-		querySupp=new QuerySupplier();
-		querySell=new QuerySupplierSell();
-		queryProd=new QueryProduct();
+		querySupp = new QuerySupplier();
+		querySell = new QuerySupplierSell();
+		queryProd = new QueryProduct();
 
 		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
 		this.add(btnSupplierLaunch);
@@ -155,7 +154,7 @@ public class SupplierPanel extends JPanel {
 		};
 		tSupplier.setModel(model);
 		spSupplier.setViewportView(tSupplier);
-		
+
 		table = tSupplier;
 
 		btnSupplierBlock.addActionListener(new ActionListener() {
@@ -224,27 +223,28 @@ public class SupplierPanel extends JPanel {
 				try {
 					// if the name is not already taken
 					if (isNameTaken(tfSupplierName.getText()) == false) {
-						System.out.println(isNameTaken(tfSupplierName.getText()));
-						System.out.println(tfSupplierName.getText());
-						Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
-								tfSupplierTown.getText(), tfContactName.getText(), tfContactFirstname.getText(),
-								tfContactTel.getText(), "Unblocked", Frame.activAdmin.getId());
+						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
+							Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
+									tfSupplierTown.getText(), tfContactName.getText(), tfContactFirstname.getText(),
+									tfContactTel.getText(), "Unblocked", Frame.activAdmin.getId());
 
-						querySupp.createPrepared(supplCreate);
-						// if we added product in the table, we have to add it to the database
-						DefaultTableModel model = (DefaultTableModel) table.getModel();
-						for (int i = 0; i < model.getRowCount(); i++) {
-							System.out.println("test");
-							Product prod = queryProd.createProductInfo((String) model.getValueAt(i, 0));
-							double price = Double.parseDouble(((String) model.getValueAt(i, 2)).split(" ")[0]);
-							SupplierSell supplSellCreate = new SupplierSell(supplCreate, prod, price);
-							querySell.createPrepared(supplSellCreate);
+							querySupp.createPrepared(supplCreate);
+							// if we added product in the table, we have to add it to the database
+							DefaultTableModel model = (DefaultTableModel) table.getModel();
+							for (int i = 0; i < model.getRowCount(); i++) {
+								Product prod = queryProd.createProductInfo((String) model.getValueAt(i, 0));
+								double price = Double.parseDouble(((String) model.getValueAt(i, 2)).split(" ")[0]);
+								SupplierSell supplSellCreate = new SupplierSell(supplCreate, prod, price);
+								querySell.createPrepared(supplSellCreate);
+							}
+							// update supplier list in the combo box
+							updateListSupplier();
+							// clearAll
+							clearAndEnableFalse();
+							clearTable();
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
 						}
-						// update supplier list in the combo box
-						updateListSupplier();
-						// clearAll
-						clearAndEnableFalse();
-						clearTable();
 
 					} else {
 						JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
@@ -268,7 +268,7 @@ public class SupplierPanel extends JPanel {
 					String unit = (String) queryProd.createProductInfo(nameProduct).getUnit().getName();
 					// check if the price is a numerical value
 					if (isNumeric(tfProductPrice.getText())) {
-						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " ï¿½/u" };
+						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
 						// if the product selected in the comboBox is not already in the table
 						if (listProductInTable.indexOf(listSupplierProduct.getSelectedItem()) == -1) {
 							model.addRow(row); // we add the product to the table
@@ -303,39 +303,69 @@ public class SupplierPanel extends JPanel {
 					// if we change the name of the selected supplier
 					if (!activSupplier.getName().equals(tfSupplierName.getText())) {
 						if (isNameTaken(tfSupplierName.getText()) == false) {
-							querySupp.updatePrepared("name", tfSupplierName.getText(),
-									activSupplier.getName());
-							activSupplier.setName(tfSupplierName.getText());
+							if (tfSupplierName.getText().length() <= 50) {
+								querySupp.updatePrepared("name", tfSupplierName.getText(), activSupplier.getName());
+								activSupplier.setName(tfSupplierName.getText());
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a name with a maximum of 50 characters, spaces includes");
+								return; // the rest of the method is not used if this condition is not respected !
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
 					if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
-						querySupp.updatePrepared("adress", tfSupplierAdress.getText(),
-								activSupplier.getName());
+						if (tfSupplierAdress.getText().length() <= 250) {
+							querySupp.updatePrepared("adress", tfSupplierAdress.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter an adress with a maximum of 250 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
-						querySupp.updatePrepared("city", tfSupplierTown.getText(),
-								activSupplier.getName());
+						if (tfSupplierTown.getText().length() <= 50) {
+							querySupp.updatePrepared("city", tfSupplierTown.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a city with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-						querySupp.updatePrepared("contactLastname", tfContactName.getText(),
-								activSupplier.getName());
+						if (tfContactName.getText().length() <= 50) {
+							querySupp.updatePrepared("contactLastname", tfContactName.getText(),
+									activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a name with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
-						querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
-								activSupplier.getName());
+						if (tfContactFirstname.getText().length()<=50) {
+							querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
+									activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a firstname with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactNumber().equals(tfContactTel.getText())) {
-						querySupp.updatePrepared("contactNumber", tfContactTel.getText(),
-								activSupplier.getName());
+						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
+							querySupp.updatePrepared("contactNumber", tfContactTel.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 
 					if (!activSupplier.getState().equals(btnSupplierBlock.getText())) {
-						querySupp.updatePrepared("state", btnSupplierBlock.getText(),
-								activSupplier.getName());
-					}
+						querySupp.updatePrepared("state", btnSupplierBlock.getText(), activSupplier.getName());
+					} 
 
 					modifyFromTable();
 					// update in the program the activ supplier and activSupplierSell objects
@@ -348,7 +378,6 @@ public class SupplierPanel extends JPanel {
 					clearTable();
 
 				} catch (Exception e1) {
-					System.out.println("actionPerformed");
 					e1.printStackTrace();
 				}
 			}
@@ -398,7 +427,7 @@ public class SupplierPanel extends JPanel {
 		// in the database
 		for (int i = 0; i < listProductName.size(); i++) {
 			if (newListProduct.indexOf(listProductName.get(i)) == -1) {
-				querySell.deletePrepared(activSupplier,listProductName.get(i));
+				querySell.deletePrepared(activSupplier, listProductName.get(i));
 			}
 		}
 	}
@@ -440,7 +469,6 @@ public class SupplierPanel extends JPanel {
 
 	public static void updateListSupplier() throws Exception {
 
-		
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[0].removeAllItems();
 		combo[0].addItem("Create New Supplier");
@@ -473,7 +501,7 @@ public class SupplierPanel extends JPanel {
 		if (product.size() > 0) {
 			for (int i = 0; i < product.size(); i++) {
 				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-						buyingPrices.get(i) + " ï¿½/u" };
+						buyingPrices.get(i) + " €/u" };
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
 			}
@@ -510,7 +538,7 @@ public class SupplierPanel extends JPanel {
 			list.add((String) combo[0].getItemAt(i));
 		}
 		// if the new name is not already taken
-		if (list.indexOf(name)==-1) {
+		if (list.indexOf(name) == -1) {
 			taken = false;
 		}
 		return taken;
