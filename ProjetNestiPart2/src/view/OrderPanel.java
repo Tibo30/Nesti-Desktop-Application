@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Vector;
@@ -119,9 +120,15 @@ public class OrderPanel extends JPanel {
 
 		Label lblOrderQuantity = new Label("Quantity Order", 424, 95, 86, 23);
 		this.add(lblOrderQuantity);
+		
+		Label lblAccepted = new Label ("Date", 50,345,250,20);
+		this.add(lblAccepted);
+		
+		Label lblDelivered = new Label ("Date", 400,345,250,20);
+		this.add(lblDelivered);
 
 		Label[] orderLabel = { lblArticleSearch, lblOrderSearch, lblSupplierOrder, lblOrderProduct, lblOrderPackaging,
-				lblPackagingQuantity, lblProductUnit, lblOrderQuantity };
+				lblPackagingQuantity, lblProductUnit, lblOrderQuantity, lblAccepted,lblDelivered };
 		label = orderLabel;
 
 		TextField tfPackagingQuantity = new TextField("Quantity", 304, 118, 50, 20);
@@ -191,6 +198,7 @@ public class OrderPanel extends JPanel {
 				try {
 					clearTable();
 					clearAndEnableFalse();
+					listState();
 					listOrderState.setEnabled(true);
 
 					if (!String.valueOf(listOrder.getSelectedItem()).equals("Create New Order")) {
@@ -198,10 +206,20 @@ public class OrderPanel extends JPanel {
 						// get the object order from the database according to the name selected
 						// in the search combo box
 						Order order = (Order) listOrder.getSelectedItem();
+							
+						SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm:ss");
+						if (order.getValidationDate()!=null) {
+							System.out.println(order.getValidationDate());
+							lblAccepted.setText("Validation Date : " + format.format(order.getValidationDate()));
+						} 
+						if (order.getDeliveryDate()!=null) {
+							lblDelivered.setText("Delivery Date : " + format.format(order.getDeliveryDate()));
+						}
+						
 						// put the name of the supplier for this order in the combobox
 						listOrderSupplier.removeAllItems();
 						listOrderSupplier.addItem((Supplier) order.getSupplier());
-						listOrderSupplier.setEnabled(true);
+						
 						// put the articles linked to the chosen supplier in the combobox
 						listOfArticle(order.getSupplier());
 						// fill the table
@@ -219,9 +237,13 @@ public class OrderPanel extends JPanel {
 
 						} 
 						listOrderState.setSelectedItem(order.getState().toString());
+						
+						// if the order is already received, nothing can be done
+						if (!order.getState().equals("Received")) {
+						listOrderSupplier.setEnabled(true);
 						btnOrderCreate.setEnabled(false);
 						btnOrderModify.setEnabled(true);
-						
+						}
 
 					} else { // if it is a new order
 						emptyTextField();
@@ -229,6 +251,7 @@ public class OrderPanel extends JPanel {
 						listOrderSupplier.setEnabled(true);
 						btnOrderModify.setEnabled(false);
 						listOrderState.setSelectedItem("Waiting");
+						listOrderState.removeItem("Received");
 
 					}
 
@@ -495,19 +518,27 @@ public class OrderPanel extends JPanel {
 						JOptionPane.showMessageDialog(null, "The state of the order has been changed");
 						// if "accepted" we change the validation date
 						if (listOrderState.getSelectedItem().equals("Accepted")) {
-							queryOrder.updatePreparedOrder("validation", "current_timestamp", activOrder.getId());
+							System.out.println("ici");
+							queryOrder.updatePreparedOrder("validation", "CURRENT_TIMESTAMP", activOrder.getId());
 						} // if "received" we change the delivery date
 						else if (listOrderState.getSelectedItem().equals("Received")) {
-							queryOrder.updatePreparedOrder("delivery", "current_timestamp", activOrder.getId());
+							queryOrder.updatePreparedOrder("delivery", "CURRENT_TIMESTAMP", activOrder.getId());
 						} // if "blocked" we set NULL both dates
 						else if (listOrderState.getSelectedItem().equals("Blocked")) {
-							queryOrder.updatePreparedOrder("delivery", "NULL", activOrder.getId());
-							queryOrder.updatePreparedOrder("validation", "NULL", activOrder.getId());
+							queryOrder.updatePreparedOrder("blocked", "NULL", activOrder.getId());
 						}
 					}
 					
 					if (listOrderState.getSelectedItem().equals("Waiting")) {
 						modifyFromTable();
+					}
+					
+					if (listOrderState.getSelectedItem().equals("Received")) {
+						for (int i=0;i<model.getRowCount();i++) {
+							int idArticle = (int) model.getValueAt(i, 0);
+							int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
+							queryArticle.updatePrepared("quantityStock", String.valueOf(quantity), idArticle);
+						}
 					}
 					
 					clearAndEnableFalse();
@@ -707,6 +738,10 @@ public class OrderPanel extends JPanel {
 		combo[3].setEnabled(false);
 		combo[4].setEnabled(false);
 		combo[5].setEnabled(false);
+		
+		label[8].setText("");
+		label[9].setText("");
+		
 	}
 
 	public static void editableText() {
