@@ -31,8 +31,8 @@ public class QueryOrder extends MyConnection {
 			/* R�cup�ration des donn�es */
 			while (rs.next()) {
 				Supplier supplier = querySupplier.createSupplierInfo(rs.getString("supplier_name"));
-				ord = new Order(rs.getInt("id_order"), rs.getDate("order_validation_date"),
-						rs.getDate("order_delivery_date"), rs.getString("order_state"), supplier,
+				ord = new Order(rs.getInt("id_order"), rs.getTimestamp("order_validation_date"),
+						rs.getTimestamp("order_delivery_date"), rs.getString("order_state"), supplier,
 						rs.getInt("id_admin"));
 				listOrder.add(ord);
 			}
@@ -74,7 +74,7 @@ public class QueryOrder extends MyConnection {
 			if (order.getState().equals("Accepted")) {
 				query = "INSERT INTO `request_order`(order_validation_date, order_state,id_supplier,id_admin) VALUES (CURRENT_TIMESTAMP,?,?,?)";
 			} else if (order.getState().equals("Received")) {
-				query = "INSERT INTO `request_order`(order_delivery_date, order_state,id_supplier,id_admin) VALUES (CURRENT_TIMESTAMP,?,?,?)";
+				query = "INSERT INTO `request_order`(order_validation_date, order_delivery_date, order_state,id_supplier,id_admin) VALUES (CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,?,?)";
 			} else {
 				query = "INSERT INTO `request_order`(order_state,id_supplier,id_admin) VALUES (?,?,?)";
 			}
@@ -127,15 +127,23 @@ public class QueryOrder extends MyConnection {
 				query = "UPDATE request_order SET order_state=? WHERE id_order=?";
 				break;
 			case "validation":
-				query = "UPDATE request_order SET order_validation_date=? WHERE id_order=?";
+				query = "UPDATE request_order SET order_validation_date=CURRENT_TIMESTAMP WHERE id_order=?";
 				break;
 			case "delivery":
-				query = "UPDATE request_order SET order_delivery_date=? WHERE id_order=?";
+				query = "UPDATE request_order SET order_delivery_date=CURRENT_TIMESTAMP WHERE id_order=?";
+				break;
+			case "blocked":
+				query ="UPDATE request_order SET order_delivery_date=NULL, order_validation_date=NULL WHERE id_order=?";
 				break;
 			}
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			declaration.setString(1, newValue);
-			declaration.setInt(2, iD);
+			if (valueChanged.equals("state")) {
+				declaration.setString(1, newValue);
+				declaration.setInt(2, iD);
+			} else {
+				declaration.setInt(1, iD);
+			}
+			
 
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
