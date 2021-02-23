@@ -114,7 +114,6 @@ public class QueryArticle extends MyConnection {
 		return art;
 	}
 
-	
 	public boolean createPrepared(Article article) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -127,8 +126,7 @@ public class QueryArticle extends MyConnection {
 			declaration.setString(2, article.getPackaging().getName());
 			declaration.setInt(3, article.getIdAdmin());
 			declaration.setString(4, article.getProduct().getName());
-			
-			
+
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
@@ -137,26 +135,24 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return flag;
 	}
-	
+
 	public int createPreparedID(Article article) throws Exception {
 		openConnection();
-		int last_inserted_id=0;
+		int last_inserted_id = 0;
 		try {
 			String query = "INSERT INTO `article`(article_quantity,id_packaging,id_admin,id_product) "
 					+ "VALUES (?,(SELECT id_packaging FROM packaging WHERE packaging_name=?),?,(SELECT id_product FROM product WHERE product_name=?))";
-			PreparedStatement declaration = accessDataBase.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement declaration = accessDataBase.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			declaration.setDouble(1, article.getQuantity());
 			declaration.setString(2, article.getPackaging().getName());
 			declaration.setInt(3, article.getIdAdmin());
 			declaration.setString(4, article.getProduct().getName());
-			
-			
+
 			int executeUpdate = declaration.executeUpdate();
-			ResultSet rs= declaration.getGeneratedKeys();
-			if(rs.next())
-			{
-			last_inserted_id = rs.getInt(1);
+			ResultSet rs = declaration.getGeneratedKeys();
+			if (rs.next()) {
+				last_inserted_id = rs.getInt(1);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
@@ -164,8 +160,7 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return last_inserted_id;
 	}
-	
-	
+
 	public Article checkArticle(String product, String packaging, double quantity) throws Exception {
 		openConnection();
 		Article art = null;
@@ -192,7 +187,29 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return art;
 	}
-	
-	
+
+	public boolean updatePrepared(String valueChanged, String newValue, int iD) throws Exception {
+		openConnection();
+		boolean flag = false;
+		try {
+			String query = "";
+			switch (valueChanged) {
+			case "quantityStock":
+				query = "UPDATE article SET article_quantity_real_stock=article_quantity_real_stock+? WHERE id_article=?";
+				break;
+			}
+
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, newValue);
+			declaration.setInt(2, iD);
+
+			int executeUpdate = declaration.executeUpdate();
+			flag = (executeUpdate == 1);
+		} catch (Exception e) {
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		return flag;
+	}
 
 }
