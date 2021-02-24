@@ -239,10 +239,12 @@ public class OrderPanel extends JPanel {
 						listOrderState.setSelectedItem(order.getState().toString());
 						
 						// if the order is already received, nothing can be done
-						if (!order.getState().equals("Received")) {
-						listOrderSupplier.setEnabled(true);
-						btnOrderCreate.setEnabled(false);
-						btnOrderModify.setEnabled(true);
+						if (order.getState().equals("Received")) {
+							listOrderState.setEnabled(false);
+						} else {
+							listOrderSupplier.setEnabled(true);
+							btnOrderCreate.setEnabled(false);
+							btnOrderModify.setEnabled(true);
 						}
 
 					} else { // if it is a new order
@@ -539,6 +541,7 @@ public class OrderPanel extends JPanel {
 							int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
 							queryArticle.updatePrepared("quantityStock", String.valueOf(quantity), idArticle);
 						}
+						JOptionPane.showMessageDialog(null, "The order is received, quantities has been added to the articles");
 					}
 					
 					clearAndEnableFalse();
@@ -563,6 +566,7 @@ public class OrderPanel extends JPanel {
 						OrderLine orderline = new OrderLine(idArticle, idOrder,quantity);
 						queryOrder.createPreparedOrderLine(orderline);
 					}
+					JOptionPane.showMessageDialog(null, "The order has been added");
 					clearAndEnableFalse();
 					clearTable();
 					listOfOrder();
@@ -810,7 +814,7 @@ public class OrderPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		double valueTotalPrice = article.getQuantity() * quantity * buyingPrice;
+		double valueTotalPrice = Math.round((article.getQuantity() * quantity * buyingPrice)*100.0)/100.0;
 		String totalPrice = buyingPrice + "€/" + article.getProduct().getUnit() + " x " + article.getQuantity()
 				+ article.getProduct().getUnit() + " x " + quantity + " = " + (valueTotalPrice) + "€";
 
