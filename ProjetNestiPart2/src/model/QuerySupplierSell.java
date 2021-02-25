@@ -72,8 +72,7 @@ public class QuerySupplierSell extends MyConnection {
 			rs = declaration.executeQuery();
 			while (rs.next()) {
 				UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
-				Product product = new Product(rs.getString("product_name"), rs.getString("product_type"),
-						rs.getString("product_state"), unit);
+				Product product = new Product(rs.getString("product_name"), rs.getString("product_state"),rs.getString("product_type"), unit);
 				products.add(product);
 				buyingPrices.add(rs.getDouble("buying_price"));
 
