@@ -130,7 +130,7 @@ public class QueryProduct extends MyConnection {
             /* R�cup�ration des donn�es */
             if (rs.next()) {
                 UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
-                prod = new Product(rs.getString("product_name"),rs.getString("product_type"), rs.getString("product_state"), unit);
+                prod = new Product(rs.getString("product_name"), rs.getString("product_state"),rs.getString("product_type"), unit);
             }
         } catch (Exception e) {
             System.err.println("Erreur d'affichage d'utilisateur createProductInfo: " + e.getMessage());
