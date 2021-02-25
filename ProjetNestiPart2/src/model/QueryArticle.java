@@ -195,7 +195,7 @@ public class QueryArticle extends MyConnection {
 			String query = "";
 			switch (valueChanged) {
 			case "quantityStock":
-				query = "UPDATE article SET article_quantity_real_stock=article_quantity_real_stock+? WHERE id_article=?";
+				query = "UPDATE article SET article_quantity_real_stock=? WHERE id_article=?";
 				break;
 			}
 
