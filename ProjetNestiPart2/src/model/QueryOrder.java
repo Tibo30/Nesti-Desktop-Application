@@ -135,6 +135,9 @@ public class QueryOrder extends MyConnection {
 			case "blocked":
 				query ="UPDATE request_order SET order_delivery_date=NULL, order_validation_date=NULL WHERE id_order=?";
 				break;
+			case "waiting":
+				query ="UPDATE request_order SET order_delivery_date=NULL, order_validation_date=NULL WHERE id_order=?";
+				break;
 			}
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			if (valueChanged.equals("state")) {
