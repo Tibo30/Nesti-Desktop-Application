@@ -331,7 +331,10 @@ public class OrderPanel extends JPanel {
 										supplierSell = querySupplierSell.createSupplierSellInfo(activSupplier);
 										ArrayList<Product> productSold = supplierSell.getProducts();
 										for (Product product : productSold) {
-											listOrderProduct.addItem(product);
+											if (!product.getState().equals("Blocked")) {
+												System.out.println(product.getState());
+												listOrderProduct.addItem(product);
+											}
 										}
 										btnOrderArticleLaunch.setEnabled(true);
 										listArticle.setEnabled(true);
@@ -528,11 +531,15 @@ public class OrderPanel extends JPanel {
 						} // if "blocked" we set NULL both dates
 						else if (listOrderState.getSelectedItem().equals("Blocked")) {
 							queryOrder.updatePreparedOrder("blocked", "NULL", activOrder.getId());
+						} // if the user chose to get back to waiting, we set NULL both dates
+						else if (listOrderState.getSelectedItem().equals("Waiting")) {
+							queryOrder.updatePreparedOrder("waiting", "NULL", activOrder.getId());
 						}
 					}
 					
 					if (listOrderState.getSelectedItem().equals("Waiting")) {
 						modifyFromTable();
+						JOptionPane.showMessageDialog(null, "The order has been update");
 					}
 					
 					if (listOrderState.getSelectedItem().equals("Received")) {
@@ -540,6 +547,7 @@ public class OrderPanel extends JPanel {
 							int idArticle = (int) model.getValueAt(i, 0);
 							int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
 							queryArticle.updatePrepared("quantityStock", String.valueOf(quantity), idArticle);
+							System.out.println("ID : "+idArticle+"/ quantity : "+quantity);
 						}
 						JOptionPane.showMessageDialog(null, "The order is received, quantities has been added to the articles");
 					}
@@ -641,7 +649,7 @@ public class OrderPanel extends JPanel {
 			listOrder.add(ord);
 		}
 		for (int i = 0; i < listOrder.size(); i++) {
-			// add the list elements to the search combo box
+			// add the list of order to the combo box
 			combo[0].addItem(listOrder.get(i));
 
 		}
@@ -655,9 +663,10 @@ public class OrderPanel extends JPanel {
 			listArticle.add(art);
 		}
 		for (int i = 0; i < listArticle.size(); i++) {
-			// add the list elements to the search combo box
-			combo[1].addItem(listArticle.get(i));
-
+			if(!listArticle.get(i).getState().equals("Blocked")&&!listArticle.get(i).getProduct().getState().equals("Blocked")) {
+				// add the list of article to the combo box
+				combo[1].addItem(listArticle.get(i));
+			}
 		}
 	}
 
@@ -669,9 +678,10 @@ public class OrderPanel extends JPanel {
 			listArticle.add(art);
 		}
 		for (int i = 0; i < listArticle.size(); i++) {
-			// add the list elements to the search combo box
-			combo[1].addItem(listArticle.get(i));
-
+			if(!listArticle.get(i).getState().equals("Blocked") && !listArticle.get(i).getProduct().getState().equals("Blocked")) {
+				// add the list of article to the combo box
+				combo[1].addItem(listArticle.get(i));
+			}
 		}
 	}
 
@@ -683,8 +693,10 @@ public class OrderPanel extends JPanel {
 			listSuppl.add(sup);
 		}
 		for (int i = 0; i < listSuppl.size(); i++) {
-			// add the list elements to the search combo box
-			combo[2].addItem(listSuppl.get(i));
+			if (!listSuppl.get(i).getState().equals("Blocked")) {
+				// add the list of supplier to the combo box
+				combo[2].addItem(listSuppl.get(i));
+			}
 		}
 	}
 
@@ -692,9 +704,10 @@ public class OrderPanel extends JPanel {
 		combo[3].removeAllItems();
 		ArrayList<Product> listProduct = queryProduct.listAllProduct();
 		for (int i = 0; i < listProduct.size(); i++) {
-			// add the list elements to the search combo box
-			combo[3].addItem(listProduct.get(i));
-
+			if (!listProduct.get(i).getState().equals("Blocked")) {
+				// add the list of products to the combo box
+				combo[3].addItem(listProduct.get(i));
+			}
 		}
 	}
 
@@ -703,7 +716,7 @@ public class OrderPanel extends JPanel {
 		combo[4].removeAllItems();
 		ArrayList<Packaging> listPackaging = queryPackaging.listAllPackaging();
 		for (int i = 0; i < listPackaging.size(); i++) {
-			// add the list elements to the search combo box
+			// add the list of packaging to the combo box
 			combo[4].addItem(listPackaging.get(i));
 
 		}
@@ -714,7 +727,7 @@ public class OrderPanel extends JPanel {
 		combo[5].removeAllItems();
 		String[] listState = { "Accepted", "Waiting", "Blocked", "Received" };
 		for (int i = 0; i < listState.length; i++) {
-			// add the list elements to the search combo box
+			// add the list of states to the combo box
 			combo[5].addItem(listState[i]);
 		}
 	}
