@@ -202,9 +202,8 @@ public class SupplierPanel extends JPanel {
 						btnSupplierBlock.setText("Unblocked");
 						btnSupplierBlock.setBackground(new Color(173, 246, 100));
 					}
-					
-					// if the state is unblocked
-					if (!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier") && activSupplier.getState().equals("Unblocked")) {
+					// if the state is unblocked or it is a new supplier
+					if ((!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier") && activSupplier.getState().equals("Unblocked"))||String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
 						btnSupplierPlus.setEnabled(true);
 						btnSupplierDEL.setEnabled(true);
 						listSupplierProduct.setEnabled(true);
@@ -493,8 +492,10 @@ public class SupplierPanel extends JPanel {
 		combo[1].removeAllItems();
 		ArrayList<Product> listProduct = queryProd.listAllProduct();
 		for (int i = 0; i < listProduct.size(); i++) {
-			// add the list elements to the search combo box
-			combo[1].addItem(listProduct.get(i));
+			if (!listProduct.get(i).getState().equals("Blocked")) {
+				// add the list elements to the search combo box
+				combo[1].addItem(listProduct.get(i));
+			}
 		}
 	}
 
