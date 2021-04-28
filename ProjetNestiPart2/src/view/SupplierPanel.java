@@ -226,8 +226,7 @@ public class SupplierPanel extends JPanel {
 					if (isNameTaken(tfSupplierName.getText()) == false) {
 						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
 							Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
-									tfSupplierTown.getText(), tfContactName.getText(), tfContactFirstname.getText(),
-									tfContactTel.getText(), "Unblocked", Frame.activAdmin.getId());
+									tfSupplierTown.getText(),tfContactTel.getText(), tfContactName.getText(), tfContactFirstname.getText(), "Unblocked", Frame.activAdmin.getId());
 
 							querySupp.createPrepared(supplCreate);
 							// if we added product in the table, we have to add it to the database
