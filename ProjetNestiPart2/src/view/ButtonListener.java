@@ -2,20 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.table.DefaultTableModel;
-
-import entities.Admin;
-import entities.Product;
-import entities.Supplier;
-import entities.SupplierSell;
-import entities.UnitMeasure;
-import model.QueryAdmin;
-import model.QueryProduct;
-import model.QuerySupplier;
-import model.QuerySupplierSell;
-import javax.swing.table.DefaultTableModel;
 
 public class ButtonListener implements ActionListener {
 	String text;

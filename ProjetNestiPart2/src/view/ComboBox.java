@@ -2,12 +2,9 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-
-import model.QuerySupplier;
 
 public class ComboBox extends JComboBox {
 	private String nameField;

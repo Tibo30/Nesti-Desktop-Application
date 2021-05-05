@@ -1,21 +1,15 @@
 package view;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 
 import entities.Admin;
-import entities.Product;
-import entities.Supplier;
 import model.QueryAdmin;
 import model.QueryArticle;
-import entities.UnitMeasure;
 import model.QueryProduct;
-import model.QuerySupplier;
 
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;

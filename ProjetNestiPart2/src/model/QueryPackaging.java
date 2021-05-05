@@ -4,9 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import entities.Article;
 import entities.Packaging;
-import entities.Product;
 
 public class QueryPackaging extends MyConnection{
 

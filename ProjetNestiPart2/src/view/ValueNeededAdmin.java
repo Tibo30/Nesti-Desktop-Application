@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 public class ValueNeededAdmin {
 	Frame frame;

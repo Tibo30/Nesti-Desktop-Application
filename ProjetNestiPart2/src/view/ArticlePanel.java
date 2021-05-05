@@ -1,16 +1,13 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +18,6 @@ import entities.SupplierSell;
 import entities.UnitMeasure;
 import model.QueryArticle;
 import model.QueryProduct;
-import model.QuerySupplier;
 import model.QuerySupplierSell;
 
 public class ArticlePanel extends JPanel {

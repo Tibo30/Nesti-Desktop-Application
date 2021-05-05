@@ -9,12 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import entities.Admin;
-import entities.Order;
+
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
-import model.QueryAdmin;
 import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
