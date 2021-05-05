@@ -3,7 +3,6 @@ package view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class ProfilePanel extends JPanel {

@@ -2,17 +2,12 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-
-import java.util.Date;
-
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import entities.Admin;
-import entities.Supplier;
 import tools.BCrypt;
 import view.LoginFrame;
 import view.ManagePanel;

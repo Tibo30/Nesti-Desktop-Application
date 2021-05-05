@@ -60,8 +60,23 @@ public class Product {
 	}
 
 	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
 	 * @return the quantity
 	 */
+	
 	
 	public Object[] toRowProduct() {
 		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
@@ -72,4 +87,8 @@ public class Product {
 		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
 		return prod;
 	}
+	@Override
+    public String toString() {
+        return  name ;
+    }
 }

@@ -4,11 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import entities.Article;
 import entities.Order;
 import entities.OrderLine;
-import entities.Packaging;
-import entities.Product;
 import entities.Supplier;
 
 public class QueryOrder extends MyConnection{
