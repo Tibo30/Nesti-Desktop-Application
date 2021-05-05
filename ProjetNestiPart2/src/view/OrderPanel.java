@@ -369,8 +369,8 @@ public class OrderPanel extends JPanel {
 						activSupplier = (Supplier) listOrderSupplier.getSelectedItem();
 
 						if (String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
-							Article article = new Article(Double.parseDouble(tfPackagingQuantity.getText()), 0,
-									(Packaging) listOrderPackaging.getSelectedItem(),
+							Article article = new Article(flags, Double.parseDouble(tfPackagingQuantity.getText()), 0,
+									name, null, null, (Packaging) listOrderPackaging.getSelectedItem(),
 									(Product) listOrderProduct.getSelectedItem());
 							// if the created article already exist in the database
 							if (queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity()) == null) {

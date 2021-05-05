@@ -157,13 +157,7 @@ public class QueryArticle extends MyConnection {
 		return unit;
 	}
 	
-	public boolean createPrepared(Article article) throws Exception {
-        openConnection();
-        boolean flag = false;
-        try {
-            String query = "INSERT INTO article(article_quantity,id_packaging,id_admin,id_product) "
-                    + "VALUES (?,(SELECT id_packaging FROM packaging WHERE packaging_name=?),?,(SELECT id_product FROM product WHERE product_name=?))";
-            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+	
 
 	public boolean createPrepared(Article article) throws Exception {
 		openConnection();
