@@ -28,8 +28,11 @@ public class Article {
 		this.idAdmin = idAdmin;
 	}
 	
-	public Article() {
-		// TODO Auto-generated constructor stub
+	public Article(double quantity, int realQuant,Packaging packaging, Product product) {
+		this.quantity = quantity;
+		this.realQuant = realQuant;
+		this.product = product;
+		this.packaging = packaging;
 	}
 	
 	@Override

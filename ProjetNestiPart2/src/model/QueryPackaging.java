@@ -21,7 +21,7 @@ public class QueryPackaging extends MyConnection{
 			ResultSet rs = declaration.executeQuery();
 			/* Récupération des données */
 			while (rs.next()) {
-				pack = new Packaging(rs.getString("packaging_name"));
+				pack = new Packaging(rs.getInt("id_packaging"),rs.getString("packaging_name"));
 				listPackaging.add(pack);
 			}
 		} catch (Exception e) {
