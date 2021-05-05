@@ -45,12 +45,11 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				
 				try {					
 					OrderPanel.listOfOrder();
-					OrderPanel.listOfArticle();
-					OrderPanel.listOfSupplier();
-					OrderPanel.listOfProduct();
+//					OrderPanel.listOfArticle();
+//					OrderPanel.listOfSupplier();
+//					OrderPanel.listOfProduct();
+//					OrderPanel.listState();
 					OrderPanel.listOfPackaging();
-					OrderPanel.listState();
-
 				} catch (Exception e1) {
 
 					e1.printStackTrace();

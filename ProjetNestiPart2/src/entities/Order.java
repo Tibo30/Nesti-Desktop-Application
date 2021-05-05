@@ -19,6 +19,14 @@ public class Order {
 		this.idAdmin=idAdmin;
 	}
 	
+	public Order(String state, Supplier supplier, int idAdmin) {
+		this.state=state;
+		this.validationDate=validationDate;
+		this.deliveryDate=deliveryDate;
+		this.supplier=supplier;
+		this.idAdmin=idAdmin;
+	}
+	
 	@Override
 	public String toString() {
 		int number;

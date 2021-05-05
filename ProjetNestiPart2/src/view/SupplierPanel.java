@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import entities.SupplierSell;
 import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
+import tools.Check;
 
 public class SupplierPanel extends JPanel {
 
@@ -28,21 +30,19 @@ public class SupplierPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	public static JTable table;
-	
+
 	static QuerySupplier querySupp;
 	static QuerySupplierSell querySell;
 	static QueryProduct queryProd;
 	public static Supplier activSupplier;
 	public static SupplierSell activSupplierSell;
 
-	
-
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
-		querySupp=new QuerySupplier();
-		querySell=new QuerySupplierSell();
-		queryProd=new QueryProduct();
+		querySupp = new QuerySupplier();
+		querySell = new QuerySupplierSell();
+		queryProd = new QueryProduct();
 
 		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
 		this.add(btnSupplierLaunch);
@@ -143,15 +143,13 @@ public class SupplierPanel extends JPanel {
 				new String[] { "Product", "Unit", "Price" }) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				boolean editable = true;
-				if (column < 2) {
-					editable = false;
-				}
-				return editable;
+
+				return false;
 			}
 		};
 		tSupplier.setModel(model);
 		spSupplier.setViewportView(tSupplier);
+
 		table = tSupplier;
 
 		btnSupplierBlock.addActionListener(new ActionListener() {
@@ -202,12 +200,16 @@ public class SupplierPanel extends JPanel {
 						btnSupplierBlock.setText("Unblocked");
 						btnSupplierBlock.setBackground(new Color(173, 246, 100));
 					}
+					// if the state is unblocked or it is a new supplier
+					if ((!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier") && activSupplier.getState().equals("Unblocked"))||String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
+						btnSupplierPlus.setEnabled(true);
+						btnSupplierDEL.setEnabled(true);
+						listSupplierProduct.setEnabled(true);
+						editableText();
+					}
 
 					btnSupplierBlock.setEnabled(true);
-					btnSupplierPlus.setEnabled(true);
-					btnSupplierDEL.setEnabled(true);
-					listSupplierProduct.setEnabled(true);
-					editableText();
+			
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -220,27 +222,28 @@ public class SupplierPanel extends JPanel {
 				try {
 					// if the name is not already taken
 					if (isNameTaken(tfSupplierName.getText()) == false) {
-						System.out.println(isNameTaken(tfSupplierName.getText()));
-						System.out.println(tfSupplierName.getText());
-						Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
-								tfSupplierTown.getText(), tfContactName.getText(), tfContactFirstname.getText(),
-								tfContactTel.getText(), "Unblocked", Frame.activAdmin.getId());
+						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
+							Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
+									tfSupplierTown.getText(),tfContactTel.getText(), tfContactName.getText(), tfContactFirstname.getText(), "Unblocked", Frame.activAdmin.getId());
 
-						querySupp.createPrepared(supplCreate);
-						// if we added product in the table, we have to add it to the database
-						DefaultTableModel model = (DefaultTableModel) table.getModel();
-						for (int i = 0; i < model.getRowCount(); i++) {
-							System.out.println("test");
-							Product prod = queryProd.createProductInfo((String) model.getValueAt(i, 0));
-							double price = Double.parseDouble(((String) model.getValueAt(i, 2)).split(" ")[0]);
-							SupplierSell supplSellCreate = new SupplierSell(supplCreate, prod, price);
-							querySell.createPrepared(supplSellCreate);
+							querySupp.createPrepared(supplCreate);
+							// if we added product in the table, we have to add it to the database
+							DefaultTableModel model = (DefaultTableModel) table.getModel();
+							for (int i = 0; i < model.getRowCount(); i++) {
+								Product prod = queryProd.createProductInfo((String) model.getValueAt(i, 0));
+								double price = Double.parseDouble(((String) model.getValueAt(i, 2)).split(" ")[0]);
+								SupplierSell supplSellCreate = new SupplierSell(supplCreate, prod, price);
+								querySell.createPrepared(supplSellCreate);
+							}
+							JOptionPane.showMessageDialog(null, "The supplier has been created");
+							// update supplier list in the combo box
+							updateListSupplier();
+							// clearAll
+							clearAndEnableFalse();
+							clearTable();
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
 						}
-						// update supplier list in the combo box
-						updateListSupplier();
-						// clearAll
-						clearAndEnableFalse();
-						clearTable();
 
 					} else {
 						JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
@@ -255,7 +258,7 @@ public class SupplierPanel extends JPanel {
 		btnSupplierPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String nameProduct = (String) listSupplierProduct.getSelectedItem();
+					String nameProduct = ((Product) listSupplierProduct.getSelectedItem()).getName();
 					ArrayList<String> listProductInTable = new ArrayList<String>();
 					// this loop is used to have the list of the table products.
 					for (int i = 0; i < model.getRowCount(); i++) {
@@ -266,11 +269,12 @@ public class SupplierPanel extends JPanel {
 					if (isNumeric(tfProductPrice.getText())) {
 						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " �/u" };
 						// if the product selected in the comboBox is not already in the table
-						if (listProductInTable.indexOf(listSupplierProduct.getSelectedItem()) == -1) {
+						if (listProductInTable
+								.indexOf(((Product) listSupplierProduct.getSelectedItem()).getName()) == -1) {
 							model.addRow(row); // we add the product to the table
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"This product is already in the list, you can delete it or modify the price directly in the table");
+						} else { // we change the quantity of the product
+							model.setValueAt((tfProductPrice.getText() + " �/u"), listProductInTable
+									.indexOf(((Product) listSupplierProduct.getSelectedItem()).getName()), 2);
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Please enter a valid (numerical) price");
@@ -299,44 +303,76 @@ public class SupplierPanel extends JPanel {
 					// if we change the name of the selected supplier
 					if (!activSupplier.getName().equals(tfSupplierName.getText())) {
 						if (isNameTaken(tfSupplierName.getText()) == false) {
-							querySupp.updatePrepared("name", tfSupplierName.getText(),
-									activSupplier.getName());
-							activSupplier.setName(tfSupplierName.getText());
+							if (tfSupplierName.getText().length() <= 50) {
+								querySupp.updatePrepared("name", tfSupplierName.getText(), activSupplier.getName());
+								activSupplier.setName(tfSupplierName.getText());
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a name with a maximum of 50 characters, spaces includes");
+								return; // the rest of the method is not used if this condition is not respected !
+							}
 						} else {
 							JOptionPane.showMessageDialog(null, "This Supplier's name is already taken");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
 					if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
-						querySupp.updatePrepared("adress", tfSupplierAdress.getText(),
-								activSupplier.getName());
+						if (tfSupplierAdress.getText().length() <= 250) {
+							querySupp.updatePrepared("adress", tfSupplierAdress.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter an adress with a maximum of 250 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
-						querySupp.updatePrepared("city", tfSupplierTown.getText(),
-								activSupplier.getName());
+						if (tfSupplierTown.getText().length() <= 50) {
+							querySupp.updatePrepared("city", tfSupplierTown.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a city with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-						querySupp.updatePrepared("contactLastname", tfContactName.getText(),
-								activSupplier.getName());
+						if (tfContactName.getText().length() <= 50) {
+							querySupp.updatePrepared("contactLastname", tfContactName.getText(),
+									activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a name with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
-						querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
-								activSupplier.getName());
+						if (tfContactFirstname.getText().length() <= 50) {
+							querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
+									activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Please enter a firstname with a maximum of 50 characters, spaces includes");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 					if (!activSupplier.getContactNumber().equals(tfContactTel.getText())) {
-						querySupp.updatePrepared("contactNumber", tfContactTel.getText(),
-								activSupplier.getName());
+						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
+							querySupp.updatePrepared("contactNumber", tfContactTel.getText(), activSupplier.getName());
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
+							return; // the rest of the method is not used if this condition is not respected !
+						}
 					}
 
 					if (!activSupplier.getState().equals(btnSupplierBlock.getText())) {
-						querySupp.updatePrepared("state", btnSupplierBlock.getText(),
-								activSupplier.getName());
+						querySupp.updatePrepared("state", btnSupplierBlock.getText(), activSupplier.getName());
 					}
 
 					modifyFromTable();
 					// update in the program the activ supplier and activSupplierSell objects
 					activSupplier = querySupp.createSupplierInfo(activSupplier.getName());
 					activSupplierSell = querySell.createSupplierSellInfo(activSupplier);
+
+					JOptionPane.showMessageDialog(null, "The supplier's datas have been updated");
 					// update List of supplier in the combo box
 					updateListSupplier();
 					// clearAll
@@ -344,7 +380,6 @@ public class SupplierPanel extends JPanel {
 					clearTable();
 
 				} catch (Exception e1) {
-					System.out.println("actionPerformed");
 					e1.printStackTrace();
 				}
 			}
@@ -382,9 +417,8 @@ public class SupplierPanel extends JPanel {
 				querySell.createPrepared(newSupplierSellProduct);
 			} else {
 				// if a product from the table is already in the database but the price is
-				// different
-				if (!String.valueOf(activSupplierSell.getBuyingPrices().get(i))
-						.equals(String.valueOf(newListPrice.get(i)))) {
+				// different		
+				if (!newListProduct.get(i).equals(querySell.getPrice(newListProduct.get(i), activSupplier.getName()))) {
 					querySell.updatePrice(String.valueOf(newListPrice.get(i)), newListProduct.get(i),
 							activSupplierSell.getSupplier().getName());
 				}
@@ -394,7 +428,7 @@ public class SupplierPanel extends JPanel {
 		// in the database
 		for (int i = 0; i < listProductName.size(); i++) {
 			if (newListProduct.indexOf(listProductName.get(i)) == -1) {
-				querySell.deletePrepared(listProductName.get(i));
+				querySell.deletePrepared(activSupplier, listProductName.get(i));
 			}
 		}
 	}
@@ -436,7 +470,6 @@ public class SupplierPanel extends JPanel {
 
 	public static void updateListSupplier() throws Exception {
 
-		
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[0].removeAllItems();
 		combo[0].addItem("Create New Supplier");
@@ -456,9 +489,10 @@ public class SupplierPanel extends JPanel {
 		combo[1].removeAllItems();
 		ArrayList<Product> listProduct = queryProd.listAllProduct();
 		for (int i = 0; i < listProduct.size(); i++) {
-			// add the list elements to the search combo box
-			combo[1].addItem(listProduct.get(i).getName()); // faire un tostring pour product et enlever le getName
-
+			if (!listProduct.get(i).getState().equals("Blocked")) {
+				// add the list elements to the search combo box
+				combo[1].addItem(listProduct.get(i));
+			}
 		}
 	}
 
@@ -503,11 +537,11 @@ public class SupplierPanel extends JPanel {
 		boolean taken = true;
 		ArrayList<String> list = new ArrayList<String>();
 		// loop on all the suppliers in the comboBox (same as database)
-		for (int i = 0; i < combo[0].getItemCount(); i++) {
-			list.add((String) combo[0].getItemAt(i));
+		for (int i = 1; i < combo[0].getItemCount(); i++) {
+			list.add((String) (((Supplier) combo[0].getItemAt(i)).getName()));
 		}
 		// if the new name is not already taken
-		if (list.indexOf(name)==-1) {
+		if (list.indexOf(name) == -1) {
 			taken = false;
 		}
 		return taken;
