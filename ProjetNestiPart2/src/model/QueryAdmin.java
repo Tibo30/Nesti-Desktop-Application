@@ -170,26 +170,26 @@ public class QueryAdmin extends MyConnection {
 
 		boolean checkPassword = false;
 
-		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
-
-		try {
-			declaration = accessDataBase.prepareStatement(query);
-			
-			declaration.setString(1, username);
-
-			rs = declaration.executeQuery();
-
-			if (rs.next()) {
-
-				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
-					checkPassword = true;
-
-				}
-			}
-
-		} catch (SQLException ex) {
-			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-		}
+//		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
+//
+//		try {
+//			declaration = accessDataBase.prepareStatement(query);
+//			
+//			declaration.setString(1, username);
+//
+//			rs = declaration.executeQuery();
+//
+//			if (rs.next()) {
+//
+//				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
+//					checkPassword = true;
+//
+//				}
+//			}
+//
+//		} catch (SQLException ex) {
+//			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+//		}
 		
 //		return checkPassword;
 		return true;

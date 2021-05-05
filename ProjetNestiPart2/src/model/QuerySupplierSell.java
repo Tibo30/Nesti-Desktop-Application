@@ -69,8 +69,7 @@ public class QuerySupplierSell extends MyConnection {
 			rs = declaration.executeQuery();
 			while (rs.next()) {
 				UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
-				Product product = new Product(rs.getString("product_name"), rs.getString("product_type"),
-						rs.getString("product_state"), unit);
+				Product product = new Product(rs.getString("product_name"), rs.getString("product_state"),rs.getString("product_type"), unit);
 				products.add(product);
 				buyingPrices.add(rs.getDouble("buying_price"));
 
@@ -163,13 +162,14 @@ public class QuerySupplierSell extends MyConnection {
 		return price;
 	}
 
-	public boolean deletePrepared(String productName) throws Exception {
+	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
 		openConnection();
 		try {
-			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product WHERE product.product_name = ?";
+			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON sell.id_supplier = supplier.id_supplier WHERE (product.product_name = ?) AND (supplier.supplier_name = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, productName);
+			declaration.setString(2, supplier.getName());
 			int executeUpdate = declaration.executeUpdate();
 			success = (executeUpdate == 1);
 		} catch (SQLException e) {

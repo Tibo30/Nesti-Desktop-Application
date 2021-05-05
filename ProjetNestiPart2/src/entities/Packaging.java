@@ -13,6 +13,10 @@ public class Packaging {
 		this.packagingId=packagingId;
 		this.name=name;
 	}
+	
+	public String toString() {
+		return  name ;
+	}
 
 	public String getName() {
 		return name;
