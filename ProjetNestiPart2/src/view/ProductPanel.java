@@ -5,15 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import entities.Article;
 import entities.Product;
 import entities.UnitMeasure;
+import model.QueryArticle;
 import model.QueryProduct;
 
 public class ProductPanel extends JPanel {
@@ -27,6 +32,7 @@ public class ProductPanel extends JPanel {
 	public static SupplierPanel panel;
 	public static ScrollPane scroll;
 	private static QueryProduct queryProd;
+	private static QueryArticle queryArticle;
 	public static Product activProduct;
 
 	boolean flag;
@@ -35,6 +41,7 @@ public class ProductPanel extends JPanel {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
 		this.queryProd = new QueryProduct();
+		this.queryArticle = new QueryArticle();
 
 		Button btnProductBlock = new Button("Block /Unblock selected Element", 26, 337, 183, 39);
 		btnProductBlock.setEnabled(false);
@@ -128,33 +135,41 @@ public class ProductPanel extends JPanel {
 
 			public void actionPerformed(ActionEvent arg0) {
 				int mousetrue;
-				if (!tfProduct.getText().equals(table_1.getValueAt(table_1.getSelectedRow(), 0))) {
+				if (tfProduct.getText().toString().equals("")) {
 
-					UnitMeasure unit = new UnitMeasure(listProductUnit.getSelectedItem().toString());
-
-					if (flag == true) {
-						mousetrue = table_1.getSelectedRow();
-					} else {
-						mousetrue = table_1.getRowCount() - 1;
-					}
-					Product product = new Product(tfProduct.getText(), table_1.getValueAt(mousetrue, 1).toString(),
-							listProductType.getSelectedItem().toString(), unit);
-
-					Object[] row = product.toRowProduct();
-
-					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-					model.addRow(row);
-					try {
-						UnitMeasure unitinfo = queryProd.createUnitInfo((String) listProductUnit.getSelectedItem());
-						Product pro = new Product(tfProduct.getText(), "Unblocked",
-								(String) listProductType.getSelectedItem(), unitinfo);
-						queryProd.createPrepared(pro);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					JOptionPane.showMessageDialog(null, "Le champs Product est vide");
 				} else {
-					JOptionPane.showMessageDialog(null, "This Product's name is already taken");
+					System.out.println(tfProduct.getText().toString());
+					if (!tfProduct.getText().equals(table_1.getValueAt(table_1.getSelectedRow(), 0))) {
+
+						UnitMeasure unit = new UnitMeasure(listProductUnit.getSelectedItem().toString());
+
+						if (flag == true) {
+							mousetrue = table_1.getSelectedRow();
+						} else {
+							mousetrue = table_1.getRowCount() - 1;
+						}
+						Product product = new Product(tfProduct.getText(), table_1.getValueAt(mousetrue, 1).toString(),
+								listProductType.getSelectedItem().toString(), unit);
+
+						Object[] row = product.toRowProduct();
+
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.addRow(row);
+
+						try {
+							UnitMeasure unitinfo = queryProd.createUnitInfo((String) listProductUnit.getSelectedItem());
+							Product pro = new Product(tfProduct.getText(), "Unblocked",
+									(String) listProductType.getSelectedItem(), unitinfo);
+							queryProd.createPrepared(pro);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "This Product's name is already taken");
+					}
 				}
 			}
 		});
@@ -240,15 +255,25 @@ public class ProductPanel extends JPanel {
 
 	public static void creatTable() {
 		ArrayList<Product> listProd;
+		ArrayList<Article> listAllArticle;
 		try {
-			listProd = queryProd.listAllProduct();
+			listProd = queryProd.listAllProductYann();
+			listAllArticle = queryArticle.listAllArticle();
 
 			DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
 			for (int i = 0; i < listProd.size(); i++) {
+				double quant;
 				// add the list elements to the search combo box
 				// System.out.println(listProd.get(i).getState());
+				try {
+					quant = (double) listAllArticle.get(i).getQuantity();
+				} catch (Exception e) {
+					quant = 0;
+
+				}
+
 				Object[] row = { listProd.get(i).getName(), listProd.get(i).getState(), listProd.get(i).getType(),
-						listProd.get(i).getUnit().getName(), "" };
+						listProd.get(i).getUnit().getName(), formatD(quant) };
 
 				model.addRow(row);
 			}
@@ -298,6 +323,13 @@ public class ProductPanel extends JPanel {
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
 			model.removeRow(j);
 		}
+	}
+
+	public static String formatD(double number) {
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+		DecimalFormat df = new DecimalFormat("#.##########", otherSymbols);
+		String resultFormat = df.format(number);
+		return resultFormat;
 	}
 
 }

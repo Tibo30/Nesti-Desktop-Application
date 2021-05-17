@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import entities.Packaging;
+import entities.UnitMeasure;
 
 public class QueryPackaging extends MyConnection{
 
@@ -28,5 +29,26 @@ public class QueryPackaging extends MyConnection{
 		closeConnection();
 		return listPackaging;
 	}
+	public Packaging createPackInfo(String unitName) throws Exception {
+        openConnection();
+        Packaging unit = null;
+        ResultSet rs;
+
+        try {
+
+            String query = "SELECT id_packaging  FROM packaging WHERE (packaging_name=?);";
+            PreparedStatement declaration = accessDataBase.prepareStatement(query);
+            declaration.setString(1, unitName);
+            rs = declaration.executeQuery();
+            /* R�cup�ration des donn�es */
+            if (rs.next()) {
+               unit = new Packaging(rs.getInt("id_packaging"));
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur d'affichage d'utilisateur createUnitInfo: " + e.getMessage());
+        }
+        closeConnection();
+        return unit;
+    }
 	
 }
