@@ -8,6 +8,10 @@ public class Packaging {
 	public Packaging(String name) {
 		this.name=name;
 	}
+	public Packaging(int packagingId) {
+		this.packagingId=packagingId;
+	}
+	
 	
 	public Packaging(int packagingId, String name) {
 		this.packagingId=packagingId;

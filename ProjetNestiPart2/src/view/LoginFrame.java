@@ -126,7 +126,7 @@ public class LoginFrame extends JFrame {
 						
 
 						Frame.activAdmin = queryAdmin.selectAdminInfo("JohnnyDoe35");
-
+							System.out.println(Frame.activAdmin.toString());
 					} else {
 						JOptionPane.showMessageDialog(null, "Invalid Username or Password");
 

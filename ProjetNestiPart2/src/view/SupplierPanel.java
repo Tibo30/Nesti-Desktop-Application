@@ -267,13 +267,13 @@ public class SupplierPanel extends JPanel {
 					String unit = (String) queryProd.createProductInfo(nameProduct).getUnit().getName();
 					// check if the price is a numerical value
 					if (isNumeric(tfProductPrice.getText())) {
-						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " ï¿½/u" };
+						Object[] row = { nameProduct, unit, tfProductPrice.getText() + " €/u" };
 						// if the product selected in the comboBox is not already in the table
 						if (listProductInTable
 								.indexOf(((Product) listSupplierProduct.getSelectedItem()).getName()) == -1) {
 							model.addRow(row); // we add the product to the table
 						} else { // we change the quantity of the product
-							model.setValueAt((tfProductPrice.getText() + " ï¿½/u"), listProductInTable
+							model.setValueAt((tfProductPrice.getText() + " €/u"), listProductInTable
 									.indexOf(((Product) listSupplierProduct.getSelectedItem()).getName()), 2);
 						}
 					} else {
@@ -497,20 +497,20 @@ public class SupplierPanel extends JPanel {
 	}
 
 	public static SupplierSell fillProductSupplierTable(Supplier supplier) throws Exception {
-		SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
-		ArrayList<Product> product = supplSell.getProducts();
-		ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-		clearTable();
-		if (product.size() > 0) {
-			for (int i = 0; i < product.size(); i++) {
-				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-						buyingPrices.get(i) + " ï¿½/u" };
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.addRow(row);
-			}
-		}
-		return supplSell;
-	}
+        SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
+        ArrayList<Product> product = supplSell.getProducts();
+        ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
+        clearTable();
+        if (product.size() > 0) {
+            for (int i = 0; i < product.size(); i++) {
+                Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
+                        buyingPrices.get(i) + " €/u" };
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.addRow(row);
+            }
+        }
+        return supplSell;
+    }
 
 	public static void fillTextField(Supplier supplier) {
 

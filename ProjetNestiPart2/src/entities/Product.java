@@ -90,5 +90,6 @@ public class Product {
 		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
 		return prod;
 	}
+
 	
 }

@@ -5,20 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Article;
+import entities.Packaging;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
 import entities.UnitMeasure;
 import model.QueryArticle;
+import model.QueryPackaging;
 import model.QueryProduct;
 import model.QuerySupplierSell;
+import tools.Check;
 
 public class ArticlePanel extends JPanel {
 	private static JTable table_3;
@@ -30,14 +37,22 @@ public class ArticlePanel extends JPanel {
 	static QueryArticle queryArt;
 	static QuerySupplierSell querySell;
 	private static QueryProduct queryProd;
-	
+	private static QueryPackaging queryPack;
+
 	public ArticlePanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
 		this.queryArt = new QueryArticle();
 		this.queryProd = new QueryProduct();
+		this.queryPack = new QueryPackaging();
 		Button btnArticleLaunch = new Button("Article_Launch", 541, 36, 86, 23);
 		this.add(btnArticleLaunch);
+
+		Button btnArticleBlock = new Button("SupplierBlock / Unblock", 10, 72, 122, 23);
+		btnArticleBlock.setSize(115, 23);
+		btnArticleBlock.setLocation(10, 36);
+		btnArticleBlock.setEnabled(false);
+		this.add(btnArticleBlock);
 
 		Button btnArticleCreate = new Button("Article_Create", 563, 371, 113, 32);
 		btnArticleCreate.setVisible(false);
@@ -47,7 +62,7 @@ public class ArticlePanel extends JPanel {
 		btnArticleModify.setVisible(false);
 		this.add(btnArticleModify);
 
-		Button[] articleButton = { btnArticleLaunch, btnArticleCreate, btnArticleModify };
+		Button[] articleButton = { btnArticleLaunch, btnArticleCreate, btnArticleModify, btnArticleBlock };
 		button = articleButton;
 
 		Label lblArticleSearch = new Label("Search", 135, 34, 95, 27);
@@ -102,9 +117,9 @@ public class ArticlePanel extends JPanel {
 		this.add(listPackaging);
 
 		ComboBox[] articleComboBox = { listArticle, listUnitArticle, listProductArticle, listPackaging };
-		ComboBox[] articleActivComboBox = {  listUnitArticle, listProductArticle, listPackaging };
+		ComboBox[] articleActivComboBox = { listUnitArticle, listProductArticle, listPackaging };
 		combo = articleComboBox;
-		combo1= articleActivComboBox;
+		combo1 = articleActivComboBox;
 
 		TextField tfArticle = new TextField("article", 391, 90, 60, 32);
 		tfArticle.setEnabled(false);
@@ -161,43 +176,74 @@ public class ArticlePanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					clearTable();
+					tfArticleRef.setEditable(false);
+					tfArticle.setEnabled(false);
+					tfStock.setEnabled(false);
+					btnArticleBlock.setEnabled(false);
 					if (!String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
-						btnArticleCreate.setVisible(false);
-						btnArticleModify.setVisible(true);
-						btnArticleModify.setEnabled(true);
+						
+						
 						ArrayList<Supplier> listSupplier = new ArrayList<Supplier>();
 						ArrayList<Double> listPriceForUnit = new ArrayList<Double>();
 						ArrayList<Double> listPrice = new ArrayList<Double>();
 						Article article = ((Article) listArticle.getSelectedItem());
 						Product product = article.getProduct();
+						tfArticleRef.setEditable(false);
+						tfArticle.setEnabled(false);
+						btnArticleBlock.setEnabled(true);
+						listProductArticle.setEnabled(false);
+						listPackaging.setEnabled(false);
+						listUnitArticle.setEnabled(false);
+						
+						btnArticleCreate.setVisible(false);
+						btnArticleModify.setVisible(true);
+						btnArticleModify.setEnabled(true);
+						listPackaging.getModel().setSelectedItem(article.getPackaging());
 						listProductArticle.addItem(product);
-						tfArticle.setText(String.valueOf(article.getQuantity()));
+						tfArticle.setText(String.valueOf(formatI((int) article.getQuantity())));
+
 						listUnitArticle.addItem(product.getUnit());
-						listPackaging.addItem(article.getPackaging());
+						listUnitArticle.getModel().setSelectedItem(product.getUnit());
+
+						listPackaging.getModel().setSelectedItem(article.getPackaging());
+
 						tfStock.setText(String.valueOf(article.getRealQuant()));
 						tfArticleCreatDate.setText(String.valueOf(article.getCreationDate()));
 						tfArticleUpdateDate.setText(String.valueOf(article.getUpdateDate()));
 						creatTable3(article.getId());
+						
 						tfArticleRef.setText(creatRefNameOfArticle(article.getId(), product));
-					} else { 
 
+						btnArticleBlock.setText(article.getState());
+
+						if (btnArticleBlock.getText().equals("Blocked")) {
+							btnArticleBlock.setBackground(new Color(243, 101, 101));
+						} else {
+							btnArticleBlock.setBackground(new Color(173, 246, 100));
+						}
+					} else {
+						btnArticleBlock.setEnabled(false);
+						tfStock.setEditable(false);
 						emptyTextField();
 						emptyCombobox();
 						giveComboChoose();
-						 
+						tfArticleRef.setEditable(false);
+						btnArticleBlock.setText("Unblocked");
+						tfStock.setEnabled(false);
+						btnArticleBlock.setBackground(new Color(173, 246, 100));
 						btnArticleCreate.setVisible(true);
 						btnArticleCreate.setEnabled(true);
 						btnArticleModify.setEnabled(true);
 						btnArticleModify.setVisible(false);
-						tfArticle.setEnabled(true);
-						for (int i=0 ; i< articleTextField.length-2;i++) {
+
+						for (int i = 0; i < articleTextField.length - 2; i++) {
 							articleTextField[i].setEnabled(true);
 						}
-						for (int i=0 ; i< articleComboBox.length;i++) {
+						for (int i = 0; i < articleComboBox.length; i++) {
 							articleComboBox[i].setEnabled(true);
 						}
-						
-						
+
+						btnArticleBlock.setEnabled(false);
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -206,15 +252,76 @@ public class ArticlePanel extends JPanel {
 		});
 		btnArticleCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				try { 
+					
+//					UnitMeasure unit = (UnitMeasure) listUnitArticle.getSelectedItem();
+						 Product name = (Product) listProductArticle.getSelectedItem();
+						 Packaging pack = (Packaging) listPackaging.getSelectedItem();
+				if(name!=null && pack!=null && (Check.isNumeric(tfArticle.getText()))) {
+					
+					Article ArticleCreate = new Article(Integer.parseInt(tfArticle.getText()), 0, pack, name);
+				
+					if (queryArt.checkArticle(ArticleCreate.getProduct().getName(), ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
+//					
+					
+					ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
+					queryArt.createPrepared(ArticleCreate);
+					
+				
+					JOptionPane.showMessageDialog(null, "Article Ajouté");
+					}else {
+						JOptionPane.showMessageDialog(null, "Mauvaise saisie");
+					}
+//					}if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
+//						if (tfContactName.getText().length() <= 50) {
+//							querySupp.updatePrepared("contactLastname", tfContactName.getText(),
+//									activSupplier.getName());
+//						} else {
+//							JOptionPane.showMessageDialog(null,
+//									"Please enter a name with a maximum of 50 characters, spaces includes");
+//							return; // the rest of the method is not used if this condition is not respected !
+//						}
+//					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Champs vide");
+				}
+				} catch (Exception e1) {
+					
+					e1.printStackTrace();
+				}
 			}
+				
 		});
 		btnArticleModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				Article article = ((Article) listArticle.getSelectedItem());
+				
+				try {
+					queryArt.updatePrepared("state", btnArticleBlock.getText(), article.getId());
+					JOptionPane.showMessageDialog(null, "Article "+btnArticleBlock.getText());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
+		btnArticleBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (btnArticleBlock.getText().equals("Unblocked")) {
+						btnArticleBlock.setText("Blocked");
+						btnArticleBlock.setBackground(new Color(243, 101, 101));
+					} else if (btnArticleBlock.getText().equals("Blocked")) {
+						btnArticleBlock.setText("Unblocked");
+						btnArticleBlock.setBackground(new Color(173, 246, 100));
+					}
 
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public static void clearTable() {
@@ -223,12 +330,13 @@ public class ArticlePanel extends JPanel {
 			model.removeRow(j);
 		}
 	}
+
 	public static void emptyTextField() {
 		for (TextField text : textField) {
 			text.setText("");
 		}
 	}
-	
+
 	public static void emptyCombobox() {
 		for (ComboBox text : combo1) {
 			text.removeAllItems();
@@ -237,6 +345,10 @@ public class ArticlePanel extends JPanel {
 
 	public String creatRefNameOfArticle(int Idarticle, Product name) {
 		String Refname = Idarticle + name.getName().substring(0, 1);
+		return "REF" + Refname;
+	}
+	public String setRefNameOfArticle(int Idarticle, String name) {
+		String Refname = Idarticle + name.substring(0, 1);
 		return "REF" + Refname;
 	}
 
@@ -279,7 +391,6 @@ public class ArticlePanel extends JPanel {
 		}
 	}
 
-	
 	public static void updateListArticle() throws Exception {
 
 		ArrayList<Article> listArt = new ArrayList<Article>();
@@ -296,26 +407,30 @@ public class ArticlePanel extends JPanel {
 
 		combo[0].setSelectedIndex(0);
 	}
+
 	public void giveComboChoose() throws Exception {
-	 ArrayList<Product> list = queryProd.listAllProduct();
-	 for (int i = 0; i < list.size(); i++) {
+		ArrayList<Product> prod = queryProd.listAllProduct();
+		for (Product product : prod ) {
+			
+			if (product.getState().equals( "Unblocked")) {
+				ArticlePanel.combo[2].addItem(product);
+			}
+		}
+		ArrayList<UnitMeasure> list2 = queryArt.listUnit();
+		for (UnitMeasure unit : list2) {
 
-			ArticlePanel.combo[2].addItem(list.get(i).getName());
+			ArticlePanel.combo[1].addItem(unit);
 
 		}
-	 ArrayList<UnitMeasure> list2 = queryArt.listUnit();
-	 for (int i = 0; i < list2.size(); i++) {
+		ArrayList<Packaging> list3 = queryPack.listAllPackaging();
+		for (Packaging pack : list3) {
 
-			ArticlePanel.combo[1].addItem(list2.get(i).getName());
-
+			ArticlePanel.combo[3].addItem(pack);
 		}
-	 ArrayList<Article> list3 = queryArt.listAllArticle();
-	 for (int i = 0; i < list3.size(); i++) {
-
-			ArticlePanel.combo[3].addItem(list3.get(i).getPackaging());
-	 }
-		}
-	
+	}
+	public void Style() {
+		
+	}
 	/*
 	 * public void listOfSupplierforArticle() {
 	 * 
@@ -331,5 +446,16 @@ public class ArticlePanel extends JPanel {
 	 * model.addRow(row); } } catch (Exception e) { // TODO Auto-generated catch
 	 * block e.printStackTrace(); } }
 	 */
-
+	/**
+	 * This method is used to format the number (used to not display 2.0 but 2)
+	 * 
+	 * @param number
+	 * @return
+	 */
+	public static String formatI(int number) {
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+		DecimalFormat df = new DecimalFormat("#.##########", otherSymbols);
+		String resultFormat = df.format(number);
+		return resultFormat;
+	}
 }

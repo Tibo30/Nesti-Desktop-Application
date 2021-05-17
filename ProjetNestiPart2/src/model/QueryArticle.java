@@ -139,13 +139,13 @@ public class QueryArticle extends MyConnection {
 		
 		try {
 			
-			String query = "SELECT unit_measure_name FROM unit_measure  ";
+			String query = "SELECT * FROM unit_measure  ";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet resultat = declaration.executeQuery();
 			/* R�cup�ration des donn�es */
 			while (resultat.next()) {
 				
-				UnitMeasure unit1 = new UnitMeasure(resultat.getString("unit_measure_name"));
+				UnitMeasure unit1 = new UnitMeasure(resultat.getInt("id_unit_measure"),resultat.getString("unit_measure_name"));
 				
 				unit.add(unit1);
 			}
@@ -242,6 +242,9 @@ public class QueryArticle extends MyConnection {
 			case "quantityStock":
 				query = "UPDATE article SET article_quantity_real_stock=? WHERE id_article=?";
 				break;
+			case "state":
+				query = "UPDATE article SET article_state=? WHERE  id_article=?";
+				break;
 			}
 
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -256,5 +259,6 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return flag;
 	}
+	
 
 }
