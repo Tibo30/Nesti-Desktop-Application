@@ -100,7 +100,7 @@ public class QueryArticle extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setInt(1, idArticle);
 			rs = declaration.executeQuery();
-			
+
 			if (rs.next()) {
 				Packaging packaging = new Packaging(rs.getString("packaging_name"));
 				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
@@ -115,9 +115,16 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return art;
 	}
+
+	/**
+	 * 
+	 * @param idArticle
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<SupplierSell> giveTableInfo(int idArticle) throws Exception {
 		openConnection();
-	ArrayList<SupplierSell> supSell = new ArrayList<SupplierSell>() ;
+		ArrayList<SupplierSell> supSell = new ArrayList<SupplierSell>();
 		ResultSet rs;
 		String query = "SELECT supplier.supplier_name, sell.buying_price, product.product_name FROM sell JOIN supplier ON supplier.id_supplier = sell.id_supplier JOIN product ON product.id_product = sell.id_product JOIN article ON article.id_product = product.id_product WHERE article.id_article = ? ";
 		PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -126,39 +133,49 @@ public class QueryArticle extends MyConnection {
 		while (rs.next()) {
 			Supplier sup = querySupplier.createSupplierInfo(rs.getString("supplier_name"));
 			Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
-			SupplierSell  oneSupSell = new SupplierSell(sup,prod, rs.getDouble("buying_price"));	
-			 supSell.add(oneSupSell);
+			SupplierSell oneSupSell = new SupplierSell(sup, prod, rs.getDouble("buying_price"));
+			supSell.add(oneSupSell);
 		}
 		closeConnection();
 		return supSell;
-		}
-	
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<UnitMeasure> listUnit() throws Exception {
 		openConnection();
 		ArrayList<UnitMeasure> unit = new ArrayList<UnitMeasure>();
-		
+
 		try {
-			
+
 			String query = "SELECT * FROM unit_measure  ";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet resultat = declaration.executeQuery();
 			/* R�cup�ration des donn�es */
 			while (resultat.next()) {
-				
-				UnitMeasure unit1 = new UnitMeasure(resultat.getInt("id_unit_measure"),resultat.getString("unit_measure_name"));
-				
+
+				UnitMeasure unit1 = new UnitMeasure(resultat.getInt("id_unit_measure"),
+						resultat.getString("unit_measure_name"));
+
 				unit.add(unit1);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
 		closeConnection();
-		
+
 		return unit;
 	}
-	
-	
 
+	/**
+	 * 
+	 * @param article
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean createPrepared(Article article) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -181,6 +198,12 @@ public class QueryArticle extends MyConnection {
 		return flag;
 	}
 
+	/**
+	 * 
+	 * @param article
+	 * @return
+	 * @throws Exception
+	 */
 	public int createPreparedID(Article article) throws Exception {
 		openConnection();
 		int last_inserted_id = 0;
@@ -206,6 +229,14 @@ public class QueryArticle extends MyConnection {
 		return last_inserted_id;
 	}
 
+	/**
+	 * 
+	 * @param product
+	 * @param packaging
+	 * @param quantity
+	 * @return
+	 * @throws Exception
+	 */
 	public Article checkArticle(String product, String packaging, double quantity) throws Exception {
 		openConnection();
 		Article art = null;
@@ -233,6 +264,14 @@ public class QueryArticle extends MyConnection {
 		return art;
 	}
 
+	/**
+	 * 
+	 * @param valueChanged
+	 * @param newValue
+	 * @param iD
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean updatePrepared(String valueChanged, String newValue, int iD) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -259,6 +298,5 @@ public class QueryArticle extends MyConnection {
 		closeConnection();
 		return flag;
 	}
-	
 
 }

@@ -39,6 +39,10 @@ public class ArticlePanel extends JPanel {
 	private static QueryProduct queryProd;
 	private static QueryPackaging queryPack;
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public ArticlePanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -181,8 +185,7 @@ public class ArticlePanel extends JPanel {
 					tfStock.setEnabled(false);
 					btnArticleBlock.setEnabled(false);
 					if (!String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
-						
-						
+
 						ArrayList<Supplier> listSupplier = new ArrayList<Supplier>();
 						ArrayList<Double> listPriceForUnit = new ArrayList<Double>();
 						ArrayList<Double> listPrice = new ArrayList<Double>();
@@ -194,7 +197,7 @@ public class ArticlePanel extends JPanel {
 						listProductArticle.setEnabled(false);
 						listPackaging.setEnabled(false);
 						listUnitArticle.setEnabled(false);
-						
+
 						btnArticleCreate.setVisible(false);
 						btnArticleModify.setVisible(true);
 						btnArticleModify.setEnabled(true);
@@ -211,7 +214,7 @@ public class ArticlePanel extends JPanel {
 						tfArticleCreatDate.setText(String.valueOf(article.getCreationDate()));
 						tfArticleUpdateDate.setText(String.valueOf(article.getUpdateDate()));
 						creatTable3(article.getId());
-						
+
 						tfArticleRef.setText(creatRefNameOfArticle(article.getId(), product));
 
 						btnArticleBlock.setText(article.getState());
@@ -252,54 +255,44 @@ public class ArticlePanel extends JPanel {
 		});
 		btnArticleCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try { 
-					
+				try {
+
 //					UnitMeasure unit = (UnitMeasure) listUnitArticle.getSelectedItem();
-						 Product name = (Product) listProductArticle.getSelectedItem();
-						 Packaging pack = (Packaging) listPackaging.getSelectedItem();
-				if(name!=null && pack!=null && (Check.isNumeric(tfArticle.getText()))) {
-					
-					Article ArticleCreate = new Article(Integer.parseInt(tfArticle.getText()), 0, pack, name);
-				
-					if (queryArt.checkArticle(ArticleCreate.getProduct().getName(), ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
+					Product name = (Product) listProductArticle.getSelectedItem();
+					Packaging pack = (Packaging) listPackaging.getSelectedItem();
+					if (name != null && pack != null && (Check.isNumeric(tfArticle.getText()))) {
+
+						Article ArticleCreate = new Article(Integer.parseInt(tfArticle.getText()), 0, pack, name);
+
+						if (queryArt.checkArticle(ArticleCreate.getProduct().getName(),
+								ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
 //					
-					
-					ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
-					queryArt.createPrepared(ArticleCreate);
-					
-				
-					JOptionPane.showMessageDialog(null, "Article Ajouté");
-					}else {
-						JOptionPane.showMessageDialog(null, "Mauvaise saisie");
+
+							ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
+							queryArt.createPrepared(ArticleCreate);
+
+							JOptionPane.showMessageDialog(null, "Article Ajouté");
+						} else {
+							JOptionPane.showMessageDialog(null, "Mauvaise saisie");
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "Champs vide");
 					}
-//					}if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-//						if (tfContactName.getText().length() <= 50) {
-//							querySupp.updatePrepared("contactLastname", tfContactName.getText(),
-//									activSupplier.getName());
-//						} else {
-//							JOptionPane.showMessageDialog(null,
-//									"Please enter a name with a maximum of 50 characters, spaces includes");
-//							return; // the rest of the method is not used if this condition is not respected !
-//						}
-//					}
-					
-				}else {
-					JOptionPane.showMessageDialog(null, "Champs vide");
-				}
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
 			}
-				
+
 		});
 		btnArticleModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Article article = ((Article) listArticle.getSelectedItem());
-				
+
 				try {
 					queryArt.updatePrepared("state", btnArticleBlock.getText(), article.getId());
-					JOptionPane.showMessageDialog(null, "Article "+btnArticleBlock.getText());
+					JOptionPane.showMessageDialog(null, "Article " + btnArticleBlock.getText());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -343,15 +336,32 @@ public class ArticlePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * 
+	 * @param Idarticle
+	 * @param name
+	 * @return
+	 */
 	public String creatRefNameOfArticle(int Idarticle, Product name) {
 		String Refname = Idarticle + name.getName().substring(0, 1);
 		return "REF" + Refname;
 	}
+
+	/**
+	 * 
+	 * @param Idarticle
+	 * @param name
+	 * @return
+	 */
 	public String setRefNameOfArticle(int Idarticle, String name) {
 		String Refname = Idarticle + name.substring(0, 1);
 		return "REF" + Refname;
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public static void creatListOfArticle() throws Exception {
 		combo[0].removeAllItems();
 		ArrayList<Article> listArt = new ArrayList<Article>();
@@ -367,6 +377,10 @@ public class ArticlePanel extends JPanel {
 		combo[0].setSelectedIndex(0);
 	}
 
+	/**
+	 * 
+	 * @param IdArticle
+	 */
 	public static void creatTable3(int IdArticle) {
 
 		try {
@@ -391,6 +405,10 @@ public class ArticlePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public static void updateListArticle() throws Exception {
 
 		ArrayList<Article> listArt = new ArrayList<Article>();
@@ -408,11 +426,15 @@ public class ArticlePanel extends JPanel {
 		combo[0].setSelectedIndex(0);
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void giveComboChoose() throws Exception {
 		ArrayList<Product> prod = queryProd.listAllProduct();
-		for (Product product : prod ) {
-			
-			if (product.getState().equals( "Unblocked")) {
+		for (Product product : prod) {
+
+			if (product.getState().equals("Unblocked")) {
 				ArticlePanel.combo[2].addItem(product);
 			}
 		}
@@ -428,9 +450,7 @@ public class ArticlePanel extends JPanel {
 			ArticlePanel.combo[3].addItem(pack);
 		}
 	}
-	public void Style() {
-		
-	}
+
 	/*
 	 * public void listOfSupplierforArticle() {
 	 * 
