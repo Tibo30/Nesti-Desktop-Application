@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 public class MyConnection {
 	static Connection accessDataBase = null;
-	private String url;
 	protected String login;
 	private String mdp;
 	private String bdd;
@@ -81,37 +80,76 @@ public class MyConnection {
 			}
 		}
 	}
-	
+	private String url;
+	/**
+	 * @return the url
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+
+
+	/**
+	 * @param url the url to set
+	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
+
+
+	/**
+	 * @return the login
+	 */
 	public String getLogin() {
 		return login;
 	}
 
+
+
+	/**
+	 * @param login the login to set
+	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
+
+
+	/**
+	 * @return the mdp
+	 */
 	public String getMdp() {
 		return mdp;
 	}
 
+
+
+	/**
+	 * @param mdp the mdp to set
+	 */
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
 	}
 
+
+
+	/**
+	 * @return the bdd
+	 */
 	public String getBdd() {
 		return bdd;
 	}
 
+
+
+	/**
+	 * @param bdd the bdd to set
+	 */
 	public void setBdd(String bdd) {
 		this.bdd = bdd;
 	}
+	
 }
 

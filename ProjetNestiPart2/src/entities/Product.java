@@ -6,7 +6,15 @@ public class Product {
 	String type;
 	String state;
 	UnitMeasure unit;
-	
+
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param type
+	 * @param state
+	 * @param unit
+	 */
 	public Product(int id, String name, String type, String state, UnitMeasure unit) {
 		this.id = id;
 		this.name = name;
@@ -15,20 +23,26 @@ public class Product {
 		this.state = state;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param state
+	 * @param type
+	 * @param unit
+	 */
 	public Product(String name, String state, String type, UnitMeasure unit) {
 
 		this.name = name;
 		this.state = state;
 		this.type = type;
 		this.unit = unit;
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
-		return  name ;
+		return name;
 	}
-	
 
 	public String getName() {
 		return name;
@@ -50,7 +64,7 @@ public class Product {
 		return state;
 	}
 
-	public  void setState(String state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
@@ -77,19 +91,23 @@ public class Product {
 	}
 
 	/**
-	 * @return the quantity
+	 * 
+	 * @return
 	 */
-	
-	
 	public Object[] toRowProduct() {
-		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
-		return prod;
-	}
-	public Object[] giveProduct(String name) {
-		
-		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
+		Object[] prod = { this.name, this.state, this.type, this.unit.getName() };
 		return prod;
 	}
 
-	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Object[] giveProduct(String name) {
+
+		Object[] prod = { this.name, this.state, this.type, this.unit.getName() };
+		return prod;
+	}
+
 }
