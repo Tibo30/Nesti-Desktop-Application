@@ -3,8 +3,6 @@ package view;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import model.QuerySupplier;
-
 public class ScrollPane extends JScrollPane{
 	
 	

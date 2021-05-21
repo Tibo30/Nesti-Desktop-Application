@@ -6,36 +6,43 @@ public class Product {
 	String type;
 	String state;
 	UnitMeasure unit;
-	Article quantity;
 
-
-	public Product(int id, String name, String type, String state, UnitMeasure unit, Article quantity) {
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param type
+	 * @param state
+	 * @param unit
+	 */
+	public Product(int id, String name, String type, String state, UnitMeasure unit) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.unit = unit;
-
-	}
-
-	public Product(String name, String state, String type, UnitMeasure unit, Article quantity) {
-
-		this.name = name;
 		this.state = state;
-		this.type = type;
-		this.unit = unit;
-		this.quantity = quantity;
 	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param state
+	 * @param type
+	 * @param unit
+	 */
 	public Product(String name, String state, String type, UnitMeasure unit) {
 
 		this.name = name;
 		this.state = state;
 		this.type = type;
 		this.unit = unit;
-		
-	}
-	
 
-	
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 	public String getName() {
 		return name;
@@ -70,20 +77,37 @@ public class Product {
 	}
 
 	/**
-	 * @return the quantity
+	 * @return the id
 	 */
-	public Article getQuantity() {
-		return quantity;
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @param quantity the quantity to set
+	 * @param id the id to set
 	 */
-	public void setQuantity(Article quantity) {
-		this.quantity = quantity;
+	public void setId(int id) {
+		this.id = id;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public Object[] toRowProduct() {
-		Object[] prod = {this.name,this.state,this.type,this.unit.getName()};
+		Object[] prod = { this.name, this.state, this.type, this.unit.getName() };
 		return prod;
 	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Object[] giveProduct(String name) {
+
+		Object[] prod = { this.name, this.state, this.type, this.unit.getName() };
+		return prod;
+	}
+
 }

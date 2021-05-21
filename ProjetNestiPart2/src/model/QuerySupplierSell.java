@@ -3,11 +3,8 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
-import entities.Admin;
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
@@ -15,13 +12,13 @@ import entities.UnitMeasure;
 
 public class QuerySupplierSell extends MyConnection {
 
-//	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+	//public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
 
 	public static void main(String[] args) throws Exception {
 
-//		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-//		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
-		Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
+		//QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+		//QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+		//Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
 
 		// test de la fonction createPrepared de l'admin
 		// queryAdm.createPrepared(adm);
@@ -57,10 +54,6 @@ public class QuerySupplierSell extends MyConnection {
 
 	}
 
-//	public QuerySupplierSell(String url, String login, String mdp, String bdd) {
-//		super(url, login, mdp, bdd);
-//	}
-
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
 		openConnection();
 		SupplierSell supSell = null;
@@ -76,8 +69,7 @@ public class QuerySupplierSell extends MyConnection {
 			rs = declaration.executeQuery();
 			while (rs.next()) {
 				UnitMeasure unit = new UnitMeasure(rs.getString("unit_measure_name"));
-				Product product = new Product(rs.getString("product_name"), rs.getString("product_type"),
-						rs.getString("product_state"), unit);
+				Product product = new Product(rs.getString("product_name"), rs.getString("product_state"),rs.getString("product_type"), unit);
 				products.add(product);
 				buyingPrices.add(rs.getDouble("buying_price"));
 
@@ -147,14 +139,37 @@ public class QuerySupplierSell extends MyConnection {
 		closeConnection();
 		return flag;
 	}
+	
+	public double getPrice(String productName, String supplierName) throws Exception {
+		openConnection();
+		double price = 0;
+		ResultSet rs;
+		try {
+			String query = "SELECT sell.buying_price FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier WHERE (product.product_name=?) AND (supplier.supplier_name=?);";
+				
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, productName);
+			declaration.setString(2, supplierName);
 
-	public boolean deletePrepared(String productName) throws Exception {
+			rs = declaration.executeQuery();
+			if (rs.next()) {
+			price = rs.getDouble("buying_price");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
+		}
+		closeConnection();
+		return price;
+	}
+
+	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
 		openConnection();
 		try {
-			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product WHERE product.product_name = ?";
+			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON sell.id_supplier = supplier.id_supplier WHERE (product.product_name = ?) AND (supplier.supplier_name = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, productName);
+			declaration.setString(2, supplier.getName());
 			int executeUpdate = declaration.executeUpdate();
 			success = (executeUpdate == 1);
 		} catch (SQLException e) {

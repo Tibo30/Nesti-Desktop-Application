@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 

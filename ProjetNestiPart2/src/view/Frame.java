@@ -1,44 +1,22 @@
 package view;
 
-import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.Insets;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
 import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.JSpinner;
-import javax.swing.JComboBox;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Admin;
-import model.QuerySupplier;
-
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.Icon;
-import javax.swing.JPasswordField;
 
 //Test commit
 public class Frame {
@@ -49,7 +27,7 @@ public class Frame {
 	private JTable table;
 	private JTable table_1;
 	private JTable tSupplier;
-	private JTable table_Order;
+	
 	private JTable table_3;
 	public static ValueNeededSupplier suppl;
 	
@@ -124,13 +102,14 @@ public class Frame {
 
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 		panelHome.add(lblNewLabel);
-		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
-
+		
+		
 		JLabel lblLogo = new JLabel("");
         lblLogo.setLabelFor(lblLogo);
         lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
         lblLogo.setBounds(758, 0, 70, 32);
         panel.add(lblLogo);
+
 
 		/**
 		 * Profil
@@ -156,83 +135,12 @@ public class Frame {
 		 * Order
 		 */
 
-		Panel panelOrder = new Panel("panelOrder");
+		OrderPanel panelOrder = new OrderPanel();
 
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
-		panelOrder.setLayout(null);
+		
 
-		Button btnOrderAddTextfield = new Button("+_Order1", 634, 182, 45, 23);
-		panelOrder.add(btnOrderAddTextfield);
-
-		Button btnOrderMinusTextfield = new Button("-_Order", 689, 182, 41, 23);
-		panelOrder.add(btnOrderMinusTextfield);
-
-		Button btnOderRemoveTextfield = new Button("x_Order", 736, 182, 41, 23);
-		panelOrder.add(btnOderRemoveTextfield);
-
-		Button btnOrderLaunch = new Button("Order_Launch", 568, 47, 86, 23);
-		panelOrder.add(btnOrderLaunch);
-
-		Button btnOrderAddTextfield2 = new Button("+_Order2", 414, 116, 50, 23);
-		panelOrder.add(btnOrderAddTextfield2);
-
-		Button btnOrderSubmit = new Button("Order_Submit", 330, 371, 113, 32);
-		panelOrder.add(btnOrderSubmit);
-
-		Button btnOrderModify = new Button("Order_Modify", 154, 371, 113, 32);
-		panelOrder.add(btnOrderModify);
-
-		Button btnOrderCreate = new Button("Order_Create", 496, 371, 113, 32);
-		panelOrder.add(btnOrderCreate);
-
-		Label lblOrderSearch = new Label("Search with order number", 31, 36, 178, 45);
-		panelOrder.add(lblOrderSearch);
-
-		Label lblSupplierOrder = new Label("Supplier Order", 50, 92, 159, 22);
-		panelOrder.add(lblSupplierOrder);
-
-		Label lblOrderProduct = new Label("Product Order", 218, 91, 86, 23);
-		panelOrder.add(lblOrderProduct);
-
-		Label lblOrderPackaging = new Label("Packaging Order", 314, 89, 113, 29);
-		panelOrder.add(lblOrderPackaging);
-
-		ComboBox listOrderSupplier = new ComboBox("listOrdSuppl", 50, 111, 158, 32);
-		panelOrder.add(listOrderSupplier);
-
-		ComboBox listOrder = new ComboBox("listOrder", 219, 42, 339, 32);
-		panelOrder.add(listOrder);
-
-		ComboBox listOrderProduct = new ComboBox("listOrdProd", 218, 111, 86, 32);
-		panelOrder.add(listOrderProduct);
-
-		ComboBox listOrderPackaging = new ComboBox("listOrdPack", 314, 111, 86, 32);
-		panelOrder.add(listOrderPackaging);
-
-		ComboBox listOrderOfState = new ComboBox("listOrdState", 686, 291, 84, 22);
-		listOrderOfState.setMaximumRowCount(4);
-		panelOrder.add(listOrderOfState);
-
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_3.setBounds(50, 163, 574, 178);
-		panelOrder.add(scrollPane_3);
-
-		table_Order = new JTable();
-		table_Order.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
-				new String[] { "Product", "Packaging", "Quantity", "Price" }));
-		table_Order.setBackground(new Color(255, 222, 173));
-		scrollPane_3.setViewportView(table_Order);
-
-		TextField tfOrderNumber = new TextField("orderNumber", 50, 77, 86, 20);
-		panelOrder.add(tfOrderNumber);
-
-		TextField tfState = new TextField("state", 685, 326, 86, 20);
-		panelOrder.add(tfState);
+		
 
 		/**
 		 * Article
@@ -241,6 +149,8 @@ public class Frame {
 		ArticlePanel panelArticle = new ArticlePanel();
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
+		
+		
 		
 
 		
@@ -256,7 +166,7 @@ public class Frame {
 
         
 
-		/**
+        /**
 		 * History
 		 */
 

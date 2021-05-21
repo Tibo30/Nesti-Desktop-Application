@@ -2,19 +2,14 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import entities.Supplier;
 
 public class QuerySupplier extends MyConnection {
 	
-//	public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-//
-//	public QuerySupplier(String url, String login, String mdp, String bdd) {
-//		super(url, login, mdp, bdd);
-//
-//	}
+//public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+
 	
 	/**
 	 * Read all the supplier names

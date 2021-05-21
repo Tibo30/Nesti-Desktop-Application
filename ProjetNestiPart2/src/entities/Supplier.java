@@ -1,6 +1,5 @@
 package entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Supplier {
@@ -31,6 +30,11 @@ public class Supplier {
 		this.updateDate=updateDate;
 		this.idAdmin=idAdmin;
 
+	}
+	
+	@Override
+	public String toString() {
+		return  name ;
 	}
 	
 	// creating supplier from the app

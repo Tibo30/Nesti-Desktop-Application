@@ -1,7 +1,6 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SupplierSell {
 	
@@ -22,6 +21,7 @@ public class SupplierSell {
 		this.product=product;
 		this.buyingPrice=buyingPrice;
 	}
+
 
 	public Supplier getSupplier() {
 		return supplier;
