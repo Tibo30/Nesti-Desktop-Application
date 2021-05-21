@@ -3,12 +3,30 @@ package view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
+
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+
+import entities.Admin;
+import model.QueryAdmin;
+
+
 
 public class ProfilePanel extends JPanel {
 	
+public static Label[] label;
+public static TextField[] textField;
+public static PasswordField[] passwordField;
+public static Button[] button;
+public static JTabbedPane TabbedPane;
+private QueryAdmin queryAdmin;
+
 	
+
+
 	public ProfilePanel() throws Exception {
 		
 		this.setBackground(new Color(213,167,113));
@@ -26,6 +44,10 @@ public class ProfilePanel extends JPanel {
 
 		Button btnProfilSaveProfil = new Button("Profil_Save_Profil", 175, 347, 125, 35);
 		this.add(btnProfilSaveProfil);
+		
+		Button[] profileButton = {btnProfilModifyProfile,btnProfilModidyPassWord,btnProfilSavePassword,btnProfilSaveProfil };
+		this.button= profileButton;
+		
 
 		Label lblProfilFirstname = new Label("FirstName", 175, 95, 160, 20);
 		this.add(lblProfilFirstname);
@@ -45,6 +67,10 @@ public class ProfilePanel extends JPanel {
 		Label lblProfilConfirmPassword = new Label("Confirm password", 439, 198, 138, 14);
 		this.add(lblProfilConfirmPassword);
 
+		Label[] profileLabel= {lblProfilFirstname,lblProfilLastname, lblProfilUsername,lblProfilPassword,lblProfilNewPassword,lblProfilConfirmPassword};
+		this.label = profileLabel;
+		
+		
 		TextField tfProfilFirstname = new TextField("profilFirstname", 175, 116, 160, 20);
 		this.add(tfProfilFirstname);
 
@@ -53,6 +79,9 @@ public class ProfilePanel extends JPanel {
 
 		TextField TfProfilUsername = new TextField("profilUsername", 175, 223, 160, 20);
 		this.add(TfProfilUsername);
+		
+		TextField[] ProfilTextField = {tfProfilFirstname, tfProfilLastname, TfProfilUsername};
+		this.textField= ProfilTextField;
 
 		PasswordField profilPassword = new PasswordField("Profil Password", 439, 113, 138, 20);
 		this.add(profilPassword);
@@ -62,6 +91,9 @@ public class ProfilePanel extends JPanel {
 
 		PasswordField profilConfirmPassword = new PasswordField("Profil Conform Password", 439, 220, 138, 20);
 		this.add(profilConfirmPassword);
+		
+		PasswordField[] profilePasswordField = {profilPassword, profilNewPassword, profilConfirmPassword, profilConfirmPassword};
+		this.passwordField= profilePasswordField; 
 		
 	}
 

@@ -15,12 +15,12 @@ import entities.UnitMeasure;
 
 public class QuerySupplierSell extends MyConnection {
 
-	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+//	public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
 
 	public static void main(String[] args) throws Exception {
 
-		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
+//		QuerySupplier querySupp = new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
+//		QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
 		Admin adm = new Admin("Jol", "Tibo", "TiboJol123456", "TiboJol987654#", "Unblocked");
 
 		// test de la fonction createPrepared de l'admin
@@ -57,9 +57,9 @@ public class QuerySupplierSell extends MyConnection {
 
 	}
 
-	public QuerySupplierSell(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
-	}
+//	public QuerySupplierSell(String url, String login, String mdp, String bdd) {
+//		super(url, login, mdp, bdd);
+//	}
 
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
 		openConnection();

@@ -19,7 +19,13 @@ import model.QuerySupplier;
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
 	boolean product = false;
+	private QueryAdmin queryAdmin;
 
+	
+	public TabbedPaneChangeListener() {
+	this.queryAdmin= new QueryAdmin();
+
+	}
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
@@ -27,20 +33,20 @@ public class TabbedPaneChangeListener implements ChangeListener {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 
 			if (pane.getSelectedIndex() == 2) {
-				SupplierPanel.clearAndEnableFalse();
-				SupplierPanel.clearTable();
+//				SupplierPanel.clearAndEnableFalse();
+//				SupplierPanel.clearTable();
 
 				try {
 					// create the list of supplier from the database
-					SupplierPanel.updateListSupplier();
+//					SupplierPanel.updateListSupplier();
 					// create the list of products from the database
-					SupplierPanel.updateListProduct();
+//					SupplierPanel.updateListProduct();
 
 				} catch (Exception e1) {
 
 					e1.printStackTrace();
 				}
-
+/*
 			} else if (pane.getSelectedIndex() == 5 && product == false) {
 				product = true;
 				try {
@@ -88,7 +94,29 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 					e2.printStackTrace();
 
+				}*/
+			}	else if (pane.getSelectedIndex() == 7) {
+				
+				try { 
+					
+					ArrayList<Admin> listAdmin =  queryAdmin.listAllAdmin();
+					for (int i=0; i< listAdmin.size(); i++) {
+					
+//						liste d'objets dans combo avec toString pas besoin de requête
+						
+						ManagePanel.combo.addItem(listAdmin.get(i));
+						
+					}
+					
+					
+					
+				}catch (Exception e1) {
+					e1.printStackTrace();
+					
 				}
+				
+				
+				
 			}
 
 		}

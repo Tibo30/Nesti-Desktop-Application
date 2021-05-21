@@ -11,12 +11,12 @@ import entities.Supplier;
 import entities.UnitMeasure;
 
 public class QueryProduct extends MyConnection {
-	public static QueryProduct queryProd = new QueryProduct("127.0.0.1", "root", "", "java_nesti");
-
-	public QueryProduct(String url, String login, String mdp, String bdd) {
-		super(url, login, mdp, bdd);
-
-	}
+//	public static QueryProduct queryProd = new QueryProduct("127.0.0.1", "root", "", "java_nesti");
+//
+//	public QueryProduct(String url, String login, String mdp, String bdd) {
+//		super(url, login, mdp, bdd);
+//
+//	}
 
 	/**
 	 * Read all the supplier names

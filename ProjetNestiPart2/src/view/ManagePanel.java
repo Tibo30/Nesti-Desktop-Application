@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,11 +17,14 @@ public class ManagePanel extends JPanel {
 	public static Label[] label;
 	public static ComboBox combo;
 	public static TextField[] textField;
-	public static PasswordField passwordField[];
+	public static PasswordField[] passwordField;
 	public static Button[] button;
 	public static JTabbedPane TabbedPane;
+	private QueryAdmin queryAdmin;
 
 	public ManagePanel() throws Exception {
+		
+		this.queryAdmin = new QueryAdmin();
 
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -103,12 +107,12 @@ public class ManagePanel extends JPanel {
 		btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// create the object admin from the database according to its first name, 
-					// last name and username selected in the drop down combo box search 
+					// create the object admin from the database according to its first name,
+					// last name and username selected in the drop down combo box search
 
-					String[] username = ((String) list.getSelectedItem()).split(" ");
+					Admin adm =  (Admin) list.getSelectedItem();
 
-					Admin adm = QueryAdmin.queryAdm.selectAdminInfo(username[2]);
+
 					// add all the information in the TextField
 					tfManageFirstname.setText(adm.getFirstname());
 					tfManageLastname.setText(adm.getLastname());
@@ -117,6 +121,7 @@ public class ManagePanel extends JPanel {
 					pwManageConfPassword.setText("********");
 
 				} catch (Exception e1) {
+					System.err.println("message base de donnée non connectée");
 
 					e1.printStackTrace();
 				}
@@ -124,32 +129,48 @@ public class ManagePanel extends JPanel {
 			}
 		});
 		
+		/*
+		public static void updateListSupplier() throws Exception {
+			ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
+			combo[0].removeAllItems(); 
+		 Supplier newSupplier = new Supplier("Create New Supplier", "", "", "", "", "", "",
+		 SupplierPanel.activAdmin.getId()); listSuppl.add(newSupplier); 
+		 for (Supplier sup : querySupplier.listAllSupplier()) { listSuppl.add(sup); 
+			 } for (int i = 0; i < listSuppl.size(); i++) { // add the list elements to the search combo
+			 box 
+			 combo[0].addItem(listSuppl.get(i).getName());
+			
+	 }
+ 
+combo[0].setSelectedIndex(0); 
+}
+*/
+		public static void updateList{
+			
+		
+				
+				
+				
 		
 		
 		/*
 		 * Action to create an admin
 		 */
-		
-		btnManageCreate.addActionListener((ActionListener) new ActionListener(){
+
+		btnManageCreate.addActionListener((ActionListener) new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-			
-				
+
 				try {
-					
-					
-					
-				}catch (Exception ex) {
-					
+
+				} catch (Exception ex) {
+
 				}
-				
+
 			}
-			
+
 		});
 
-		
-		
 		/*
 		 * Action to modify Admin profile
 		 */
@@ -157,7 +178,7 @@ public class ManagePanel extends JPanel {
 		btnManageModifyProfile.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+
 //					ToDO
 
 				} catch (Exception e1) {
@@ -174,9 +195,7 @@ public class ManagePanel extends JPanel {
 		btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
-					
-					
+
 //					ToDO
 
 				} catch (Exception e1) {
