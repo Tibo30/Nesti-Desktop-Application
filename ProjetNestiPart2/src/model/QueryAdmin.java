@@ -101,7 +101,7 @@ public class QueryAdmin extends MyConnection {
 		try {
 			String query = "INSERT INTO `admin`(`admin_lastname`,`admin_firstname`,`admin_login`,`admin_password`,`admin_state`,`is_super_admin`) VALUES (?,?,?,?,?,?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt()); // this is used to encrypt the
+			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12)); // this is used to encrypt the
 																					// password
 			declaration.setString(1, admin.getLastname());
 			declaration.setString(2, admin.getFirstname());
@@ -175,7 +175,7 @@ public class QueryAdmin extends MyConnection {
 
 		boolean checkPassword = false;
 
-		String query = "SELECT `admin_password` FROM `admin` WHERE (`admin_login` =?);";
+		String query = "SELECT `admin_password`, `id_admin` FROM `admin` WHERE (`admin_login` =?);";
 
 		try {
 			declaration = accessDataBase.prepareStatement(query);
@@ -185,9 +185,11 @@ public class QueryAdmin extends MyConnection {
 			rs = declaration.executeQuery();
 
 			if (rs.next()) {
-
+				
 				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
 					checkPassword = true;
+					
+				LoginFrame.id= rs.getInt("id_admin"); // stocker l'id de l'admin dans login frame  
 
 				}
 			}
@@ -196,8 +198,8 @@ public class QueryAdmin extends MyConnection {
 			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
-//		return checkPassword;
-		return true;
+	return checkPassword;
+//return true;
 	}
 
 	/**
@@ -229,5 +231,8 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return checkUser;
 	}
+	
+	
+	
 
 }

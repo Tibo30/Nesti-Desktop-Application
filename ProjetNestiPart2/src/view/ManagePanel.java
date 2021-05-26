@@ -11,17 +11,27 @@ import javax.swing.JTabbedPane;
 
 import entities.Admin;
 import model.QueryAdmin;
+import tools.BCrypt;
+import tools.Check;
 
 public class ManagePanel extends JPanel {
 
-	public static Label[] label;
+	//public static Label[] label;
 	public static ComboBox combo;
-	public static TextField[] textField;
-	public static PasswordField[] passwordField;
-	public static Button[] button;
+	//public static TextField[] textField;
+	//public static PasswordField[] passwordField;
+	//public static Button[] button;
 	public static JTabbedPane TabbedPane;
 	private QueryAdmin queryAdmin;
+	
+	private PasswordField pwManagePassword;
+	private PasswordField pwManageConfPassword;
+	private TextField tfManageUsername;
+	private TextField tfManageLastname;
+	private TextField tfManageFirstname;
+	
 
+	
 	public ManagePanel() throws Exception {
 		
 		this.queryAdmin = new QueryAdmin();
@@ -47,7 +57,7 @@ public class ManagePanel extends JPanel {
 		Button[] manageButton = { btnManageModifyProfile, btnManageModifyPassWord, btnManageBlockAdmin, btnManageLaunch,
 				btnManageCreate };
 
-		this.button = manageButton;
+		//this.button = manageButton;
 
 		Label lblManageSearch = new Label("Search", 133, 46, 95, 27);
 		this.add(lblManageSearch);
@@ -70,35 +80,35 @@ public class ManagePanel extends JPanel {
 		Label[] manageLabel = { lblManageSearch, lblManageFirsName, lblManagePassword, lblManageLastName,
 				lblManageUserName, lblManageConfirmPassword };
 
-		this.label = manageLabel;
+		//this.label = manageLabel;
 
-		TextField tfManageFirstname = new TextField("manageFirstname", 59, 151, 160, 20);
+		this.tfManageFirstname = new TextField("manageFirstname", 59, 151, 160, 20);
 		this.add(tfManageFirstname);
 
-		TextField tfManageLastname = new TextField("manageLastname", 59, 205, 160, 20);
+		this.tfManageLastname = new TextField("manageLastname", 59, 205, 160, 20);
 		this.add(tfManageLastname);
 
-		TextField tfManageUsername = new TextField("", 59, 258, 160, 20);
+		this.tfManageUsername = new TextField("", 59, 258, 160, 20);
 		this.add(tfManageUsername);
 
 		TextField[] manageTextField = { tfManageFirstname, tfManageLastname, tfManageUsername };
 
-		this.textField = manageTextField;
+		//this.textField = manageTextField;
 
-		PasswordField pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
+		this.pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
 		this.add(pwManagePassword);
 
-		PasswordField pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
+		this.pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
 		this.add(pwManageConfPassword);
 
 		PasswordField[] managePassword = { pwManagePassword, pwManageConfPassword };
 
-		this.passwordField = managePassword;
+		//this.passwordField = managePassword;
 
 		ComboBox list = new ComboBox("listAdmin", 190, 43, 339, 32);
 		this.add(list);
 
-		this.combo = list;
+		combo = list;
 
 		/*
 		 * Action to launch the search of an admin
@@ -145,7 +155,7 @@ public class ManagePanel extends JPanel {
 combo[0].setSelectedIndex(0); 
 }
 */
-		public static void updateList{
+	//	public static void updateList{
 			
 		
 				
@@ -162,6 +172,76 @@ combo[0].setSelectedIndex(0);
 			public void actionPerformed(ActionEvent e) {
 
 				try {
+					
+					//	//1)Récuperer les données
+					String lastname = tfManageLastname.getText();
+					String firstname= tfManageFirstname.getText();
+					String username= tfManageUsername.getText();
+					char[] psw= pwManagePassword.getPassword();
+					char[]confpsw=pwManageConfPassword.getPassword();
+						//System.out.println(psw);
+						//System.out.println(confpsw);
+						//System.out.println(String.valueOf(psw).equals(String.valueOf(confpsw)));
+							
+				
+					//2) vérifier la validité des textfield
+					
+					if(Check.isValidLogin(username)==false) {
+						
+						JOptionPane.showMessageDialog(null, "Username is incorrect", "creation aborded", JOptionPane.ERROR_MESSAGE);
+					
+					}else if (Check.isValidName(lastname)==false){
+						
+						JOptionPane.showMessageDialog(null, "Last name is incorrect", "creation aborded", JOptionPane.ERROR_MESSAGE);
+
+						
+						
+						
+					}else if (Check.isValidName(firstname)==false) {
+						
+						
+						JOptionPane.showMessageDialog(null, "First name is incorrect", "creation aborded", JOptionPane.ERROR_MESSAGE);
+
+					}else if (Check.isValidPsw(psw)==false) {
+						
+						JOptionPane.showMessageDialog(null, "Password is incorrect", "creation aborded", JOptionPane.ERROR_MESSAGE);
+
+										
+						
+						
+					}else if(! Check.isValidConf(psw, confpsw)) {
+						
+						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match", "creation aborded", JOptionPane.ERROR_MESSAGE);
+
+					}else{
+						
+											
+						Admin adm = new Admin(lastname, firstname, username, String.valueOf(psw), "Unblocked");
+						
+						QueryAdmin qa= new QueryAdmin();
+						
+						if (qa.createPrepared(adm)==false) {
+							
+							JOptionPane.showMessageDialog(null, "Error in Admin insert", "creation aborded", JOptionPane.ERROR_MESSAGE);
+
+							
+						}else{
+							
+							JOptionPane.showMessageDialog(null, "Admin was successfully inserted", "creation succeded", JOptionPane.INFORMATION_MESSAGE);
+
+							
+						};
+						
+					}
+					
+					
+					//3) tenter de faire la requête
+					//4)traiter la réponse	
+					
+					
+					
+					
+					
 
 				} catch (Exception ex) {
 
@@ -192,19 +272,19 @@ combo[0].setSelectedIndex(0);
 		/*
 		 * Action to modify Admin's password
 		 */
-		btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-
+		//btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
+	//		public void actionPerformed(ActionEvent arg0) {
+	//			try {
+//
 //					ToDO
 
-				} catch (Exception e1) {
+		//		} catch (Exception e1) {
 
-					e1.printStackTrace();
-				}
+				//	e1.printStackTrace();
+			//	}
 
 			}
-		});
+		//});
 
 	}
-}
+//}

@@ -135,9 +135,9 @@ public class Frame {
 		 * Order
 		 */
 
-		OrderPanel panelOrder = new OrderPanel();
+	//	OrderPanel panelOrder = new OrderPanel();
 
-		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
+	//	TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
 		
 
 		
@@ -158,9 +158,9 @@ public class Frame {
          * Product
          */
 
-        ProductPanel panelProduct = new ProductPanel();
+    //    ProductPanel panelProduct = new ProductPanel();
 
-        TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
+       // TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
         
         
 

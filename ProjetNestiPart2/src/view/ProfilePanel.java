@@ -95,6 +95,21 @@ private QueryAdmin queryAdmin;
 		PasswordField[] profilePasswordField = {profilPassword, profilNewPassword, profilConfirmPassword, profilConfirmPassword};
 		this.passwordField= profilePasswordField; 
 		
+	this.showAdminInfo();
+	
+	}
+	
+	
+	// Au chargement fonction qui affiche les infos de l'utilisateur
+	
+	public void showAdminInfo() {
+		// rcuperer id de l'admin
+		
+		int id = LoginFrame.id;
+		
+		//requête select pour avoir les infos objet de type admin
+		// expl : profile textfield : setText()=
+		// A la connexion 
 	}
 
 }
