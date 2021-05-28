@@ -2,12 +2,16 @@ package view;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
 import entities.Admin;
 import model.QueryAdmin;
+import tools.Check;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -34,7 +38,7 @@ private Button btnProfilModifyProfile;
 private Button btnProfilSaveProfile;
 private Button btnProfilModidyPassword;
 private Button btnProfilSavePassword;
-
+private int idAdminSelected;
 	
 
 
@@ -53,8 +57,11 @@ private Button btnProfilSavePassword;
 				tfProfilFirstname.setEnabled(true);
 				tfProfilLastname.setEnabled(true);
 				tfProfilUsername.setEnabled(true);
+			
+				
 			}
 		});
+		
 		this.add(btnProfilModifyProfile);
 		
 		btnProfilSaveProfile = new Button("Profil_Save_Profil", 175, 360, 125, 35);
@@ -65,6 +72,9 @@ private Button btnProfilSavePassword;
 				tfProfilFirstname.setEnabled(false);
 				tfProfilLastname.setEnabled(false);
 				tfProfilUsername.setEnabled(false);
+				
+				
+				
 			}
 		});
 		btnProfilSaveProfile.setVisible(false);
@@ -78,6 +88,64 @@ private Button btnProfilSavePassword;
 				profilPassword.setEnabled(true);
 				profilNewPassword.setEnabled(true);
 				profilConfirmPassword.setEnabled(true);
+				
+				try {
+					
+					// 1)Get the data (lastname, firstname, username, psw, confpsw)
+					String lastname = tfProfilLastname.getText();
+					String firstname = tfProfilFirstname.getText();
+					String username = tfProfilUsername.getText();
+					
+					// 2) Check the validity of textfields and passwordfilds
+
+					if (Check.isValidLogin(username) == false) {
+
+						JOptionPane.showMessageDialog(null, "Username is incorrect", "Modification aborded",
+								JOptionPane.ERROR_MESSAGE);
+
+					} else if (Check.isValidName(lastname) == false) {
+
+						JOptionPane.showMessageDialog(null, "Last name is incorrect", "Modification aborded",
+								JOptionPane.ERROR_MESSAGE);
+
+					} else if (Check.isValidName(firstname) == false) {
+
+						JOptionPane.showMessageDialog(null, "First name is incorrect", "Modification aborded",
+							JOptionPane.ERROR_MESSAGE);
+				
+				}else {
+					
+					// 3) Query
+
+					Admin adm = new Admin(lastname, firstname, username, null, "Unblocked");
+					QueryAdmin qa = new QueryAdmin();
+													
+
+					// 4) traiter la réponse
+
+					if (qa.createPrepared(adm) == false) {
+
+						JOptionPane.showMessageDialog(null, "Error in Admin modification", "Modification aborded",
+								JOptionPane.ERROR_MESSAGE);
+
+					} else {
+
+						JOptionPane.showMessageDialog(null, "Admin was successfully modified", "Modification succeded",
+								JOptionPane.INFORMATION_MESSAGE);
+
+					}
+					;
+
+				}
+			} catch (Exception ex) {
+
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+
+			}
+				
+				
+				
+				
 			}
 		});
 		
@@ -93,6 +161,46 @@ private Button btnProfilSavePassword;
 				profilConfirmPassword.setEnabled(false);
 				
 				//ajouter un insert si modification du mot de passe
+				
+try {
+					char[] psw = profilPassword.getPassword();
+					char[] confpsw = profilConfirmPassword.getPassword();
+					char[] newpsw = profilNewPassword.getPassword();
+				
+					if (Check.isValidPsw(psw) == false) {
+
+						JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
+								JOptionPane.ERROR_MESSAGE);
+						
+
+					} else if (!Check.isValidConf(psw, confpsw)) {
+
+						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match", "Update password aborded",
+								JOptionPane.ERROR_MESSAGE);
+					}else {
+						
+						QueryAdmin qa = new QueryAdmin();
+						
+						if(qa.updatePasswordPrepared(psw, idAdminSelected )) {
+							JOptionPane.showMessageDialog(null, "Password was succussfully changed", "Update password", JOptionPane.INFORMATION_MESSAGE);
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Password was not changed", "Update password aborded", JOptionPane.ERROR_MESSAGE);
+							
+						}
+						
+						
+					}
+
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+					
+				
+				
+				
+				
 			}
 		});
 		btnProfilSavePassword.setVisible(false);
