@@ -154,13 +154,13 @@ public class Frame {
 		
 
 		
-/*
+		/**
          * Product
          */
 
-        ProductPanel panelProduct = new ProductPanel();
+       ProductPanel panelProduct = new ProductPanel();
 
-        TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
+       TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
         
         
 
