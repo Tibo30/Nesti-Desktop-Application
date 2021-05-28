@@ -1,31 +1,22 @@
 package view;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 
 import entities.Admin;
-import entities.Product;
-import entities.Supplier;
 import model.QueryAdmin;
-import entities.UnitMeasure;
+import model.QueryArticle;
 import model.QueryProduct;
-import model.QuerySupplier;
 
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
 	boolean product = false;
-	private QueryAdmin queryAdmin;
-
-	
-	public TabbedPaneChangeListener() {
-	this.queryAdmin= new QueryAdmin();
-
-	}
+	private QueryAdmin queryAdmin = new QueryAdmin();
+	private QueryProduct queryProd = new QueryProduct();
+	private QueryArticle queryArt = new QueryArticle();
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
@@ -33,75 +24,57 @@ public class TabbedPaneChangeListener implements ChangeListener {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 
 			if (pane.getSelectedIndex() == 2) {
-//				SupplierPanel.clearAndEnableFalse();
-//				SupplierPanel.clearTable();
+				SupplierPanel.clearAndEnableFalse();
+				SupplierPanel.clearTable();
 
 				try {
 					// create the list of supplier from the database
-//					SupplierPanel.updateListSupplier();
+					SupplierPanel.updateListSupplier();
 					// create the list of products from the database
-//					SupplierPanel.updateListProduct();
+					SupplierPanel.updateListProduct();
 
 				} catch (Exception e1) {
 
 					e1.printStackTrace();
 				}
-/*
+
+			} else if (pane.getSelectedIndex() == 3) {
+				
+				OrderPanel.clearTable();
+				OrderPanel.clearAndEnableFalse();
+				
+				try {					
+					OrderPanel.listOfOrder();
+//					OrderPanel.listOfArticle();
+//					OrderPanel.listOfSupplier();
+//					OrderPanel.listOfProduct();
+//					OrderPanel.listState();
+					OrderPanel.listOfPackaging();
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+			}else if (pane.getSelectedIndex() == 4 ) {
+				try {
+					
+					ArticlePanel.creatListOfArticle();
+					ArticlePanel.updateListArticle();
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			} else if (pane.getSelectedIndex() == 5 && product == false) {
 				product = true;
-				try {
-					ArrayList<Product> listProd = QueryProduct.queryProd.listAllProduct();
-					DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.getTable().getModel();
-					for (int i = 0; i < listProd.size(); i++) {
-						// add the list elements to the search combo box
-						Object[] row = { listProd.get(i).getName(), listProd.get(i).getState(),
-								listProd.get(i).getType(), listProd.get(i).getUnit().getName(),
-								listProd.get(i).getQuantity() };
-						model.addRow(row);
-					}
-
-				} catch (Exception e1) {
-					e1.printStackTrace();
-
-				}
-				try {
-					ArrayList<UnitMeasure> listUnit = QueryProduct.queryProd.AllUnit();
-
-					// add the list elements to the search combo box
-					for (int i = 0; i < listUnit.size(); i++) {
-
-						ProductPanel.prod.getCombo()[0].addItem(listUnit.get(i).getName());
-
-					}
-
-				} catch (Exception e2) {
-
-					e2.printStackTrace();
-
-				}
-
-				try {
-					ArrayList<String> listType = QueryProduct.queryProd.AllType();
-
-					// add the list elements to the search combo box
-					for (int i = 0; i < listType.size(); i++) {
-
-						ProductPanel.prod.getCombo()[1].addItem(listType.get(i));
-
-					}
-
-				} catch (Exception e2) {
-
-					e2.printStackTrace();
-
-				}*/
-			}	else if (pane.getSelectedIndex() == 6) {
+				ProductPanel.creatTable();
+				ProductPanel.createUnitList();
+				ProductPanel.createTypeList();
+			
 				
-				
-				
-				
+					
 			}
-
 		}
 	}
 }
