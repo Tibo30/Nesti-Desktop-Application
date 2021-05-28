@@ -73,12 +73,12 @@ public class LoginFrame extends JFrame {
 			
 				if(Check.isValidLogin(user)==false) {
 					
-					JOptionPane.showMessageDialog(null, "Le champs username doit être rempli", "erreur message", JOptionPane.ERROR_MESSAGE );
+					JOptionPane.showMessageDialog(null, "The user name is not valid", "error message", JOptionPane.ERROR_MESSAGE );
 					
 				
 				} else if (Check.isValidPsw(psw)==false){
 					
-					JOptionPane.showMessageDialog(null, "Le mot de passe n'est pas valide", "erreur message", JOptionPane.ERROR_MESSAGE);			
+					JOptionPane.showMessageDialog(null, "The password is not valid", "error message", JOptionPane.ERROR_MESSAGE);			
 					
 					
 					
@@ -88,7 +88,7 @@ public class LoginFrame extends JFrame {
 						System.out.println(psw);
 						
 						if (queryAdmin.checkPassword(user, String.valueOf(psw))) {
-							JOptionPane.showMessageDialog(null, "Connection successful");
+							JOptionPane.showMessageDialog(null, "Login successful");
 
 							Frame window = new view.Frame();
 							window.show();

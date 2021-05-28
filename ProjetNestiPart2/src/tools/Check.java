@@ -34,9 +34,11 @@ public class Check {
 		}
 		return numeric;
 	}
+	
+	//Function to check login validity
 
 	public static boolean isValidLogin(String username) {
-		String regex = "[a-z0-9.]+";
+		String regex = "[a-zA-Z0-9.]+";
 
 		Pattern p = Pattern.compile(regex);
 
@@ -46,6 +48,10 @@ public class Check {
 		Matcher m = p.matcher(username);
 		return m.matches();
 	}
+	
+	
+	//Function to check password validity
+
 
 	public static boolean isValidPsw(char[] psw) {
 	
@@ -56,9 +62,9 @@ public class Check {
 
 		}
 
-		// rajouter une règle s'il faut (caractères spciaux)
+		
+		String regex="^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$";// rajouter une règle s'il faut (caractères spciaux)
 
-		String regex="^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$";
 	    
 		Pattern p = Pattern.compile(regex);
 		
@@ -67,6 +73,19 @@ public class Check {
 		return m.matches();
 
 	}
+	
+	//Function to check password confirmation matching with the password
+	
+		public static boolean isValidConf(char[] psw, char[] confpsw) {
+			
+			return String.valueOf(psw).equals(String.valueOf(confpsw));
+			
+			
+			
+		}
+		
+
+	//Function to check first name and last name validity
 
 	public static boolean isValidName(String lastname) {
 
@@ -86,13 +105,6 @@ public class Check {
 		
 	}
 
-	public static boolean isValidConf(char[] psw, char[] confpsw) {
-		
-		return String.valueOf(psw).equals(String.valueOf(confpsw));
-		
-		
-		
-	}
 	
 	
 }

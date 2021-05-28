@@ -87,6 +87,35 @@ public class QueryAdmin extends MyConnection {
 		return adm;
 	}
 
+	public Admin selectAdminInfoById(int id) throws Exception {
+		openConnection();
+		Admin adm = null;
+		ResultSet rs;
+		try {
+			String query = "SELECT id_admin, admin_lastname, admin_firstname, admin_login, admin_password, admin_state, admin_creation_date, admin_update_date, is_super_admin FROM admin WHERE id_admin=? ;";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setInt(1, id);
+			rs = declaration.executeQuery();
+
+			/* Récupération des données */
+			if (rs.next()) {
+				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
+						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
+						rs.getDate("admin_creation_date"), rs.getDate("admin_update_date"),
+						rs.getBoolean("is_super_admin"));
+			}
+		} catch (Exception e) {
+			System.err.println("Error in Admin creation: " + e.getMessage());
+		}
+		closeConnection();
+		return adm;
+	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * This method is used to create a new Admin in the database, during the
 	 * register process
@@ -101,8 +130,10 @@ public class QueryAdmin extends MyConnection {
 		try {
 			String query = "INSERT INTO `admin`(`admin_lastname`,`admin_firstname`,`admin_login`,`admin_password`,`admin_state`,`is_super_admin`) VALUES (?,?,?,?,?,?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12)); // this is used to encrypt the
-																					// password
+			
+			// this is used to encrypt the password
+			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12)); 
+																				 
 			declaration.setString(1, admin.getLastname());
 			declaration.setString(2, admin.getFirstname());
 			declaration.setString(3, admin.getUsername());
@@ -127,27 +158,18 @@ public class QueryAdmin extends MyConnection {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean updatePrepared(String valueChanged, String newValue, String name) throws Exception {
+	public boolean updatePrepared(Admin admin) throws Exception {
 		openConnection();
 		boolean flag = false;
 		try {
-			String query = "";
-			switch (valueChanged) {
-
-			case "admin_Lastname":
-				query = "UPDATE admin SET admin_lastname=? WHERE admin_login=?";
-				break;
-			case "admin_Firstname":
-				query = "UPDATE admin SET admin_firstname=? WHERE admin_login=?";
-				break;
-			case "state":
-				query = "UPDATE admin SET admin_state=? WHERE admin_login=?";
-				break;
-
-			}
+			String query = "UPDATE admin SET admin_lastname=?, admin_firstname=?, admin_state=?, admin_login=? WHERE id_admin=?";
+	
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			declaration.setString(1, newValue);
-			declaration.setString(2, name);
+			declaration.setString(1, admin.getLastname());
+			declaration.setString(2, admin.getFirstname());
+			declaration.setString(3, admin.getState());
+			declaration.setString(4, admin.getUsername());
+			declaration.setInt(5, admin.getId());
 
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
@@ -199,7 +221,7 @@ public class QueryAdmin extends MyConnection {
 		}
 		
 	return checkPassword;
-//return true;
+
 	}
 
 	/**
@@ -230,6 +252,28 @@ public class QueryAdmin extends MyConnection {
 		}
 		closeConnection();
 		return checkUser;
+	}
+
+	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) {
+		openConnection();
+		boolean flag = false;
+		try {
+			String query = "UPDATE admin SET admin_password=? WHERE id_admin=?"; 
+			String pw_hash = BCrypt.hashpw(String.valueOf(psw), BCrypt.gensalt(12)); 
+
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, pw_hash);
+			declaration.setInt(2, idAdminSelected);
+
+			int executeUpdate = declaration.executeUpdate();
+			flag = (executeUpdate == 1);
+		} catch (Exception e) {
+			System.err.println("Error in password modification: " + e.getMessage());
+		}
+		
+		closeConnection();
+		return flag;
+		
 	}
 	
 	

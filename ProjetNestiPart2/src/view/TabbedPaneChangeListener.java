@@ -95,25 +95,8 @@ public class TabbedPaneChangeListener implements ChangeListener {
 					e2.printStackTrace();
 
 				}*/
-			}	else if (pane.getSelectedIndex() == 7) {
+			}	else if (pane.getSelectedIndex() == 6) {
 				
-				try { 
-					
-					ArrayList<Admin> listAdmin =  queryAdmin.listAllAdmin();
-					for (int i=0; i< listAdmin.size(); i++) {
-					
-//						liste d'objets dans combo avec toString pas besoin de requête
-						
-						ManagePanel.combo.addItem(listAdmin.get(i));
-						
-					}
-					
-					
-					
-				}catch (Exception e1) {
-					e1.printStackTrace();
-					
-				}
 				
 				
 				
