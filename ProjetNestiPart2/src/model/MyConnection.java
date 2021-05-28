@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class MyConnection {
 	static Connection accessDataBase = null;
 	protected String login;
@@ -21,6 +23,7 @@ public class MyConnection {
 		setUrl("jdbc:mysql://" + Config.HOSTNAME + "/" + Config.DATABASE);
 		setLogin(Config.USERNAME);
 		setMdp(Config.PASSWORD);
+
 	}
 
 	/**
@@ -62,13 +65,13 @@ public class MyConnection {
 		return flag;
 	}
 
-	public void closeConnection() throws Exception {
+	public void closeConnection() {
 		if (accessDataBase != null) {
 			try {
 				accessDataBase.close();
 				System.out.println("Close connection");
 			} catch (SQLException e) {
-				throw new Exception("Erreur fermeture");
+				System.out.println("Erreur de fermeture");
 			}
 		}
 	}
