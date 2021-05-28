@@ -73,23 +73,7 @@ private int idAdminSelected;
 				tfProfilLastname.setEnabled(false);
 				tfProfilUsername.setEnabled(false);
 				
-				
-				
-			}
-		});
-		btnProfilSaveProfile.setVisible(false);
-		this.add(btnProfilSaveProfile);
-		
-		btnProfilModidyPassword = new Button("Profil_Modify_Password", 439, 360, 149, 35);
-		btnProfilModidyPassword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnProfilSavePassword.setVisible(true);
-				btnProfilModidyPassword.setVisible(false);
-				profilPassword.setEnabled(true);
-				profilNewPassword.setEnabled(true);
-				profilConfirmPassword.setEnabled(true);
-				
-				try {
+try {
 					
 					// 1)Get the data (lastname, firstname, username, psw, confpsw)
 					String lastname = tfProfilLastname.getText();
@@ -143,6 +127,22 @@ private int idAdminSelected;
 
 			}
 				
+			}
+		});
+		btnProfilSaveProfile.setVisible(false);
+		this.add(btnProfilSaveProfile);
+		
+		btnProfilModidyPassword = new Button("Profil_Modify_Password", 439, 360, 149, 35);
+		btnProfilModidyPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnProfilSavePassword.setVisible(true);
+				btnProfilModidyPassword.setVisible(false);
+				profilPassword.setEnabled(true);
+				profilNewPassword.setEnabled(true);
+				profilConfirmPassword.setEnabled(true);
+				
+				
+				
 				
 				
 				
@@ -173,7 +173,7 @@ try {
 								JOptionPane.ERROR_MESSAGE);
 						
 
-					} else if (!Check.isValidConf(psw, confpsw)) {
+					} else if (!Check.isValidConf(newpsw, confpsw)) {
 
 						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match", "Update password aborded",
 								JOptionPane.ERROR_MESSAGE);
