@@ -389,7 +389,7 @@ public class ArticlePanel extends JPanel {
 			DefaultTableModel model = (DefaultTableModel) ArticlePanel.table_3.getModel();
 			for (int i = 0; i < suppliersSell.size(); i++) {
 				// add the list elements to the search combo box
-				// System.out.println(listProd.get(i).getState());
+				
 				Product pro = suppliersSell.get(i).getProduct();
 				double buyingprice = suppliersSell.get(i).getBuyingPrice();
 				UnitMeasure unit = pro.getUnit();
@@ -400,7 +400,7 @@ public class ArticlePanel extends JPanel {
 				model.addRow(row);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 	}
@@ -451,21 +451,8 @@ public class ArticlePanel extends JPanel {
 		}
 	}
 
-	/*
-	 * public void listOfSupplierforArticle() {
-	 * 
-	 * ArrayList<Product> listSupplier; try { listSupplier =
-	 * queryArt.giveArticleInfo();
-	 * 
-	 * DefaultTableModel model = (DefaultTableModel)
-	 * ProductPanel.table_1.getModel(); for (int i = 0; i < listSupplier.size();
-	 * i++) { // add the list elements to the search combo box //
-	 * System.out.println(listProd.get(i).getState()); Object[] row = {
-	 * listSupplier.get(i).getName(), };
-	 * 
-	 * model.addRow(row); } } catch (Exception e) { // TODO Auto-generated catch
-	 * block e.printStackTrace(); } }
-	 */
+	
+
 	/**
 	 * This method is used to format the number (used to not display 2.0 but 2)
 	 * 

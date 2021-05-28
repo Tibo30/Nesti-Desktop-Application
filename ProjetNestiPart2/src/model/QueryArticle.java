@@ -154,19 +154,16 @@ public class QueryArticle extends MyConnection {
 			String query = "SELECT * FROM unit_measure  ";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet resultat = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
 			while (resultat.next()) {
 
 				UnitMeasure unit1 = new UnitMeasure(resultat.getInt("id_unit_measure"),
 						resultat.getString("unit_measure_name"));
-
 				unit.add(unit1);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
 		closeConnection();
-
 		return unit;
 	}
 
@@ -248,7 +245,6 @@ public class QueryArticle extends MyConnection {
 			declaration.setString(2, packaging);
 			declaration.setDouble(3, quantity);
 			rs = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
 			if (rs.next()) {
 				Packaging pack = new Packaging(rs.getString("packaging_name"));
 				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
