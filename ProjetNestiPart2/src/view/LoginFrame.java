@@ -1,49 +1,39 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Image;
 
+import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import entities.Admin;
+import model.MyConnection;
 import model.QueryAdmin;
+import tools.Check;
 
 public class LoginFrame extends JFrame {
 
 	private JPanel contentPane;
-	private TextField username;
-	private PasswordField password;
-	private Label UserName;
+	private TextField tfUsername;
+	private PasswordField pfPassword;
 	private QueryAdmin queryAdmin;
 
-//	private Label password;
-	/**
-	 * Launch the application.
-	 */
+	public static int id;
 
-//	public static void main(String[] args) {
-//		
-//		MyConnection co= new MyConnection();
-//		
-//		
-//		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					LoginFrame frame = new LoginFrame();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+
 
 	/**
 	 * Create the frame.
@@ -60,6 +50,79 @@ public class LoginFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		Button btnLogin = new Button("login", 124, 331, 89, 35);
+
+		btnLogin.setForeground(new Color(255, 255, 255));
+		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
+
+		btnLogin.setBackground(new Color(160, 82, 45));
+		contentPane.add(btnLogin);
+		
+		/*
+		 * Add ActionListener on login button
+		 */
+		
+		btnLogin.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				String user = tfUsername.getText();
+				char[] psw = pfPassword.getPassword();
+
+				//Faire les vérifications 
+			
+				if(Check.isValidLogin(user)==false) {
+					
+					JOptionPane.showMessageDialog(null, "The user name is not valid", "error message", JOptionPane.ERROR_MESSAGE );
+					
+				
+				} else if (Check.isValidPsw(psw)==false){
+					
+					JOptionPane.showMessageDialog(null, "The password is not valid", "error message", JOptionPane.ERROR_MESSAGE);			
+					
+					
+					
+				}else{
+					
+					try {
+						System.out.println(psw);
+						
+						if (queryAdmin.checkPassword(user, String.valueOf(psw))) {
+							JOptionPane.showMessageDialog(null, "Login successful");
+
+							Frame window = new view.Frame();
+							window.show();
+							dispose();
+
+							Frame.activAdmin = queryAdmin.selectAdminInfo(user);
+
+						} else {
+							JOptionPane.showMessageDialog(null, "Invalid Username or Password");
+
+						}
+					} catch (Exception exp) {
+						System.err.println("Error in Admin informations" + exp.getMessage());
+					}	
+					
+					
+				};
+				
+				
+				
+				
+				//1) champs non vides  
+				
+				
+				
+				//2) champs valides
+				//3) requête pr vrifier si c'est le bon psw
+				//si oui ouvrir l'appli si non  
+				
+		
+			}
+
+		});
+
 		Label lblLogo = new Label("logo", 124, 62, 72, 58);
 
 		lblLogo.setIcon(new ImageIcon(LoginFrame.class.getResource("/assets/logo.jpg")));
@@ -75,68 +138,27 @@ public class LoginFrame extends JFrame {
 		lblPassswordConnexion.setFont(new Font("Tahoma", Font.BOLD, 15));
 		contentPane.add(lblPassswordConnexion);
 
-		TextField tfUsername = new TextField("username", 86, 176, 160, 20);
+		this.tfUsername = new TextField("username", 86, 176, 160, 20);
 		contentPane.add(tfUsername);
 
 		tfUsername.setColumns(10);
 		tfUsername.setBackground(new Color(205, 133, 63));
 
-		PasswordField password = new PasswordField("password", 86, 230, 160, 20);
+		this.pfPassword = new PasswordField("password", 86, 230, 160, 20);
 
-		password.setColumns(10);
-		password.setBackground(new Color(205, 133, 63));
-		contentPane.add(password);
-
-		Label lblBackground = new Label("background", 0, 0, 313, 437);
+		pfPassword.setColumns(10);
+		pfPassword.setBackground(new Color(205, 133, 63));
+		contentPane.add(pfPassword);
 
 		Image img = new ImageIcon(Frame.class.getResource("/assets/NESTi.jpg")).getImage();
 		Image newimg = img.getScaledInstance(313, 437, java.awt.Image.SCALE_SMOOTH);
+
+		Label lblBackground = new Label("background", 0, 0, 313, 437);
 		lblBackground.setIcon(new ImageIcon(newimg));
 
 		contentPane.add(lblBackground);
 
-		Button btnLogin = new Button("login", 124, 331, 89, 35);
-
-		btnLogin.setForeground(new Color(255, 255, 255));
-		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
-
-		btnLogin.setBackground(new Color(160, 82, 45));
-		contentPane.add(btnLogin);
-
-		/*
-		 * Add ActionListener on login button
-		 */
-		btnLogin.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-
-				String user = tfUsername.getText();
-				char[] psw = password.getPassword();
-
-//				Ecrire en dur le mot de passe et username
-
-				try {
-					if (queryAdmin.checkPassword(user, String.valueOf(psw))) {
-						JOptionPane.showMessageDialog(null, "Connection successful");
-						
-						
-						Frame window = new view.Frame() ;
-						window.show();
-						dispose();
-						
-
-						Frame.activAdmin = queryAdmin.selectAdminInfo("JohnnyDoe35");
-							System.out.println(Frame.activAdmin.toString());
-					} else {
-						JOptionPane.showMessageDialog(null, "Invalid Username or Password");
-
-					}
-				} catch (Exception exp) {
-					System.err.println("Error in Admin informations" + exp.getMessage());
-				}
-			}
-
-		});
+	
 
 	}
 }
