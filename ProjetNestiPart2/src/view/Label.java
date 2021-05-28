@@ -36,5 +36,7 @@ public class Label extends JLabel {
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));
 			
 		}
+	
 	}
+	
 }

@@ -7,11 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import entities.Article;
 import entities.Order;
 import entities.OrderLine;
-import entities.Packaging;
-import entities.Product;
 import entities.Supplier;
 
 public class QueryOrder extends MyConnection {

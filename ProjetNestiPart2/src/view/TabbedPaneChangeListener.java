@@ -19,8 +19,13 @@ import model.QuerySupplier;
 public class TabbedPaneChangeListener implements ChangeListener {
 	boolean supplier = false;
 	boolean product = false;
-	private QueryAdmin queryAdmin = new QueryAdmin();
-	private QueryProduct queryProd = new QueryProduct();
+	private QueryAdmin queryAdmin;
+
+	
+	public TabbedPaneChangeListener() {
+	this.queryAdmin= new QueryAdmin();
+
+	}
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
@@ -28,51 +33,30 @@ public class TabbedPaneChangeListener implements ChangeListener {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 
 			if (pane.getSelectedIndex() == 2) {
-				SupplierPanel.clearAndEnableFalse();
-				SupplierPanel.clearTable();
+//				SupplierPanel.clearAndEnableFalse();
+//				SupplierPanel.clearTable();
 
 				try {
 					// create the list of supplier from the database
-					SupplierPanel.updateListSupplier();
+//					SupplierPanel.updateListSupplier();
 					// create the list of products from the database
-					SupplierPanel.updateListProduct();
+//					SupplierPanel.updateListProduct();
 
 				} catch (Exception e1) {
 
 					e1.printStackTrace();
 				}
-
-			} else if (pane.getSelectedIndex() == 3) {
-				
-				OrderPanel.clearTable();
-				OrderPanel.clearAndEnableFalse();
-				
-				try {					
-					OrderPanel.listOfOrder();
-//					OrderPanel.listOfArticle();
-//					OrderPanel.listOfSupplier();
-//					OrderPanel.listOfProduct();
-//					OrderPanel.listState();
-					OrderPanel.listOfPackaging();
-				} catch (Exception e1) {
-
-					e1.printStackTrace();
-				}
-
+/*
 			} else if (pane.getSelectedIndex() == 5 && product == false) {
 				product = true;
 				try {
-					ArrayList<Product> listProd =queryProd.listAllProduct();
-				
-					DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
+					ArrayList<Product> listProd = QueryProduct.queryProd.listAllProduct();
+					DefaultTableModel model = (DefaultTableModel) ProductPanel.prod.getTable().getModel();
 					for (int i = 0; i < listProd.size(); i++) {
 						// add the list elements to the search combo box
-					//	System.out.println(listProd.get(i).getState());
-						Object[] row = { 
-								listProd.get(i).getName(), listProd.get(i).getState(),
-								listProd.get(i).getType(), listProd.get(i).getUnit().getName(),""
-								 };
-						
+						Object[] row = { listProd.get(i).getName(), listProd.get(i).getState(),
+								listProd.get(i).getType(), listProd.get(i).getUnit().getName(),
+								listProd.get(i).getQuantity() };
 						model.addRow(row);
 					}
 
@@ -81,12 +65,12 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 				}
 				try {
-					ArrayList<UnitMeasure> listUnit = queryProd.AllUnit();
+					ArrayList<UnitMeasure> listUnit = QueryProduct.queryProd.AllUnit();
 
 					// add the list elements to the search combo box
 					for (int i = 0; i < listUnit.size(); i++) {
 
-						ProductPanel.combo[0].addItem(listUnit.get(i).getName());
+						ProductPanel.prod.getCombo()[0].addItem(listUnit.get(i).getName());
 
 					}
 
@@ -97,12 +81,12 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				}
 
 				try {
-					ArrayList<String> listType = queryProd.AllType();
+					ArrayList<String> listType = QueryProduct.queryProd.AllType();
 
 					// add the list elements to the search combo box
 					for (int i = 0; i < listType.size(); i++) {
 
-						ProductPanel.combo[1].addItem(listType.get(i));
+						ProductPanel.prod.getCombo()[1].addItem(listType.get(i));
 
 					}
 
@@ -110,27 +94,14 @@ public class TabbedPaneChangeListener implements ChangeListener {
 
 					e2.printStackTrace();
 
-				}
-			} else if (pane.getSelectedIndex() == 7) {
-
-                try { 
-
-                    ArrayList<Admin> listAdmin =  queryAdmin.listAllAdmin();
-                    for (int i=0; i< listAdmin.size(); i++) {
-
-//                        liste d'objets dans combo avec toString pas besoin de requ�te
-
-                        ManagePanel.combo.addItem(listAdmin.get(i));
-
-                    }
-
-
-
-                }catch (Exception e1) {
-                    e1.printStackTrace();
-
-                }
+				}*/
+			}	else if (pane.getSelectedIndex() == 6) {
+				
+				
+				
+				
 			}
+
 		}
 	}
 }

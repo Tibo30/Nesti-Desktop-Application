@@ -10,12 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import entities.Admin;
-import entities.Order;
+
 import entities.Product;
 import entities.Supplier;
 import entities.SupplierSell;
-import model.QueryAdmin;
 import model.QueryProduct;
 import model.QuerySupplier;
 import model.QuerySupplierSell;
@@ -499,20 +497,20 @@ public class SupplierPanel extends JPanel {
 	}
 
 	public static SupplierSell fillProductSupplierTable(Supplier supplier) throws Exception {
-		SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
-		ArrayList<Product> product = supplSell.getProducts();
-		ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-		clearTable();
-		if (product.size() > 0) {
-			for (int i = 0; i < product.size(); i++) {
-				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-						buyingPrices.get(i) + " €/u" };
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.addRow(row);
-			}
-		}
-		return supplSell;
-	}
+        SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
+        ArrayList<Product> product = supplSell.getProducts();
+        ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
+        clearTable();
+        if (product.size() > 0) {
+            for (int i = 0; i < product.size(); i++) {
+                Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
+                        buyingPrices.get(i) + " €/u" };
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.addRow(row);
+            }
+        }
+        return supplSell;
+    }
 
 	public static void fillTextField(Supplier supplier) {
 

@@ -27,6 +27,15 @@ public class Admin {
 		this.superAdmin=superAdmin;
 	}
 	
+/**
+ * For creation of new Admin
+ * @param lastname
+ * @param firstname
+ * @param username
+ * @param password
+ * @param state
+ */
+
 	public Admin(String lastname, String firstname, String username, String password, String state) {
 		this.lastname=lastname;
 		this.firstname=firstname;
