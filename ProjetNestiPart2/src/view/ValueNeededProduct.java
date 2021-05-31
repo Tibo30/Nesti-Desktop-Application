@@ -3,6 +3,11 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.TextField;
+
 public class ValueNeededProduct {
 	
 	Label[] label;

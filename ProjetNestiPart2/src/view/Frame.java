@@ -14,8 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import components.Button;
+import components.Label;
+import components.Panel;
 import entities.Admin;
 
 //Test commit
@@ -23,17 +27,13 @@ public class Frame {
 
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
-
 	private JTable table;
-	private JTable table_1;
-	private JTable tSupplier;
-	
-	private JTable table_3;
 	public static ValueNeededSupplier suppl;
 	
 
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -94,8 +94,12 @@ public class Frame {
 		Image newimg = img.getScaledInstance(815, 420, java.awt.Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 
-		Label lblNewLabel_2 = new Label("Joe Smith", 10, 194, 790, 72);
-		panelHome.add(lblNewLabel_2);
+		Label lblNewLabel_2 = new Label(activAdmin.getFirstname() + " " + activAdmin.getLastname(), 10, 194, 790, 72);
+        lblNewLabel_2.setForeground(new Color(255, 250, 250));
+        lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        panelHome.add(lblNewLabel_2);
+		
 
 		Label lblNewLabel_1 = new Label("Welcome", 10, 143, 790, 58);
 		panelHome.add(lblNewLabel_1);
@@ -196,6 +200,7 @@ public class Frame {
 						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
 						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
 				new String[] { "Order", "Delivery date", "Validation date", "State" }) {
+			
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
 
 			public Class getColumnClass(int columnIndex) {
