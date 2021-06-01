@@ -215,6 +215,7 @@ public class ProductPanel extends JPanel {
 		btnProductModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table_1.getSelectedRow();
+				
 				if (row != -1) {
 					try {
 				
@@ -224,6 +225,7 @@ public class ProductPanel extends JPanel {
 								if (Check.isValidString(tfProduct.getText())) {
 								queryProd.UpdateProductPrepared("name", tfProduct.getText(), activProduct.getName());
 								activProduct.setName(tfProduct.getText());
+							
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
@@ -267,8 +269,10 @@ public class ProductPanel extends JPanel {
 							// Reinitialize table
 							clearTable();
 							creatTable();
+							emptyCombobox();
 							createUnitList();
 							createTypeList();
+							
 						}
 					} catch (Exception e) {
 						System.out.println("modify clear table error");
@@ -404,7 +408,11 @@ public class ProductPanel extends JPanel {
 			model.removeRow(j);
 		}
 	}
-		
+	public static void emptyCombobox() {
+		for (ComboBox text : combo) {
+			text.removeAllItems();
+		}
+	}
 
 	/*
 	 * Change the format of the number
