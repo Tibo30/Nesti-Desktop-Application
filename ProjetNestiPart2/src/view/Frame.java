@@ -14,35 +14,33 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
-
 import components.Label;
 import components.Panel;
-import entities.OrderLine;
-import entities.Product;
+import entities.Order;
 import entities.Admin;
-import entities.Article;
 import model.QueryOrder;
 
 //Test commit
 public class Frame {
 
+	/**
+	 * Attributes
+	 */
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
 	private JTable table;
 	public static ValueNeededSupplier suppl;
-
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
 	public static Order activOrder;
 	private JTable tableHistory;
 	public static ScrollPane scroll;
-
 	private static QueryOrder queryOrder;
 
 	/**
@@ -170,11 +168,13 @@ public class Frame {
 		Panel panelHistory = new Panel("panelHistory");
 
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panelHistory, null);
-
-		/*
-		 * ScrollPane scrollPane_4 = new ScrollPane(289, 55, 444, 271);
-		 * scrollPane_4.setEnabled(false); scrollPane_4.add(scrollPane_4);
-		 */
+		
+		JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(58, 141, 684, 178);
+        panelHistory.add(scrollPane);
+		
+		
 
 		tableHistory = new JTable();
 		tableHistory.setBounds(130, 136, 535, 196);
@@ -184,61 +184,98 @@ public class Frame {
 		/**
 		 * History Table Constructor
 		 */
+	
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {,},
+                new String[] { "Order", "Validation date", "Delivery date", "State" }) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
 
-		DefaultTableModel model3 = new DefaultTableModel(new Object[][] {,},
-				new String[] { "Order", "Delivery date", "Validation date", "State" });
-		tableHistory.setModel(model3);
-		tableHistory.setModel(model3);
-		// scrollPane_4.setViewportView(tableHistory);
+                return false;
+            }
+        };
+		tableHistory.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Order", "Validation date", "Delivery date", "State"
+			}
+		));
 
+scrollPane.setViewportView(tableHistory);
 		// Buttons
 		JButton btnOrdersTreated = new JButton("Orders Treated");
 		btnOrdersTreated.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// create the History of the orderlines from the database
-				//Order orderHist = new Order();
-					//int idOrder= 
-					//	Date validationDate=
-					//	Date deliveryDate=
-					//	String state=
-				int[] col= tableHistory.getSelectedColumns();
-				QueryOrder queryOrder = new QueryOrder();
-				
-				Order orderHist = new Order(int idOrder,activOrder.getId(),);
-				ArrayList<Order> listOrderHistDatabase = queryOrder.listOrderHistory(0, null, null, null);
-			
 				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
-				for (int i = 0; i < listOrderHistDatabase.size(); i++) {
+		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
+		            model.removeRow(j);
+		        }
+				QueryOrder queryOrder = new QueryOrder();
 
-					// listOrderLineIdArticleDatabase.add(listOrderLineDatabase.get(i).getIdArticle());
-					// listOrderLineQuantityDatabase.add(listOrderLineDatabase.get(i).getQuantity());
+				ArrayList<Order> listOrderHistDatabase = null;
+				try {
 
-					Object[] row = { listOrderHistDatabase.get(i), listOrderHistDatabase.get(i),
-							listOrderHistDatabase.get(i), listOrderHistDatabase.get(i) };
+					listOrderHistDatabase = queryOrder.listOrderHistory("delivered");
 
-					model.addRow(row);
-
+					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
 
 
-					/*
-					 * for (int i = 0; i < listOrderHistDatabase.size(); i++) {
-					 * listOrderHistDatabase.add(listOrderHistDatabase.get(i).getIdOrder());
-					 * listOrderHistDatabase.add(listOrderHistDatabase.get(i).getDeliveryDate());
-					 * 
-					 * ; }
-					 */
+						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
 
+						model.addRow(row);
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
-		});
 
+			
+			
+		});
+		 
 		btnOrdersTreated.setBackground(new Color(135, 206, 235));
 
 		btnOrdersTreated.setBounds(385, 76, 127, 27);
 		panelHistory.add(btnOrdersTreated);
 
 		JButton btnOrdersProcessed = new JButton("Orders Processed");
+		btnOrdersProcessed.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
+		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
+		            model.removeRow(j);
+		        }
+				QueryOrder queryOrder = new QueryOrder();
+
+				ArrayList<Order> listOrderHistDatabase = null;
+				try {
+
+					listOrderHistDatabase = queryOrder.listOrderHistory("");
+
+					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
+
+
+						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
+
+						model.addRow(row);
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			
+			
+		});
+		
 		btnOrdersProcessed.setBackground(new Color(135, 206, 235));
 
 		btnOrdersProcessed.setBounds(522, 76, 143, 27);

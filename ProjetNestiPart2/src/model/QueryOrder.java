@@ -65,26 +65,26 @@ public class QueryOrder extends MyConnection {
 	
 	/**
 	 * 
-	 * @param idOrder
+	 * @param String delivery
 	 * @return
 	 * @throws Exception
 	 */
-	public ArrayList<Order> listOrderHistory(int idOrder, Date deliveryDate, Date validationDate,String state) throws Exception {
+	public ArrayList<Order> listOrderHistory(String delivery) throws Exception {
 		ArrayList<Order> listOrderHistory = new ArrayList<Order>();
 		Order ordHist = null;
 		try {
 			openConnection();
-
-			String query = "SELECT request_order.id_order, order_validation_date, order_delivery_date, order_state FROM request_order JOIN request_order_line ON request_order_line.id_order=request_order.id_order WHERE (request_order_line.id_order = ?);";
+			
+			String query = "SELECT * FROM request_order WHERE order_delivery_date IS null";
+			if(delivery.equals("delivered")) {
+				query = "SELECT * FROM request_order WHERE order_delivery_date IS NOT null";
+			}
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			declaration.setInt(1, idOrder);
-			declaration.setDate(2, validationDate);
-			declaration.setDate(3, deliveryDate);
-			declaration.setString(4, state);
 			ResultSet rs = declaration.executeQuery();
+			
 			/* Data recovering */
 			while (rs.next()) {
-				ordHist = new Order(rs.getInt("id_order"),rs.getDate("deliveryDate"), rs.getDate("validationDate"), rs.getString("state"));
+				ordHist = new Order(rs.getInt("id_order"),rs.getDate("order_delivery_date"), rs.getDate("order_validation_date"), rs.getString("order_state"));
 				listOrderHistory.add(ordHist);
 			}
 		} catch (Exception e) {
