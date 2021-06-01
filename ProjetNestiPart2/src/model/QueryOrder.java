@@ -11,11 +11,21 @@ import entities.Order;
 import entities.OrderLine;
 import entities.Supplier;
 
+/**
+ * Class for the order queries
+ * @author Thibault
+ *
+ */
 public class QueryOrder extends MyConnection {
 
 	private QuerySupplier querySupplier = new QuerySupplier();
 	private QueryArticle queryArticle = new QueryArticle();
 
+	/**
+	 * This method is used to get all orders from database
+	 * @return ArrayList<Order>
+	 * @throws Exception
+	 */
 	public ArrayList<Order> listAllOrder() throws Exception {
 		ArrayList<Order> listOrder = new ArrayList<Order>();
 		Order ord = null;
@@ -40,6 +50,12 @@ public class QueryOrder extends MyConnection {
 		return listOrder;
 	}
 
+	/**
+	 * This method is used to get all the orderlines of an order
+	 * @param int idOrder
+	 * @return ArrayList<OrderLine>
+	 * @throws Exception
+	 */
 	public ArrayList<OrderLine> listAllOrderLine(int idOrder) throws Exception {
 		ArrayList<OrderLine> listOrderLine = new ArrayList<OrderLine>();
 		OrderLine ordLine = null;
@@ -63,6 +79,12 @@ public class QueryOrder extends MyConnection {
 		return listOrderLine;
 	}
 
+	/**
+	 * This method is used to create an order in the database
+	 * @param Order order
+	 * @return int
+	 * @throws Exception
+	 */
 	public int createPreparedOrderId(Order order) throws Exception {
 		openConnection();
 		int last_inserted_id=0;
@@ -95,6 +117,12 @@ public class QueryOrder extends MyConnection {
 		return last_inserted_id;
 	}
 
+	/**
+	 * This method is used to create an order line in the database
+	 * @param Orderline orderline
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean createPreparedOrderLine(OrderLine orderline) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -114,6 +142,14 @@ public class QueryOrder extends MyConnection {
 		return flag;
 	}
 
+	/**
+	 * This method is used to update order in database
+	 * @param string valueChanged
+	 * @param string newValue
+	 * @param int iD
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean updatePreparedOrder(String valueChanged, String newValue, int iD) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -154,6 +190,14 @@ public class QueryOrder extends MyConnection {
 		return flag;
 	}
 
+	/**
+	 * This method is used to update the quantity of an orderline in the database
+	 * @param int quantity
+	 * @param int iDOrder
+	 * @param int iDArticle
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean updatePreparedQuantityOrderLine(int quantity, int iDOrder, int iDArticle) throws Exception {
 		openConnection();
 		boolean flag = false;
@@ -175,6 +219,13 @@ public class QueryOrder extends MyConnection {
 		return flag;
 	}
 	
+	/**
+	 * This method is used to delete an orderline
+	 * @param int iDOrder
+	 * @param int iDArticle
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean deletePreparedOrderLine(int iDOrder, int iDArticle) throws Exception {
 		boolean success = false;
 		openConnection();

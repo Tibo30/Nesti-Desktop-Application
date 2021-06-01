@@ -1,22 +1,44 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.Image;
+import java.awt.Insets;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
+import javax.swing.JLayeredPane;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JSpinner;
+import javax.swing.JComboBox;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import entities.Admin;
+import model.QuerySupplier;
+
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.Icon;
+import javax.swing.JPasswordField;
 
 //Test commit
 public class Frame {
@@ -94,7 +116,10 @@ public class Frame {
 		Image newimg = img.getScaledInstance(815, 420, java.awt.Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 
-		Label lblNewLabel_2 = new Label("Joe Smith", 10, 194, 790, 72);
+		Label lblNewLabel_2 = new Label(activAdmin.getFirstname() + " " + activAdmin.getLastname(), 10, 194, 790, 72);
+		lblNewLabel_2.setForeground(new Color(255, 250, 250));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 40));
 		panelHome.add(lblNewLabel_2);
 
 		Label lblNewLabel_1 = new Label("Welcome", 10, 143, 790, 58);
@@ -102,8 +127,8 @@ public class Frame {
 
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 		panelHome.add(lblNewLabel);
-		
-		
+		TabbedPane.setBackgroundAt(0, new Color(213, 167, 113));
+
 		JLabel lblLogo = new JLabel("");
         lblLogo.setLabelFor(lblLogo);
         lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
@@ -150,17 +175,15 @@ public class Frame {
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
 		
-		
-		
 
 		
-		/**
+/*
          * Product
          */
 
-       ProductPanel panelProduct = new ProductPanel();
+        ProductPanel panelProduct = new ProductPanel();
 
-       TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
+        TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
         
         
 

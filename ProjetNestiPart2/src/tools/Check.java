@@ -5,6 +5,11 @@ import java.util.regex.Pattern;
 
 public class Check {
 
+	/**
+	 * Check if the string match phone number regex
+	 * @param string number
+	 * @return
+	 */
 	public static boolean isValidPhoneNumber(String number) {
 		// Regex to check valid phone number.
 		String regex = "^(0|\\+33)[1-9]([-. ]?[0-9]{2}){4}$";
@@ -24,6 +29,11 @@ public class Check {
 		return m.matches();
 	}
 
+	/**
+	 * Check if the string is a numerical value
+	 * @param string str
+	 * @return
+	 */
 	public static boolean isNumeric(String str) {
 		boolean numeric = false;
 		try {
@@ -101,8 +111,40 @@ public class Check {
 		Matcher m = p.matcher(lastname);
 		return m.matches();
 		
-
+	}
+	
+	/**
+	 * 
+	 * @param String input
+	 * @return
+	 */
+	public static boolean isValidString(String input) {
+		String regex = "[A-Za-z айиклвфопц]{3,50}$";
+		Pattern p = Pattern.compile(regex);
+		if (input==null) {
+			
+			return false;
+		}
 		
+		Matcher m = p.matcher(input);
+		return m.matches();
+	}
+	
+	/**
+	 * 
+	 * @param String input
+	 * @return
+	 */
+	public static boolean isValidAddress(String input) {
+		String regex = "[A-Za-z0-9 айиклвфопц]{3,250}$";
+		Pattern p = Pattern.compile(regex);
+		if (input==null) {
+			
+			return false;
+		}
+		
+		Matcher m = p.matcher(input);
+		return m.matches();
 	}
 
 	

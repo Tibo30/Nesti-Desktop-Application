@@ -6,15 +6,20 @@ import java.util.ArrayList;
 
 import entities.Supplier;
 
+/**
+ * Class for the supplier queries
+ * @author Thibault
+ *
+ */
 public class QuerySupplier extends MyConnection {
 	
-//public static QuerySupplier querySuppl=new QuerySupplier("127.0.0.1", "root", "", "java_nesti");
-
 	
 	/**
 	 * Read all the supplier names
-	 * @throws Exception 
+	 * @return ArrayList<Supplier>
+	 * @throws Exception
 	 */
+	
 	public ArrayList<Supplier> listAllSupplier() throws Exception {
 		ArrayList<Supplier> listSupplier=new ArrayList<Supplier>();
 		Supplier sup = null;
@@ -40,6 +45,12 @@ public class QuerySupplier extends MyConnection {
 		return listSupplier;
 	}
 
+	/**
+	 * This method is used to create a supplier from the database
+	 * @param string supplierName
+	 * @return Supplier
+	 * @throws Exception
+	 */
 	public Supplier createSupplierInfo(String supplierName) throws Exception {
 		openConnection();
 		Supplier sup = null;
@@ -68,8 +79,8 @@ public class QuerySupplier extends MyConnection {
 	 * This method is used to create a new Supplier in the database, during the
 	 * register process
 	 * 
-	 * @param supplier
-	 * @return
+	 * @param Supplier supplier
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean createPrepared(Supplier supplier) throws Exception {
@@ -100,10 +111,10 @@ public class QuerySupplier extends MyConnection {
 	/**
 	 * This method is used to update a value in the database
 	 * 
-	 * @param valueChanged
-	 * @param newValue
-	 * @param email
-	 * @return
+	 * @param string valueChanged
+	 * @param string newValue
+	 * @param string name
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean updatePrepared(String valueChanged, String newValue, String name) throws Exception {

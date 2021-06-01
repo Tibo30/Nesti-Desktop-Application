@@ -10,9 +10,14 @@ import entities.Supplier;
 import entities.SupplierSell;
 import entities.UnitMeasure;
 
+/**
+ * Class for the supplier sell queries
+ * @author Thibault
+ *
+ */
 public class QuerySupplierSell extends MyConnection {
 
-	//public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+	
 
 	public static void main(String[] args) throws Exception {
 
@@ -54,6 +59,12 @@ public class QuerySupplierSell extends MyConnection {
 
 	}
 
+	/**
+	 * This method is used to create supplier from database
+	 * @param Supplier supplier
+	 * @return SupplierSell
+	 * @throws Exception
+	 */
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
 		openConnection();
 		SupplierSell supSell = null;
@@ -87,8 +98,8 @@ public class QuerySupplierSell extends MyConnection {
 	 * This method is used to create a new Supplier in the database, during the
 	 * register process
 	 * 
-	 * @param supplier
-	 * @return
+	 * @param SupplierSell supplier
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean createPrepared(SupplierSell supplier) throws Exception {
@@ -114,10 +125,10 @@ public class QuerySupplierSell extends MyConnection {
 	/**
 	 * This method is used to update a value in the database
 	 * 
-	 * @param valueChanged
-	 * @param newValue
-	 * @param email
-	 * @return
+	 * @param string newValue
+	 * @param string productName
+	 * @param string supplierName
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean updatePrice(String newValue, String productName, String supplierName) throws Exception {
@@ -140,6 +151,13 @@ public class QuerySupplierSell extends MyConnection {
 		return flag;
 	}
 	
+	/**
+	 * This method is used to get the price of a product according to supplier
+	 * @param string productName
+	 * @param string supplierName
+	 * @return double
+	 * @throws Exception
+	 */
 	public double getPrice(String productName, String supplierName) throws Exception {
 		openConnection();
 		double price = 0;
@@ -162,6 +180,13 @@ public class QuerySupplierSell extends MyConnection {
 		return price;
 	}
 
+	/**
+	 * This method is used to delete in database
+	 * @param Supplier supplier
+	 * @param string productName
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
 		openConnection();
