@@ -62,6 +62,37 @@ public class QueryOrder extends MyConnection {
 		closeConnection();
 		return listOrderLine;
 	}
+	
+	/**
+	 * 
+	 * @param idOrder
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Order> listOrderHistory(int idOrder, Date deliveryDate, Date validationDate,String state) throws Exception {
+		ArrayList<Order> listOrderHistory = new ArrayList<Order>();
+		Order ordHist = null;
+		try {
+			openConnection();
+
+			String query = "SELECT request_order.id_order, order_validation_date, order_delivery_date, order_state FROM request_order JOIN request_order_line ON request_order_line.id_order=request_order.id_order WHERE (request_order_line.id_order = ?);";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setInt(1, idOrder);
+			declaration.setDate(2, validationDate);
+			declaration.setDate(3, deliveryDate);
+			declaration.setString(4, state);
+			ResultSet rs = declaration.executeQuery();
+			/* Data recovering */
+			while (rs.next()) {
+				ordHist = new Order(rs.getInt("id_order"),rs.getDate("deliveryDate"), rs.getDate("validationDate"), rs.getString("state"));
+				listOrderHistory.add(ordHist);
+			}
+		} catch (Exception e) {
+			System.err.println("error when displaying Orders " + e.getMessage());
+		}
+		closeConnection();
+		return listOrderHistory;
+	}
 
 	public int createPreparedOrderId(Order order) throws Exception {
 		openConnection();

@@ -5,22 +5,29 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import components.Button;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
+
 import components.Label;
 import components.Panel;
+import entities.OrderLine;
+import entities.Product;
 import entities.Admin;
+import entities.Article;
+import model.QueryOrder;
 
 //Test commit
 public class Frame {
@@ -29,11 +36,15 @@ public class Frame {
 	private final JPanel panel = new JPanel();
 	private JTable table;
 	public static ValueNeededSupplier suppl;
-	
 
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
-	
+	public static Order activOrder;
+	private JTable tableHistory;
+	public static ScrollPane scroll;
+
+	private static QueryOrder queryOrder;
+
 	/**
 	 * Launch the application.
 	 */
@@ -95,25 +106,22 @@ public class Frame {
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 
 		Label lblNewLabel_2 = new Label(activAdmin.getFirstname() + " " + activAdmin.getLastname(), 10, 194, 790, 72);
-        lblNewLabel_2.setForeground(new Color(255, 250, 250));
-        lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 40));
-        panelHome.add(lblNewLabel_2);
-		
+		lblNewLabel_2.setForeground(new Color(255, 250, 250));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 40));
+		panelHome.add(lblNewLabel_2);
 
 		Label lblNewLabel_1 = new Label("Welcome", 10, 143, 790, 58);
 		panelHome.add(lblNewLabel_1);
 
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 		panelHome.add(lblNewLabel);
-		
-		
-		JLabel lblLogo = new JLabel("");
-        lblLogo.setLabelFor(lblLogo);
-        lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
-        lblLogo.setBounds(758, 0, 70, 32);
-        panel.add(lblLogo);
 
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setLabelFor(lblLogo);
+		lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
+		lblLogo.setBounds(758, 0, 70, 32);
+		panel.add(lblLogo);
 
 		/**
 		 * Profil
@@ -121,7 +129,6 @@ public class Frame {
 		ProfilePanel panelProfil = new ProfilePanel();
 
 		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panelProfil, null);
-
 
 		/**
 		 * Supplier
@@ -131,10 +138,7 @@ public class Frame {
 
 		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panelSupplier,
 				null);
-		
 
-
-		
 		/**
 		 * Order
 		 */
@@ -142,9 +146,6 @@ public class Frame {
 		OrderPanel panelOrder = new OrderPanel();
 
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
-		
-
-		
 
 		/**
 		 * Article
@@ -153,24 +154,16 @@ public class Frame {
 		ArticlePanel panelArticle = new ArticlePanel();
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
-		
-		
-		
 
-		
 		/**
-         * Product
-         */
+		 * Product
+		 */
 
-       ProductPanel panelProduct = new ProductPanel();
+		ProductPanel panelProduct = new ProductPanel();
 
-       TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
-        
-        
+		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
 
-        
-
-        /**
+		/**
 		 * History
 		 */
 
@@ -178,37 +171,84 @@ public class Frame {
 
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panelHistory, null);
 
-		Button btnHistorySubmit = new Button("History_Submit", 525, 381, 89, 23);
-		panelHistory.add(btnHistorySubmit);
+		/*
+		 * ScrollPane scrollPane_4 = new ScrollPane(289, 55, 444, 271);
+		 * scrollPane_4.setEnabled(false); scrollPane_4.add(scrollPane_4);
+		 */
 
-		Button btnHistoryShowCompletedOrders = new Button("Orders placed", 454, 79, 129, 23);
-		panelHistory.add(btnHistoryShowCompletedOrders);
+		tableHistory = new JTable();
+		tableHistory.setBounds(130, 136, 535, 196);
+		tableHistory.setBackground(new Color(255, 222, 173));
+		panelHistory.add(tableHistory);
 
-		Button btnHistoryShowOrdersInProgress = new Button("Orders in progress", 593, 79, 149, 23);
-		panelHistory.add(btnHistoryShowOrdersInProgress);
+		/**
+		 * History Table Constructor
+		 */
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(58, 141, 684, 178);
-		panelHistory.add(scrollPane);
+		DefaultTableModel model3 = new DefaultTableModel(new Object[][] {,},
+				new String[] { "Order", "Delivery date", "Validation date", "State" });
+		tableHistory.setModel(model3);
+		tableHistory.setModel(model3);
+		// scrollPane_4.setViewportView(tableHistory);
 
-		table = new JTable();
-		table.setBackground(new Color(255, 222, 173));
-		table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
-				new String[] { "Order", "Delivery date", "Validation date", "State" }) {
+		// Buttons
+		JButton btnOrdersTreated = new JButton("Orders Treated");
+		btnOrdersTreated.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// create the History of the orderlines from the database
+				//Order orderHist = new Order();
+					//int idOrder= 
+					//	Date validationDate=
+					//	Date deliveryDate=
+					//	String state=
+				int[] col= tableHistory.getSelectedColumns();
+				QueryOrder queryOrder = new QueryOrder();
+				
+				Order orderHist = new Order(int idOrder,activOrder.getId(),);
+				ArrayList<Order> listOrderHistDatabase = queryOrder.listOrderHistory(0, null, null, null);
 			
-			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
+				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
+				for (int i = 0; i < listOrderHistDatabase.size(); i++) {
 
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+					// listOrderLineIdArticleDatabase.add(listOrderLineDatabase.get(i).getIdArticle());
+					// listOrderLineQuantityDatabase.add(listOrderLineDatabase.get(i).getQuantity());
+
+					Object[] row = { listOrderHistDatabase.get(i), listOrderHistDatabase.get(i),
+							listOrderHistDatabase.get(i), listOrderHistDatabase.get(i) };
+
+					model.addRow(row);
+
+
+
+					/*
+					 * for (int i = 0; i < listOrderHistDatabase.size(); i++) {
+					 * listOrderHistDatabase.add(listOrderHistDatabase.get(i).getIdOrder());
+					 * listOrderHistDatabase.add(listOrderHistDatabase.get(i).getDeliveryDate());
+					 * 
+					 * ; }
+					 */
+
+				}
 			}
 		});
-		table.getColumnModel().getColumn(2).setPreferredWidth(106);
-		scrollPane.setViewportView(table);
+
+		btnOrdersTreated.setBackground(new Color(135, 206, 235));
+
+		btnOrdersTreated.setBounds(385, 76, 127, 27);
+		panelHistory.add(btnOrdersTreated);
+
+		JButton btnOrdersProcessed = new JButton("Orders Processed");
+		btnOrdersProcessed.setBackground(new Color(135, 206, 235));
+
+		btnOrdersProcessed.setBounds(522, 76, 143, 27);
+		panelHistory.add(btnOrdersProcessed);
+
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.setBackground(new Color(144, 238, 144));
+
+		btnSubmit.setBounds(543, 359, 85, 21);
+		panelHistory.add(btnSubmit);
 
 		/**
 		 * Manage
@@ -218,11 +258,8 @@ public class Frame {
 
 		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage, null);
 
-		
-		
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
-
 
 	}
 
@@ -238,6 +275,6 @@ public class Frame {
 				}
 			}
 		});
-		
+
 	}
 }

@@ -7,6 +7,10 @@ import javax.swing.JButton;
 
 
 public class Button extends JButton {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nameField;
 
 	/**
@@ -83,7 +87,7 @@ public class Button extends JButton {
 			}
 		}
 		if ((name.equals("SupplierBlock / Unblock")) || (name.equals("Creating Date"))
-				|| (name.equals("Update Date") || (name.equals("Orders placed")) || (name.equals("Orders in progress")))
+				|| (name.equals("Update Date") || (name.equals("Orders treated")) || (name.equals("Orders in progress")))
 				|| (name.equals("Manage_Block / Unblock"))) {
 
 			this.setBackground(new Color(191, 244, 255));

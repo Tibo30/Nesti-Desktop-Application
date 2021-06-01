@@ -3,7 +3,6 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -14,15 +13,10 @@ import components.Label;
 import components.PasswordField;
 import components.TextField;
 import entities.Admin;
-import entities.Supplier;
 import model.QueryAdmin;
-import tools.BCrypt;
 import tools.Check;
-import tools.ToolsUi;
-import model.MyConnection;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
+
 /**
  * 
  * @author SAL.BEDDEK
@@ -354,9 +348,9 @@ public class ManagePanel extends JPanel {
 					tfManageLastname.clear();
 					tfManageFirstname.clear();
 					tfManageUsername.clear();
-					btnManageCreate.setEnabled(false);
-					btnManageModifyProfile.setEnabled(true);
-					btnManageModifyPassWord.setEnabled(true);
+					btnManageCreate.setEnabled(true);
+					btnManageModifyProfile.setEnabled(false);
+					btnManageModifyPassWord.setEnabled(false);
 				} else {
 
 					// modification
@@ -365,9 +359,9 @@ public class ManagePanel extends JPanel {
 					} else {
 						btnManageBlockAdmin.unblocked();
 					}
-					btnManageCreate.setEnabled(true);
-					btnManageModifyProfile.setEnabled(false);
-					btnManageModifyPassWord.setEnabled(false);
+					btnManageCreate.setEnabled(false);
+					btnManageModifyProfile.setEnabled(true);
+					btnManageModifyPassWord.setEnabled(true);
 
 					// add all the information in the TextField
 					tfManageFirstname.setText(adm.getFirstname());

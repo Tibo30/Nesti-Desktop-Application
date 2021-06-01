@@ -6,12 +6,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
-			<item value="C:\Users\Utilisateur\Documents\Saliha_CDA_2020_2021\eclipse-workspace\ProjetNestiPart2\ProjetNestiPart2"/>
+			<item value="C:\Users\Utilisateur\Documents\Saliha_CDA_2020_2021\eclipse-workspace\ProjetNestiPart2\ProjetNestiPart2\src"/>
 		</list>
-	</section>
-	<section name="NewWizardAction">
-	</section>
-	<section name="BasicNewProjectResourceWizard">
 	</section>
 	<section name="ChooseWorkspaceDialogSettings">
 		<item key="DIALOG_X_ORIGIN" value="459"/>
@@ -28,8 +24,8 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Users\Utilisateur\Documents\Saliha_CDA_2020_2021\eclipse-workspace\ProjetNestiPart2\ProjetNestiPart2"/>
 			<item value="C:\Users\Utilisateur\Documents\Saliha_CDA_2020_2021\eclipse-workspace\ProjetNestiPart2"/>
+			<item value="C:\Users\Utilisateur\Documents\Saliha_CDA_2020_2021\eclipse-workspace\ProjetNestiPart2\ProjetNestiPart2"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
