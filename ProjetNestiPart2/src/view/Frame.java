@@ -278,18 +278,29 @@ public class Frame {
 		panelHistory.add(btnOrdersProcessed);
 
 		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// JTabbedPane pane = new JTabbedPane();
-				JTabbedPane pane = (JTabbedPane) e.getSource();
-				pane.setSelectedIndex(0);
-
-			}
-		});
 		btnSubmit.setBackground(new Color(144, 238, 144));
 
 		btnSubmit.setBounds(543, 359, 85, 21);
 		panelHistory.add(btnSubmit);
+
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// JTabbedPane pane = new JTabbedPane();
+				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
+				if (tableHistory.getSelectedRow() != -1) {
+					TabbedPane.setSelectedIndex(3);
+					for (int i = 0; i < OrderPanel.combo[0].getItemCount(); i++) {
+						if (String.valueOf(OrderPanel.combo[0].getItemAt(i))
+								.equals(model.getValueAt(tableHistory.getSelectedRow(), 0))) {
+							OrderPanel.combo[0].setSelectedIndex(i);
+							OrderPanel.button[0].doClick();
+						}
+					}
+
+				}
+
+			}
+		});
 
 		/**
 		 * Manage

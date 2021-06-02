@@ -43,6 +43,7 @@ import tools.Check;
 
 /**
  * Class for the order panel frame
+ * 
  * @author Thibault
  *
  */
@@ -70,6 +71,7 @@ public class OrderPanel extends JPanel {
 
 	/**
 	 * Constructor
+	 * 
 	 * @throws Exception
 	 */
 	public OrderPanel() throws Exception {
@@ -134,15 +136,19 @@ public class OrderPanel extends JPanel {
 
 		Label lblOrderQuantity = new Label("Quantity Order", 424, 95, 86, 23);
 		this.add(lblOrderQuantity);
-		
-		Label lblAccepted = new Label ("Date", 50,345,250,20);
+
+		Label lblAccepted = new Label("Date", 50, 345, 250, 20);
 		this.add(lblAccepted);
-		
-		Label lblDelivered = new Label ("Date", 400,345,250,20);
+
+		Label lblDelivered = new Label("Date", 400, 345, 250, 20);
 		this.add(lblDelivered);
 
+		Label lblTotal = new Label("Total", 650, 345, 150, 22);
+		this.add(lblTotal);
+		lblTotal.setText("Total :");
+
 		Label[] orderLabel = { lblArticleSearch, lblOrderSearch, lblSupplierOrder, lblOrderProduct, lblOrderPackaging,
-				lblPackagingQuantity, lblProductUnit, lblOrderQuantity, lblAccepted,lblDelivered };
+				lblPackagingQuantity, lblProductUnit, lblOrderQuantity, lblAccepted, lblDelivered, lblTotal };
 		label = orderLabel;
 
 		TextField tfPackagingQuantity = new TextField("Quantity", 304, 118, 50, 20);
@@ -223,26 +229,31 @@ public class OrderPanel extends JPanel {
 						// get the object order from the database according to the name selected
 						// in the search combo box
 						Order order = (Order) listOrder.getSelectedItem();
-							
+
 						SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm:ss");
-						if (order.getValidationDate()!=null) {
+						if (order.getValidationDate() != null) {
 							System.out.println(order.getValidationDate());
 							lblAccepted.setText("Validation Date : " + format.format(order.getValidationDate()));
-						} 
-						if (order.getDeliveryDate()!=null) {
+						}
+						if (order.getDeliveryDate() != null) {
 							lblDelivered.setText("Delivery Date : " + format.format(order.getDeliveryDate()));
 						}
-						
+
 						// put the name of the supplier for this order in the combobox
 						listOrderSupplier.removeAllItems();
 						listOrderSupplier.addItem((Supplier) order.getSupplier());
-						
+
 						// put the articles linked to the chosen supplier in the combobox
 						listOfArticle(order.getSupplier());
+
+						lblTotal.setText("Total :");
+
 						// fill the table
 						fillOrderTable(order);
 						activOrder = order;
 						activSupplier = order.getSupplier();
+						listOfProductSupplier(activSupplier);
+
 						if (order.getState().equals("Waiting")) {
 							btnOrderAdd.setEnabled(true);
 							btnOrderAdd2.setEnabled(true);
@@ -252,9 +263,9 @@ public class OrderPanel extends JPanel {
 							btnOrderArticleLaunch.setEnabled(true);
 							listArticle.setEnabled(true);
 
-						} 
+						}
 						listOrderState.setSelectedItem(order.getState().toString());
-						
+
 						// if the order is already received, nothing can be done
 						if (order.getState().equals("Received")) {
 							listOrderState.setEnabled(false);
@@ -279,7 +290,7 @@ public class OrderPanel extends JPanel {
 				}
 			}
 		});
-		
+
 		/**
 		 * Action Listener on the button launch (article)
 		 */
@@ -313,7 +324,7 @@ public class OrderPanel extends JPanel {
 						listOrderProduct.setEnabled(true);
 						listOrderPackaging.setEnabled(true);
 						btnOrderAdd.setEnabled(true);
-						if (listOrderProduct.getItemCount()>0) {
+						if (listOrderProduct.getItemCount() > 0) {
 							listOrderProduct.setSelectedIndex(0);
 							activProduct = (Product) listOrderProduct.getSelectedItem();
 							tfProductUnit.setText(activProduct.getUnit().getName());
@@ -346,22 +357,16 @@ public class OrderPanel extends JPanel {
 										// change the list of product according to the chosen supplier
 										listOrderProduct.removeAllItems();
 										activSupplier = (Supplier) listOrderSupplier.getSelectedItem();
-										SupplierSell supplierSell;
-										supplierSell = querySupplierSell.createSupplierSellInfo(activSupplier);
-										ArrayList<Product> productSold = supplierSell.getProducts();
-										for (Product product : productSold) {
-											if (!product.getState().equals("Blocked")) {
-												System.out.println(product.getState());
-												listOrderProduct.addItem(product);
-											}
-										}
+										listOfProductSupplier(activSupplier);
+
 										btnOrderArticleLaunch.setEnabled(true);
 										listArticle.setEnabled(true);
-										// if it's a new order and the user click first on select a supplier then a supplier name we have to enable the create button
+										// if it's a new order and the user click first on select a supplier then a
+										// supplier name we have to enable the create button
 										if (String.valueOf(listOrder.getSelectedItem()).equals("Create New Order")) {
 											btnOrderCreate.setEnabled(true);
 										}
-										
+
 									}
 								}
 							} catch (Exception e) {
@@ -395,7 +400,8 @@ public class OrderPanel extends JPanel {
 									(Packaging) listOrderPackaging.getSelectedItem(),
 									(Product) listOrderProduct.getSelectedItem());
 							// if the created article is not already in the database
-							if (queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity()) == null) {
+							if (queryArticle.checkArticle(article.getProduct().getName(),
+									article.getPackaging().getName(), article.getQuantity()) == null) {
 								article.setIdAdmin(Frame.activAdmin.getId());
 								article.setId(queryArticle.createPreparedID(article));
 								btnOrderAdd2.setEnabled(true);
@@ -403,9 +409,9 @@ public class OrderPanel extends JPanel {
 								btnOrderRemove.setEnabled(true);
 								activArticle = article;
 							} else {
-								activArticle=queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity());
+								activArticle = queryArticle.checkArticle(article.getProduct().getName(),
+										article.getPackaging().getName(), article.getQuantity());
 							}
-							
 
 						}
 						activArticle.setRealQuant(Integer.parseInt(tfQuantity.getText()));
@@ -424,12 +430,14 @@ public class OrderPanel extends JPanel {
 						// check if the article is already in the list
 						ArrayList<Product> product = new ArrayList<Product>();
 						ArrayList<String> packagingColumn = new ArrayList<String>();
+
 						for (int i = 0; i < model.getRowCount(); i++) {
 							product.add((Product) model.getValueAt(i, 1));
 							packagingColumn.add((String) model.getValueAt(i, 2));
 						}
 
-						// if the article isn't already in the table
+						// if the article isn't already in the table (different name of product or
+						// packaging)
 						if (product.indexOf(row[1]) == -1 || packagingColumn.indexOf(row[2]) == -1) {
 							model.addRow(row);
 							listOrderProduct.setEnabled(false);
@@ -437,6 +445,17 @@ public class OrderPanel extends JPanel {
 							tfPackagingQuantity.setEditable(false);
 							tfProductUnit.setEditable(false);
 							tfQuantity.setEditable(false);
+							
+							double TotalTotalPrice = 0;
+							
+							for (int i = 0; i < model.getRowCount(); i++) {
+								Article article = queryArticle.createArticleInfo((int) model.getValueAt(i, 0));
+								TotalTotalPrice += calculTotalPrice(activSupplier,article, Integer.parseInt((String) model.getValueAt(i, 3)));
+								System.out.println(TotalTotalPrice);
+								System.out.println(model.getValueAt(i, 3));
+							}
+							label[10].setText("Total : " + TotalTotalPrice + " €");
+
 						} else {
 							JOptionPane.showMessageDialog(null, "This article is already in the table");
 						}
@@ -452,6 +471,22 @@ public class OrderPanel extends JPanel {
 		});
 
 		/**
+		 * Action listener on the list of product
+		 */
+		listOrderProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if (listOrderProduct.getSelectedIndex() != -1) {
+						tfProductUnit.setText(((Product) listOrderProduct.getSelectedItem()).getUnit().getName());
+					}
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		/**
 		 * Action listener on the button add (quantity)
 		 */
 		btnOrderAdd2.addActionListener(new ActionListener() {
@@ -464,6 +499,15 @@ public class OrderPanel extends JPanel {
 						table_Order.setValueAt(formatI(quantity), row, 3);
 						String totalPrice = calculPrice(activSupplier, activArticle, quantity);
 						model.setValueAt(totalPrice, row, 4);
+						
+						double TotalTotalPrice = 0;
+						for (int i = 0; i < model.getRowCount(); i++) {
+							Article article = queryArticle.createArticleInfo((int) model.getValueAt(i, 0));
+							TotalTotalPrice += calculTotalPrice(activSupplier,article, Integer.parseInt((String) model.getValueAt(i, 3)));
+							System.out.println(TotalTotalPrice);
+							System.out.println(model.getValueAt(i, 3));
+						}
+						label[10].setText("Total : " + TotalTotalPrice + " €");
 					}
 
 				} catch (Exception e1) {
@@ -485,6 +529,15 @@ public class OrderPanel extends JPanel {
 						table_Order.setValueAt(formatI(quantity), row, 3);
 						String totalPrice = calculPrice(activSupplier, activArticle, quantity);
 						model.setValueAt(totalPrice, row, 4);
+						
+						double TotalTotalPrice = 0;
+						for (int i = 0; i < model.getRowCount(); i++) {
+							Article article = queryArticle.createArticleInfo((int) model.getValueAt(i, 0));
+							TotalTotalPrice += calculTotalPrice(activSupplier,article, Integer.parseInt((String) model.getValueAt(i, 3)));
+							System.out.println(TotalTotalPrice);
+							System.out.println(model.getValueAt(i, 3));
+						}
+						label[10].setText("Total : " + TotalTotalPrice + " €");
 					}
 
 				} catch (Exception e1) {
@@ -502,6 +555,15 @@ public class OrderPanel extends JPanel {
 					if (table_Order.getSelectedRow() != -1) {
 						int row = table_Order.getSelectedRow();
 						model.removeRow(row);
+						
+						double TotalTotalPrice = 0;
+						for (int i = 0; i < model.getRowCount(); i++) {
+							Article article = queryArticle.createArticleInfo((int) model.getValueAt(i, 0));
+							TotalTotalPrice += calculTotalPrice(activSupplier,article, Integer.parseInt((String) model.getValueAt(i, 3)));
+							System.out.println(TotalTotalPrice);
+							System.out.println(model.getValueAt(i, 3));
+						}
+						label[10].setText("Total : " + TotalTotalPrice + " €");
 					}
 
 				} catch (Exception e1) {
@@ -573,22 +635,23 @@ public class OrderPanel extends JPanel {
 							queryOrder.updatePreparedOrder("waiting", "NULL", activOrder.getId());
 						}
 					}
-					
+
 					if (listOrderState.getSelectedItem().equals("Waiting")) {
 						modifyFromTable();
 						JOptionPane.showMessageDialog(null, "The order has been update");
 					}
-					
+
 					if (listOrderState.getSelectedItem().equals("Received")) {
-						for (int i=0;i<model.getRowCount();i++) {
+						for (int i = 0; i < model.getRowCount(); i++) {
 							int idArticle = (int) model.getValueAt(i, 0);
 							int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
 							queryArticle.updatePrepared("quantityStock", String.valueOf(quantity), idArticle);
-							System.out.println("ID : "+idArticle+"/ quantity : "+quantity);
+							System.out.println("ID : " + idArticle + "/ quantity : " + quantity);
 						}
-						JOptionPane.showMessageDialog(null, "The order is received, quantities has been added to the articles");
+						JOptionPane.showMessageDialog(null,
+								"The order is received, quantities has been added to the articles");
 					}
-					
+
 					clearAndEnableFalse();
 					clearTable();
 					listOfOrder();
@@ -599,19 +662,20 @@ public class OrderPanel extends JPanel {
 				}
 			}
 		});
-		
+
 		/**
 		 * Action listener on the button create
 		 */
 		btnOrderCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Order order = new Order ((String) listOrderState.getSelectedItem(),activSupplier,Frame.activAdmin.getId());
+					Order order = new Order((String) listOrderState.getSelectedItem(), activSupplier,
+							Frame.activAdmin.getId());
 					int idOrder = queryOrder.createPreparedOrderId(order);
-					for (int i=0;i<model.getRowCount();i++) {
+					for (int i = 0; i < model.getRowCount(); i++) {
 						int idArticle = (int) model.getValueAt(i, 0);
 						int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
-						OrderLine orderline = new OrderLine(idArticle, idOrder,quantity);
+						OrderLine orderline = new OrderLine(idArticle, idOrder, quantity);
 						queryOrder.createPreparedOrderLine(orderline);
 					}
 					JOptionPane.showMessageDialog(null, "The order has been added");
@@ -627,67 +691,71 @@ public class OrderPanel extends JPanel {
 		});
 
 	}
-	
+
 	/**
-	 * This method is used to modify the order in the database
-	 * according to the table
+	 * This method is used to modify the order in the database according to the
+	 * table
 	 * 
 	 * @throws Exception
 	 */
 	public void modifyFromTable() throws Exception {
-	
-			ArrayList<Article> newListArticle = new ArrayList<Article>();
-			ArrayList<Article> listArticleDatabase = new ArrayList<Article>();
-			ArrayList<OrderLine> newListOrderLine = new ArrayList<OrderLine>();
-			ArrayList<Integer> newListOrderLineIdArticle = new ArrayList<Integer>();
-			ArrayList<OrderLine> listOrderLineDatabase= new ArrayList<OrderLine>();
-			ArrayList<Integer> listOrderLineIdArticleDatabase = new ArrayList<Integer>();
-			ArrayList<Integer> listOrderLineQuantityDatabase= new ArrayList<Integer>();
-			
-			// in this loop, we collect the list of orderlines from the table
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			for (int i = 0; i < model.getRowCount(); i++) {
-				// add orderlines from table
-				int iDArticle = (int) model.getValueAt(i, 0);
-				int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
-				OrderLine orderLine = new OrderLine(iDArticle,activOrder.getId(),quantity);
-				newListOrderLine.add(orderLine);
-				newListOrderLineIdArticle.add(orderLine.getIdArticle());
-			}
-			// create the list of the orderlines from the database for this order
-			listOrderLineDatabase=queryOrder.listAllOrderLine(activOrder.getId());
-			for (int i = 0; i < listOrderLineDatabase.size(); i++) {
-				listOrderLineIdArticleDatabase.add(listOrderLineDatabase.get(i).getIdArticle());
-				listOrderLineQuantityDatabase.add(listOrderLineDatabase.get(i).getQuantity());
-			}
-			// we look over the list of orderlines from the table
-			for (int i = 0; i < newListOrderLine.size(); i++) {
-				// if an orderline from the table is not already in the database, we add it
-				if (listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle()) == -1) {
-					OrderLine newOrderLine = new OrderLine (newListOrderLine.get(i).getIdArticle(),activOrder.getId(),newListOrderLine.get(i).getQuantity());
-					queryOrder.createPreparedOrderLine(newOrderLine);
-				} else {
-					// if an orderline from the table is already in the database but the quantity is
-					// different
-					int index = listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle());
-					if (!String.valueOf(newListOrderLine.get(i).getQuantity())
-							.equals(String.valueOf(listOrderLineQuantityDatabase.get(index)))) {
-						queryOrder.updatePreparedQuantityOrderLine(newListOrderLine.get(i).getQuantity(), activOrder.getId(), listOrderLineIdArticleDatabase.get(index));
-					}
+
+		ArrayList<Article> newListArticle = new ArrayList<Article>();
+		ArrayList<Article> listArticleDatabase = new ArrayList<Article>();
+		ArrayList<OrderLine> newListOrderLine = new ArrayList<OrderLine>();
+		ArrayList<Integer> newListOrderLineIdArticle = new ArrayList<Integer>();
+		ArrayList<OrderLine> listOrderLineDatabase = new ArrayList<OrderLine>();
+		ArrayList<Integer> listOrderLineIdArticleDatabase = new ArrayList<Integer>();
+		ArrayList<Integer> listOrderLineQuantityDatabase = new ArrayList<Integer>();
+
+		// in this loop, we collect the list of orderlines from the table
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		for (int i = 0; i < model.getRowCount(); i++) {
+			// add orderlines from table
+			int iDArticle = (int) model.getValueAt(i, 0);
+			int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
+			OrderLine orderLine = new OrderLine(iDArticle, activOrder.getId(), quantity);
+			newListOrderLine.add(orderLine);
+			newListOrderLineIdArticle.add(orderLine.getIdArticle());
+		}
+		// create the list of the orderlines from the database for this order
+		listOrderLineDatabase = queryOrder.listAllOrderLine(activOrder.getId());
+		for (int i = 0; i < listOrderLineDatabase.size(); i++) {
+			listOrderLineIdArticleDatabase.add(listOrderLineDatabase.get(i).getIdArticle());
+			listOrderLineQuantityDatabase.add(listOrderLineDatabase.get(i).getQuantity());
+		}
+		// we look over the list of orderlines from the table
+		for (int i = 0; i < newListOrderLine.size(); i++) {
+			// if an orderline from the table is not already in the database, we add it
+			if (listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle()) == -1) {
+				OrderLine newOrderLine = new OrderLine(newListOrderLine.get(i).getIdArticle(), activOrder.getId(),
+						newListOrderLine.get(i).getQuantity());
+				queryOrder.createPreparedOrderLine(newOrderLine);
+			} else {
+				// if an orderline from the table is already in the database but the quantity is
+				// different
+				int index = listOrderLineIdArticleDatabase.indexOf(newListOrderLine.get(i).getIdArticle());
+				if (!String.valueOf(newListOrderLine.get(i).getQuantity())
+						.equals(String.valueOf(listOrderLineQuantityDatabase.get(index)))) {
+					queryOrder.updatePreparedQuantityOrderLine(newListOrderLine.get(i).getQuantity(),
+							activOrder.getId(), listOrderLineIdArticleDatabase.get(index));
 				}
 			}
-			// if an orderline is in the database but not in the table (delete), we delete it
-			// in the database
-			for (int i = 0; i < listOrderLineIdArticleDatabase.size(); i++) {
-				if (newListOrderLineIdArticle.indexOf(listOrderLineIdArticleDatabase.get(i)) == -1) {
+		}
+		// if an orderline is in the database but not in the table (delete), we delete
+		// it
+		// in the database
+		for (int i = 0; i < listOrderLineIdArticleDatabase.size(); i++) {
+			if (newListOrderLineIdArticle.indexOf(listOrderLineIdArticleDatabase.get(i)) == -1) {
 				queryOrder.deletePreparedOrderLine(activOrder.getId(), listOrderLineIdArticleDatabase.get(i));
-				}
 			}
-		
+		}
+
 	}
 
 	/**
 	 * This method is used to fill the list of order in the combobox
+	 * 
 	 * @throws Exception
 	 */
 	public static void listOfOrder() throws Exception {
@@ -706,7 +774,9 @@ public class OrderPanel extends JPanel {
 	}
 
 	/**
-	 * This method is used to fill the list of article in the combobox from the database
+	 * This method is used to fill the list of article in the combobox from the
+	 * database
+	 * 
 	 * @throws Exception
 	 */
 	public static void listOfArticle() throws Exception {
@@ -717,7 +787,8 @@ public class OrderPanel extends JPanel {
 			listArticle.add(art);
 		}
 		for (int i = 0; i < listArticle.size(); i++) {
-			if(!listArticle.get(i).getState().equals("Blocked")&&!listArticle.get(i).getProduct().getState().equals("Blocked")) {
+			if (!listArticle.get(i).getState().equals("Blocked")
+					&& !listArticle.get(i).getProduct().getState().equals("Blocked")) {
 				// add the list of article to the combo box
 				combo[1].addItem(listArticle.get(i));
 			}
@@ -725,7 +796,9 @@ public class OrderPanel extends JPanel {
 	}
 
 	/**
-	 * This method is used to fill the list of article in the combobox according to the supplier
+	 * This method is used to fill the list of article in the combobox according to
+	 * the supplier
+	 * 
 	 * @param Supplier supplier
 	 * @throws Exception
 	 */
@@ -737,7 +810,8 @@ public class OrderPanel extends JPanel {
 			listArticle.add(art);
 		}
 		for (int i = 0; i < listArticle.size(); i++) {
-			if(!listArticle.get(i).getState().equals("Blocked") && !listArticle.get(i).getProduct().getState().equals("Blocked")) {
+			if (!listArticle.get(i).getState().equals("Blocked")
+					&& !listArticle.get(i).getProduct().getState().equals("Blocked")) {
 				// add the list of article to the combo box
 				combo[1].addItem(listArticle.get(i));
 			}
@@ -746,6 +820,7 @@ public class OrderPanel extends JPanel {
 
 	/**
 	 * This method is used to fill the list of supplier
+	 * 
 	 * @throws Exception
 	 */
 	public static void listOfSupplier() throws Exception {
@@ -765,6 +840,7 @@ public class OrderPanel extends JPanel {
 
 	/**
 	 * This method is used to fill the list of product
+	 * 
 	 * @throws Exception
 	 */
 	public static void listOfProduct() throws Exception {
@@ -778,8 +854,27 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	
+	/**
+	 * This method is used to fill the list of product
+	 * @param supplier
+	 * @throws Exception
+	 */
+	public static void listOfProductSupplier(Supplier supplier) throws Exception {
+		SupplierSell supplierSell;
+		supplierSell = querySupplierSell.createSupplierSellInfo(activSupplier);
+		ArrayList<Product> productSold = supplierSell.getProducts();
+		for (Product product : productSold) {
+			if (!product.getState().equals("Blocked")) {
+				System.out.println(product.getState());
+				combo[3].addItem(product);
+			}
+		}
+	}
+
 	/**
 	 * This method is used to fill the list of packaging
+	 * 
 	 * @throws Exception
 	 */
 	public static void listOfPackaging() throws Exception {
@@ -795,6 +890,7 @@ public class OrderPanel extends JPanel {
 
 	/**
 	 * This method is used to fill the list of state
+	 * 
 	 * @throws Exception
 	 */
 	public static void listState() throws Exception {
@@ -836,10 +932,10 @@ public class OrderPanel extends JPanel {
 		combo[3].setEnabled(false);
 		combo[4].setEnabled(false);
 		combo[5].setEnabled(false);
-		
+
 		label[8].setText("");
 		label[9].setText("");
-		
+
 	}
 
 	/**
@@ -857,6 +953,7 @@ public class OrderPanel extends JPanel {
 
 	/**
 	 * This method is used to make a textfield editable
+	 * 
 	 * @param i
 	 */
 	public static void editableText(int i) {
@@ -886,6 +983,7 @@ public class OrderPanel extends JPanel {
 
 		Order orderSelected = (Order) combo[0].getSelectedItem();
 		Supplier supplier = orderSelected.getSupplier();
+		double TotalTotalPrice = 0;
 
 		ArrayList<OrderLine> orderLine = queryOrder.listAllOrderLine(orderSelected.getId());
 		ArrayList<Article> article = new ArrayList<Article>();
@@ -905,15 +1003,19 @@ public class OrderPanel extends JPanel {
 						totalPrice };
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
+				
+				TotalTotalPrice += calculTotalPrice(supplier,article.get(i), quantity);
 			}
+			label[10].setText("Total : " + TotalTotalPrice + " €");
 		}
 	}
 
 	/**
 	 * This method is used to calcul the price
+	 * 
 	 * @param Supplier supplier
-	 * @param Article article
-	 * @param int quantity
+	 * @param Article  article
+	 * @param int      quantity
 	 * @return String
 	 */
 	public static String calculPrice(Supplier supplier, Article article, int quantity) {
@@ -925,12 +1027,36 @@ public class OrderPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		double valueTotalPrice = Math.round((article.getQuantity() * quantity * buyingPrice)*100.0)/100.0;
+		double valueTotalPrice = Math.round((article.getQuantity() * quantity * buyingPrice) * 100.0) / 100.0;
 		String totalPrice = buyingPrice + "€/" + article.getProduct().getUnit() + " x " + article.getQuantity()
 				+ article.getProduct().getUnit() + " x " + quantity + " = " + (valueTotalPrice) + "€";
 
 		return totalPrice;
 	}
+	
+	/**
+	 * This method is used to calcul the price
+	 * @param supplier
+	 * @param article
+	 * @param quantity
+	 * @return
+	 */
+	public static double calculTotalPrice(Supplier supplier, Article article, int quantity) {
+
+		double TotalTotalPrice = 0;
+
+		try {
+			TotalTotalPrice = Math.round((article.getQuantity() * quantity * querySupplierSell
+					.getPrice(article.getProduct().getName(), supplier.getName())) * 100.0)
+					/ 100.0;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return TotalTotalPrice;
+	}
+	
 
 	/**
 	 * This method is used to format the number (used to not display 2.0 but 2)
