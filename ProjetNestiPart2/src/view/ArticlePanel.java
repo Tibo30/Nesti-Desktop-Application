@@ -113,7 +113,7 @@ public class ArticlePanel extends JPanel {
 
 		ComboBox listUnitArticle = new ComboBox("listArtUni", 484, 90, 60, 31);
 		listUnitArticle.setEnabled(false);
-
+		listUnitArticle.setEditable(false);
 		this.add(listUnitArticle);
 
 		ComboBox listProductArticle = new ComboBox("listArtProd", 179, 91, 189, 31);
@@ -183,16 +183,18 @@ public class ArticlePanel extends JPanel {
 		btnArticleLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
-					
+
 					clearTable();
 					tfArticleRef.setEditable(false);
-					tfArticle.setEnabled(false);
+
 					tfStock.setEnabled(false);
 					btnArticleBlock.setEnabled(false);
 					
 					if (!String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
-
+				
+						tfArticle.setEnabled(true);
+						tfArticle.setEditable(true);
+						
 						ArrayList<Supplier> listSupplier = new ArrayList<Supplier>();
 						ArrayList<Double> listPriceForUnit = new ArrayList<Double>();
 						ArrayList<Double> listPrice = new ArrayList<Double>();
@@ -201,7 +203,7 @@ public class ArticlePanel extends JPanel {
 						Product product = article.getProduct();
 						// Change state of button
 						tfArticleRef.setEditable(false);
-						tfArticle.setEnabled(false);
+
 						btnArticleBlock.setEnabled(true);
 						listProductArticle.setEnabled(false);
 						listPackaging.setEnabled(false);
@@ -234,17 +236,18 @@ public class ArticlePanel extends JPanel {
 						} else {
 							btnArticleBlock.setBackground(new Color(173, 246, 100));
 						}
-						
-					
-						
+
 					} else {
-						// For the case of a new article : change style 
+						
+						// For the case of a new article : change style
 						btnArticleBlock.setEnabled(false);
 						tfStock.setEditable(false);
+						tfArticleRef.setEditable(false);
 						emptyTextField();
 						emptyCombobox();
 						// and give combo choose
 						giveComboChoose();
+
 						tfArticleRef.setEditable(false);
 						btnArticleBlock.setText("Unblocked");
 						tfStock.setEnabled(false);
@@ -268,6 +271,34 @@ public class ArticlePanel extends JPanel {
 				}
 			}
 		});
+		
+		/**
+         * Action listener on the list of product
+         */
+		listProductArticle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    if (listProductArticle.getSelectedIndex() != -1) {
+                    	System.out.println(listProductArticle.getSelectedIndex());
+                    	for (int i = 0; i < combo[1].getItemCount(); i++) {
+                    	 	System.out.println(String.valueOf(combo[1].getItemAt(i)));
+                    	 	System.out.println(((Product) listProductArticle.getSelectedItem()).getUnit().getName());
+   						if (String.valueOf(combo[1].getItemAt(i)).equals(((Product) listProductArticle.getSelectedItem()).getUnit().getName())) {
+   							combo[1].setSelectedIndex(i);
+   						
+   						}
+   						
+   					}
+                    	listUnitArticle.setEnabled(false);
+    					listUnitArticle.setEditable(false);
+                    }
+
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+		
 		btnArticleCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -282,11 +313,11 @@ public class ArticlePanel extends JPanel {
 						// check if exist an article in dbb with this compose
 						if (queryArt.checkArticle(ArticleCreate.getProduct().getName(),
 								ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
-							
-							//	add in database				
+
+							// add in database
 							ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
 							queryArt.createPrepared(ArticleCreate);
-							creatListOfArticle();	
+							creatListOfArticle();
 							JOptionPane.showMessageDialog(null, "Article added");
 						} else {
 							JOptionPane.showMessageDialog(null, "This article already exists");
@@ -309,6 +340,22 @@ public class ArticlePanel extends JPanel {
 				try {
 					// Change state of article
 					queryArt.updatePrepared("state", btnArticleBlock.getText(), article.getId());
+
+					article.setQuantity(Double.parseDouble(tfArticle.getText()));
+
+					queryArt.updatePrepared("quantity", formatD(article.getQuantity()), article.getId());
+
+					clearTable();
+
+					updateListArticle();
+					for (int i = 0; i < combo[0].getItemCount(); i++) {
+						if (String.valueOf(combo[0].getItemAt(i)).equals(article.toString())) {
+							combo[0].setSelectedIndex(i);
+						}
+					}
+
+					creatTable3(article.getId());
+
 					JOptionPane.showMessageDialog(null, "Article " + btnArticleBlock.getText());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -319,7 +366,7 @@ public class ArticlePanel extends JPanel {
 		btnArticleBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					//Change style and text of State button
+					// Change style and text of State button
 					if (btnArticleBlock.getText().equals("Unblocked")) {
 						btnArticleBlock.setText("Blocked");
 						btnArticleBlock.setBackground(new Color(243, 101, 101));
@@ -335,20 +382,22 @@ public class ArticlePanel extends JPanel {
 		});
 	}
 
-		//Clear row of table
+	// Clear row of table
 	public static void clearTable() {
 		DefaultTableModel model = (DefaultTableModel) table_3.getModel();
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
 			model.removeRow(j);
 		}
 	}
-		//Clear Textfield
+
+	// Clear Textfield
 	public static void emptyTextField() {
 		for (TextField text : textField) {
 			text.setText("");
 		}
 	}
-	//Clear combobox
+
+	// Clear combobox
 	public static void emptyCombobox() {
 		for (ComboBox text : combo1) {
 			text.removeAllItems();
@@ -408,18 +457,20 @@ public class ArticlePanel extends JPanel {
 			DefaultTableModel model = (DefaultTableModel) ArticlePanel.table_3.getModel();
 			for (int i = 0; i < suppliersSell.size(); i++) {
 				// add the list elements to the search combo box
-				
+
 				Product pro = suppliersSell.get(i).getProduct();
 				double buyingprice = suppliersSell.get(i).getBuyingPrice();
 				UnitMeasure unit = pro.getUnit();
-				double quantity = (double) ((Article) combo[0].getSelectedItem()).getQuantity();
-
+				double quantity = Double
+						.parseDouble(String.valueOf(((Article) combo[0].getSelectedItem()).getQuantity()));
+				System.out.println(((Article) combo[0].getSelectedItem()).getQuantity());
+				System.out.println(buyingprice + "    " + quantity);
 				Object[] row = { suppliersSell.get(i).getSupplier(), buyingprice + "/" + unit, quantity * buyingprice };
 
 				model.addRow(row);
 			}
 		} catch (Exception e) {
-		
+
 			e.printStackTrace();
 		}
 	}
@@ -470,8 +521,6 @@ public class ArticlePanel extends JPanel {
 		}
 	}
 
-	
-
 	/**
 	 * This method is used to format the number (used to not display 2.0 but 2)
 	 * 
@@ -484,6 +533,7 @@ public class ArticlePanel extends JPanel {
 		String resultFormat = df.format(number);
 		return resultFormat;
 	}
+
 	public static String formatD(double number) {
 		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
 		DecimalFormat df = new DecimalFormat("#.##########", otherSymbols);
