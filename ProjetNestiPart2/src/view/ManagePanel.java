@@ -370,8 +370,9 @@ public class ManagePanel extends JPanel {
 					btnManageCreate.setEnabled(true);
 					btnManageModifyProfile.setEnabled(false);
 					btnManageModifyPassWord.setEnabled(false);
+					btnManageBlockAdmin.setEnabled(false);
 				} else {
-
+					btnManageBlockAdmin.setEnabled(true);
 					// modification
 					if (adm.getState().equals("Blocked")) {
 						btnManageBlockAdmin.blocked();
