@@ -267,9 +267,10 @@ public class QueryAdmin extends MyConnection {
 	 * @param psw
 	 * @param idAdminSelected
 	 * @return
+	 * @throws Exception 
 	 */
 
-	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) {
+	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) throws Exception {
 		openConnection();
 		boolean flag = false;
 		try {

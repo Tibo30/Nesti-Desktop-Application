@@ -284,7 +284,7 @@ public class ProductPanel extends JPanel {
 						e.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Selectionn� la ligne par un double click pour modifier");
+					JOptionPane.showMessageDialog(null, "Select line in the table to modify");
 
 				}
 			}
