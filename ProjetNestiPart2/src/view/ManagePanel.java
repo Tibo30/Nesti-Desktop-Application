@@ -51,10 +51,11 @@ public class ManagePanel extends JPanel {
 	 */
 
 	public ManagePanel() throws Exception {
-		
+
 			this.setBackground(new Color(213, 167, 113));
 			this.setLayout(null);
-
+			
+			
 			// Buttons
 			btnManageModifyProfile = new Button("Manage_Modify_Profile", 154, 372, 138, 29);
 			this.add(btnManageModifyProfile);
@@ -66,6 +67,7 @@ public class ManagePanel extends JPanel {
 			this.add(btnManageLaunch);
 			btnManageCreate = new Button("Create Profile", 344, 372, 113, 32);
 			this.add(btnManageCreate);
+			btnManageBlockAdmin.setEnabled(false);
 
 			// labels
 			Label lblManageSearch = new Label("Search", 133, 46, 95, 27);
@@ -88,12 +90,20 @@ public class ManagePanel extends JPanel {
 			this.add(tfManageLastname);
 			this.tfManageUsername = new TextField("", 59, 258, 160, 20);
 			this.add(tfManageUsername);
+			
+			tfManageLastname.disabled();
+			tfManageFirstname.disabled();
+			tfManageUsername.disabled();
+			
+		
 
 			// Passwords
 			this.pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
 			this.add(pwManagePassword);
 			this.pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
 			this.add(pwManageConfPassword);
+			pwManagePassword.disabled();
+			pwManageConfPassword.disabled();
 
 			// Combo
 			combo = new JComboBox<>();
@@ -105,6 +115,11 @@ public class ManagePanel extends JPanel {
 			 */
 			btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					tfManageLastname.enabled();
+					tfManageFirstname.enabled();
+					tfManageUsername.enabled();
+					pwManagePassword.enabled();
+					pwManageConfPassword.enabled();
 					handleManageLaunch();
 				}
 
@@ -325,7 +340,9 @@ public class ManagePanel extends JPanel {
 
 			actualizeManagePanel();
 
+
 	}
+
 
 	/**
 	 * Function to handle the launch button
@@ -341,6 +358,7 @@ public class ManagePanel extends JPanel {
 			System.out.println(combo.getSelectedItem());
 			idAdminSelected = 0;
 			if (combo.getSelectedItem() != null) {
+			
 
 				Admin adm = (Admin) combo.getSelectedItem();
 
