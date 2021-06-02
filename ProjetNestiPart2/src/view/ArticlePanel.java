@@ -189,8 +189,10 @@ public class ArticlePanel extends JPanel {
 						ArrayList<Supplier> listSupplier = new ArrayList<Supplier>();
 						ArrayList<Double> listPriceForUnit = new ArrayList<Double>();
 						ArrayList<Double> listPrice = new ArrayList<Double>();
+						// get the value of the item in listArticle
 						Article article = ((Article) listArticle.getSelectedItem());
 						Product product = article.getProduct();
+						// Change state of button
 						tfArticleRef.setEditable(false);
 						tfArticle.setEnabled(false);
 						btnArticleBlock.setEnabled(true);
@@ -201,6 +203,7 @@ public class ArticlePanel extends JPanel {
 						btnArticleCreate.setVisible(false);
 						btnArticleModify.setVisible(true);
 						btnArticleModify.setEnabled(true);
+						// Give value of textfiel and list
 						listPackaging.getModel().setSelectedItem(article.getPackaging());
 						listProductArticle.addItem(product);
 						tfArticle.setText(String.valueOf(formatI((int) article.getQuantity())));
@@ -225,10 +228,12 @@ public class ArticlePanel extends JPanel {
 							btnArticleBlock.setBackground(new Color(173, 246, 100));
 						}
 					} else {
+						// For the case of a new article : change style 
 						btnArticleBlock.setEnabled(false);
 						tfStock.setEditable(false);
 						emptyTextField();
 						emptyCombobox();
+						// and give combo choose
 						giveComboChoose();
 						tfArticleRef.setEditable(false);
 						btnArticleBlock.setText("Unblocked");
@@ -257,17 +262,18 @@ public class ArticlePanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 
-//					UnitMeasure unit = (UnitMeasure) listUnitArticle.getSelectedItem();
+//					
 					Product name = (Product) listProductArticle.getSelectedItem();
 					Packaging pack = (Packaging) listPackaging.getSelectedItem();
+					// Controle value of textfield
 					if (name != null && pack != null && (Check.isNumeric(tfArticle.getText()))) {
 
 						Article ArticleCreate = new Article(Integer.parseInt(tfArticle.getText()), 0, pack, name);
-
+						// check if exist an article in dbb with this compose
 						if (queryArt.checkArticle(ArticleCreate.getProduct().getName(),
 								ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
-//					
-
+							
+							//	add in database				
 							ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
 							queryArt.createPrepared(ArticleCreate);
 
@@ -291,6 +297,7 @@ public class ArticlePanel extends JPanel {
 				Article article = ((Article) listArticle.getSelectedItem());
 
 				try {
+					// Change state of article
 					queryArt.updatePrepared("state", btnArticleBlock.getText(), article.getId());
 					JOptionPane.showMessageDialog(null, "Article " + btnArticleBlock.getText());
 				} catch (Exception e) {
@@ -302,6 +309,7 @@ public class ArticlePanel extends JPanel {
 		btnArticleBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					//Change style and text of State button
 					if (btnArticleBlock.getText().equals("Unblocked")) {
 						btnArticleBlock.setText("Blocked");
 						btnArticleBlock.setBackground(new Color(243, 101, 101));
@@ -317,19 +325,20 @@ public class ArticlePanel extends JPanel {
 		});
 	}
 
+		//Clear row of table
 	public static void clearTable() {
 		DefaultTableModel model = (DefaultTableModel) table_3.getModel();
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
 			model.removeRow(j);
 		}
 	}
-
+		//Clear Textfield
 	public static void emptyTextField() {
 		for (TextField text : textField) {
 			text.setText("");
 		}
 	}
-
+	//Clear combobox
 	public static void emptyCombobox() {
 		for (ComboBox text : combo1) {
 			text.removeAllItems();

@@ -116,7 +116,7 @@ public class Check {
 	        return m.matches();
 	    }
 	 public static boolean isValidAddress(String input) {
-	        String regex = "[A-Za-z0-9 ]{3,250}$";
+	        String regex = "[A-Za-z0-9 айиклвфопц]{3,250}$";
 	        Pattern p = Pattern.compile(regex);
 	        if (input==null) {
 	            

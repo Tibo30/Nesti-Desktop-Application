@@ -144,6 +144,7 @@ public class ProductPanel extends JPanel {
 		table_1.setModel(model2);
 		scrollPane_1.setViewportView(table_1);
 
+		
 		btnProductAddTextfield.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -152,6 +153,7 @@ public class ProductPanel extends JPanel {
 				
 				// Validate condition of adding Product
 				if (rowadd != -1) {
+					
 					if (tfProduct.getText().toString().equals("")) {
 
 						JOptionPane.showMessageDialog(null, "Product is empty");
@@ -169,9 +171,9 @@ public class ProductPanel extends JPanel {
 								} else {
 									mousetrue = table_1.getRowCount() - 1;
 								}
-								// Create an object product with value and add it in table
-								if (Check.isValidString(tfProduct.getText())) {
 								
+								if (Check.isValidString(tfProduct.getText())) {
+									// Create an object product with value and add it in table
 								Product product = new Product(tfProduct.getText(),
 										table_1.getValueAt(mousetrue, 1).toString(),
 										listProductType.getSelectedItem().toString(), unit);
@@ -334,8 +336,8 @@ public class ProductPanel extends JPanel {
 		ArrayList<Product> listProd;
 		ArrayList<Article> listAllArticle;
 		try {
-			listProd = queryProd.listAllProductYann();
-			listAllArticle = queryArticle.listAllArticle();
+			listProd = queryProd.listAllProduct();
+			
 
 			DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
 			for (int i = 0; i < listProd.size(); i++) {
@@ -343,7 +345,8 @@ public class ProductPanel extends JPanel {
 				// add the list elements to the search combo box
 				// System.out.println(listProd.get(i).getState());
 				try {
-					quant = (double) listAllArticle.get(i).getQuantity();
+					listAllArticle = queryArticle.listAllArticleByProduct(listProd.get(i));
+					quant = (double) listAllArticle.size();
 				} catch (Exception e) {
 					quant = 0;
 
