@@ -10,9 +10,14 @@ import entities.Supplier;
 import entities.SupplierSell;
 import entities.UnitMeasure;
 
+/**
+ * Class for the supplier sell queries
+ * @author Thibault
+ *
+ */
 public class QuerySupplierSell extends MyConnection {
 
-	//public static QuerySupplierSell querySell = new QuerySupplierSell("127.0.0.1", "root", "", "java_nesti");
+	
 
 	public static void main(String[] args) throws Exception {
 
@@ -54,8 +59,13 @@ public class QuerySupplierSell extends MyConnection {
 
 	}
 
+	/**
+	 * This method is used to create supplier from database
+	 * @param Supplier supplier
+	 * @return SupplierSell
+	 * @throws Exception
+	 */
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
-		openConnection();
 		SupplierSell supSell = null;
 		ArrayList<Product> products = new ArrayList<Product>();
 		ArrayList<Double> buyingPrices = new ArrayList<Double>();
@@ -79,7 +89,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return supSell;
 	}
 
@@ -87,12 +96,11 @@ public class QuerySupplierSell extends MyConnection {
 	 * This method is used to create a new Supplier in the database, during the
 	 * register process
 	 * 
-	 * @param supplier
-	 * @return
+	 * @param SupplierSell supplier
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean createPrepared(SupplierSell supplier) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `sell`(id_supplier, id_product, buying_price) "
@@ -107,21 +115,19 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
 	/**
 	 * This method is used to update a value in the database
 	 * 
-	 * @param valueChanged
-	 * @param newValue
-	 * @param email
-	 * @return
+	 * @param string newValue
+	 * @param string productName
+	 * @param string supplierName
+	 * @return boolean
 	 * @throws Exception
 	 */
 	public boolean updatePrice(String newValue, String productName, String supplierName) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "UPDATE sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier SET sell.buying_price=? WHERE (product.product_name = ?) AND (supplier.supplier_name=?);";
@@ -136,12 +142,17 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 	
+	/**
+	 * This method is used to get the price of a product according to supplier
+	 * @param string productName
+	 * @param string supplierName
+	 * @return double
+	 * @throws Exception
+	 */
 	public double getPrice(String productName, String supplierName) throws Exception {
-		openConnection();
 		double price = 0;
 		ResultSet rs;
 		try {
@@ -158,13 +169,18 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return price;
 	}
 
+	/**
+	 * This method is used to delete in database
+	 * @param Supplier supplier
+	 * @param string productName
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
-		openConnection();
 		try {
 			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON sell.id_supplier = supplier.id_supplier WHERE (product.product_name = ?) AND (supplier.supplier_name = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -175,7 +191,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (SQLException e) {
 			System.err.println("Erreur suppression ingredient: " + e.getMessage());
 		}
-		closeConnection();
 		return success;
 	}
 

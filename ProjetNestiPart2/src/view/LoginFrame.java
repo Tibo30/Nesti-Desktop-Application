@@ -92,18 +92,17 @@ public class LoginFrame extends JFrame {
 					
 					try {
 						System.out.println(psw);
-						
+						queryAdmin.openConnection();
 						if (queryAdmin.checkPassword(user, String.valueOf(psw))) {
 							JOptionPane.showMessageDialog(null, "Login successful");
 							Frame.activAdmin = queryAdmin.selectAdminInfo(user);
 
 							Frame window = new view.Frame();
-							window.show();
 							dispose();
-
 
 						} else {
 							JOptionPane.showMessageDialog(null, "Invalid Username or Password");
+							queryAdmin.closeConnection();
 
 						}
 					} catch (Exception exp) {

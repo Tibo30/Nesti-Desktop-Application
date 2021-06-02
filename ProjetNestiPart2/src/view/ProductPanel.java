@@ -55,7 +55,7 @@ public class ProductPanel extends JPanel {
 		this.add(btnProductBlock);
 
 		Button btnProductAddTextfield = new Button("+_Product", 26, 285, 89, 46);
-		btnProductAddTextfield.setEnabled(false);
+		btnProductAddTextfield.setEnabled(true);
 		this.add(btnProductAddTextfield);
 
 		Button btnProductModify = new Button("Product Modify", 121, 284, 89, 46);
@@ -108,7 +108,7 @@ public class ProductPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				flag = true;
 				// by default
-				if (table_1.getSelectedRow() != 0) {
+				if (table_1.getSelectedRow() != -1) {
 					btnProductBlock.setEnabled(true);
 					btnProductModify.setEnabled(true);
 					btnProductAddTextfield.setEnabled(true);
@@ -147,70 +147,68 @@ public class ProductPanel extends JPanel {
 		table_1.setModel(model2);
 		scrollPane_1.setViewportView(table_1);
 
-		
 		btnProductAddTextfield.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 				int mousetrue;
 				int rowadd = table_1.getSelectedRow();
-				
-				// Validate condition of adding Product
-				if (rowadd != -1) {
-					
-					if (tfProduct.getText().toString().equals("")) {
 
-						JOptionPane.showMessageDialog(null, "Product is empty");
-					} else {
-						System.out.println(tfProduct.getText().toString());
+				if (tfProduct.getText().toString().equals("")) {
 
-						if (table_1.getSelectedRow() != -1) {
+					JOptionPane.showMessageDialog(null, "Product is empty");
+				} else {
+					System.out.println(tfProduct.getText().toString());
 
-							if (!tfProduct.getText().equals(table_1.getValueAt(table_1.getSelectedRow(), 0))) {
-
-								UnitMeasure unit = new UnitMeasure(listProductUnit.getSelectedItem().toString());
-
-								if (flag == true) {
-									mousetrue = table_1.getSelectedRow();
-								} else {
-									mousetrue = table_1.getRowCount() - 1;
-								}
-								
-								if (Check.isValidString(tfProduct.getText())) {
-									// Create an object product with value and add it in table
-								Product product = new Product(tfProduct.getText(),
-										table_1.getValueAt(mousetrue, 1).toString(),
-										listProductType.getSelectedItem().toString(), unit);
-
-								Object[] row = product.toRowProduct();
-
-								DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-								model.addRow(row);
-								}else {
-									JOptionPane.showMessageDialog(null, "Please enter a valid string with max 50 caracters.");
-								}
-								try {
-									// Send Object to DDB
-									UnitMeasure unitinfo = queryProd
-											.createUnitInfo((String) listProductUnit.getSelectedItem());
-									Product pro = new Product(tfProduct.getText(), "Unblocked",
-											(String) listProductType.getSelectedItem(), unitinfo);
-									queryProd.createPrepared(pro);
-								} catch (Exception e) {
-
-									e.printStackTrace();
-								}
-
-							} else {
-								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Click on the table");
+					int count = table_1.getRowCount();
+					boolean exist = false;
+					// Check if the name already exists
+					for (int i = 0; i < count; i++) {
+						if (tfProduct.getText().equals(table_1.getValueAt(i, 0))) {
+							exist = true;
+							System.out.println(i);
 						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Click on the table adding element");
+
+					if (exist == false) {
+
+						UnitMeasure unit = new UnitMeasure(listProductUnit.getSelectedItem().toString());
+
+						if (flag == true) {
+							mousetrue = table_1.getSelectedRow();
+						} else {
+							mousetrue = table_1.getRowCount() - 1;
+						}
+
+						if (Check.isValidString(tfProduct.getText())) {
+							// Create an object product with value and add it in table
+							Product product = new Product(tfProduct.getText(),
+									table_1.getValueAt(mousetrue, 1).toString(),
+									listProductType.getSelectedItem().toString(), unit);
+
+							Object[] row = product.toRowProduct();
+
+							DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+							model.addRow(row);
+						} else {
+							JOptionPane.showMessageDialog(null, "Please enter a valid string with max 50 caracters.");
+						}
+						try {
+							// Send Object to DDB
+							UnitMeasure unitinfo = queryProd.createUnitInfo((String) listProductUnit.getSelectedItem());
+							Product pro = new Product(tfProduct.getText(), "Unblocked",
+									(String) listProductType.getSelectedItem(), unitinfo);
+							queryProd.createPrepared(pro);
+						} catch (Exception e) {
+
+							e.printStackTrace();
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "This Product's name is already taken");
+					}
 
 				}
+
 			}
 		});
 
@@ -220,17 +218,18 @@ public class ProductPanel extends JPanel {
 		btnProductModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table_1.getSelectedRow();
-				
+
 				if (row != -1) {
 					try {
-				
+
 						// Controle if the name is already use and if not Change it
 						if (!activProduct.getName().equals(tfProduct.getText())) {
 							if (SupplierPanel.isNameTaken(tfProduct.getText()) == false) {
 								if (Check.isValidString(tfProduct.getText())) {
-								queryProd.UpdateProductPrepared("name", tfProduct.getText(), activProduct.getName());
-								activProduct.setName(tfProduct.getText());
-							
+									queryProd.UpdateProductPrepared("name", tfProduct.getText(),
+											activProduct.getName());
+									activProduct.setName(tfProduct.getText());
+
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
@@ -277,14 +276,14 @@ public class ProductPanel extends JPanel {
 							emptyCombobox();
 							createUnitList();
 							createTypeList();
-							
+
 						}
 					} catch (Exception e) {
 						System.out.println("modify clear table error");
 						e.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Select line in the table to modify");
+					JOptionPane.showMessageDialog(null, "Select a line by double clicking in the table to modify");
 
 				}
 			}
@@ -299,34 +298,39 @@ public class ProductPanel extends JPanel {
 				int row = table_1.getSelectedRow();
 				boolean only = true;
 
-				if (table_1.getValueAt(row, 1).equals("Unblocked") && (only == true)) {
-					// Block the product visualy
-					only = false;
-					Object toto = "Blocked";
-					btnProductBlock.setText("Blocked");
-					btnProductBlock.setBackground(new Color(243, 101, 101));
-					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-					model.setValueAt(toto, row, 1);
+				if (row != -1) {
+					if (table_1.getValueAt(row, 1).equals("Unblocked") && (only == true)) {
+						// Block the product visualy
+						only = false;
+						Object toto = "Blocked";
+						btnProductBlock.setText("Blocked");
+						btnProductBlock.setBackground(new Color(243, 101, 101));
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setValueAt(toto, row, 1);
 
-				} else {
-					// Unblock the product visualy
-					only = true;
-					Object toto = "Unblocked";
-					btnProductBlock.setText("Unblocked");
-					btnProductBlock.setBackground(new Color(173, 246, 100));
-					DefaultTableModel model = (DefaultTableModel) table_1.getModel();
-					model.setValueAt(toto, row, 1);
+					} else {
+						// Unblock the product visualy
+						only = true;
+						Object toto = "Unblocked";
+						btnProductBlock.setText("Unblocked");
+						btnProductBlock.setBackground(new Color(173, 246, 100));
+						DefaultTableModel model = (DefaultTableModel) table_1.getModel();
+						model.setValueAt(toto, row, 1);
 
-				}
-				if (!activProduct.getState().equals(table_1.getValueAt(row, 1))) {
-					try {
-						// Give the value to the DDB
-						queryProd.UpdateProductPrepared("state", table_1.getValueAt(row, 1).toString(),
-								activProduct.getName());
-					} catch (Exception e) {
-						System.out.println("error query update Product");
-						e.printStackTrace();
 					}
+					if (!activProduct.getState().equals(table_1.getValueAt(row, 1))) {
+						try {
+							// Give the value to the DDB
+							queryProd.UpdateProductPrepared("state", table_1.getValueAt(row, 1).toString(),
+									activProduct.getName());
+							JOptionPane.showMessageDialog(null, "State changed");
+						} catch (Exception e) {
+							System.out.println("error query update Product");
+							e.printStackTrace();
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a row in the table before clicking");
 				}
 			}
 		});
@@ -340,7 +344,6 @@ public class ProductPanel extends JPanel {
 		ArrayList<Article> listAllArticle;
 		try {
 			listProd = queryProd.listAllProduct();
-			
 
 			DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
 			for (int i = 0; i < listProd.size(); i++) {
@@ -390,19 +393,25 @@ public class ProductPanel extends JPanel {
 	 * Creat list of type
 	 */
 	public static void createTypeList() {
-		try {
-			ArrayList<String> listType = queryProd.AllType();
+		// Former version
+//		try {
+//			ArrayList<String> listType = queryProd.AllType();
+//
+//			// add the list elements to the search combo box
+//			for (int i = 0; i < listType.size(); i++) {
+//				ProductPanel.combo[1].addItem(listType.get(i));
+//			}
+//
+//		} catch (Exception e2) {
+//
+//			e2.printStackTrace();
+//
+//		}
 
-			// add the list elements to the search combo box
-			for (int i = 0; i < listType.size(); i++) {
-				ProductPanel.combo[1].addItem(listType.get(i));
-			}
+		// New version
+		combo[1].addItem("Ingredient");
+		combo[1].addItem("Utensil");
 
-		} catch (Exception e2) {
-
-			e2.printStackTrace();
-
-		}
 	}
 
 	/*
@@ -414,6 +423,7 @@ public class ProductPanel extends JPanel {
 			model.removeRow(j);
 		}
 	}
+
 	public static void emptyCombobox() {
 		for (ComboBox text : combo) {
 			text.removeAllItems();
@@ -429,5 +439,5 @@ public class ProductPanel extends JPanel {
 		String resultFormat = df.format(number);
 		return resultFormat;
 	}
-	
+
 }

@@ -26,7 +26,6 @@ public class QueryArticle extends MyConnection {
 		ArrayList<Article> listArticle = new ArrayList<Article>();
 		Article art = null;
 		try {
-			openConnection();
 
 			String query = "SELECT article.id_article, article.article_quantity, article.article_quantity_real_stock, article.article_state, article.article_creation_date, article.article_update_date, "
 					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product;";
@@ -45,7 +44,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listArticle;
 	}
 
@@ -59,7 +57,6 @@ public class QueryArticle extends MyConnection {
 		ArrayList<Article> listArticle = new ArrayList<Article>();
 		Article art = null;
 		try {
-			openConnection();
 
 			String query = "SELECT article.id_article, article.article_quantity, article.article_quantity_real_stock, article.article_state, article.article_creation_date, article.article_update_date, "
 					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product "
@@ -80,7 +77,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listArticle;
 	}
 
@@ -92,7 +88,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public Article createArticleInfo(int idArticle) throws Exception {
-		openConnection();
 		Article art = null;
 		ResultSet rs;
 		try {
@@ -112,7 +107,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return art;
 	}
 
@@ -123,7 +117,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public ArrayList<SupplierSell> giveTableInfo(int idArticle) throws Exception {
-		openConnection();
 		ArrayList<SupplierSell> supSell = new ArrayList<SupplierSell>();
 		ResultSet rs;
 		String query = "SELECT supplier.supplier_name, sell.buying_price, product.product_name FROM sell JOIN supplier ON supplier.id_supplier = sell.id_supplier JOIN product ON product.id_product = sell.id_product JOIN article ON article.id_product = product.id_product WHERE article.id_article = ? ";
@@ -136,7 +129,6 @@ public class QueryArticle extends MyConnection {
 			SupplierSell oneSupSell = new SupplierSell(sup, prod, rs.getDouble("buying_price"));
 			supSell.add(oneSupSell);
 		}
-		closeConnection();
 		return supSell;
 	}
 
@@ -146,7 +138,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public ArrayList<UnitMeasure> listUnit() throws Exception {
-		openConnection();
 		ArrayList<UnitMeasure> unit = new ArrayList<UnitMeasure>();
 
 		try {
@@ -163,7 +154,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return unit;
 	}
 
@@ -174,7 +164,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPrepared(Article article) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `article`(article_quantity,id_packaging,id_admin,id_product) "
@@ -191,7 +180,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -202,7 +190,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public int createPreparedID(Article article) throws Exception {
-		openConnection();
 		int last_inserted_id = 0;
 		try {
 			String query = "INSERT INTO `article`(article_quantity,id_packaging,id_admin,id_product) "
@@ -222,7 +209,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return last_inserted_id;
 	}
 
@@ -235,7 +221,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public Article checkArticle(String product, String packaging, double quantity) throws Exception {
-		openConnection();
 		Article art = null;
 		ResultSet rs;
 		try {
@@ -257,7 +242,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return art;
 	}
 
@@ -270,7 +254,6 @@ public class QueryArticle extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePrepared(String valueChanged, String newValue, int iD) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "";
@@ -292,7 +275,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -307,7 +289,6 @@ public class QueryArticle extends MyConnection {
 		Article art = null;
 		ResultSet rs;
 		try {
-			openConnection();
 
 			String query = "SELECT article.id_article, article.article_quantity, article.article_quantity_real_stock, article.article_state, article.article_creation_date, article.article_update_date, "
 					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product  where product.id_product = ?;";
@@ -328,7 +309,6 @@ public class QueryArticle extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listArticle;
 	}
 

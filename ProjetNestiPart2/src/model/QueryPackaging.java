@@ -13,7 +13,6 @@ public class QueryPackaging extends MyConnection{
 		ArrayList<Packaging> listPackaging = new ArrayList<Packaging>();
 		Packaging pack = null;
 		try {
-			openConnection();
 
 			String query = "SELECT id_packaging, packaging_name FROM packaging;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -26,11 +25,9 @@ public class QueryPackaging extends MyConnection{
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listPackaging;
 	}
 	public Packaging createPackInfo(String unitName) throws Exception {
-        openConnection();
         Packaging unit = null;
         ResultSet rs;
 
@@ -47,7 +44,6 @@ public class QueryPackaging extends MyConnection{
         } catch (Exception e) {
             System.err.println("Erreur d'affichage d'utilisateur createUnitInfo: " + e.getMessage());
         }
-        closeConnection();
         return unit;
     }
 	

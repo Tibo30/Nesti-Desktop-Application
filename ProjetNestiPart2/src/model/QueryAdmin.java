@@ -34,8 +34,6 @@ public class QueryAdmin extends MyConnection {
 
 		try {
 
-			openConnection();
-
 			String query = "SELECT id_admin, admin_lastname, admin_firstname, admin_password, admin_login, "
 					+ "admin_state,admin_creation_date,admin_update_date, is_super_admin FROM admin;";
 
@@ -66,7 +64,6 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception
 	 */
 	public Admin selectAdminInfo(String login) throws Exception {
-		openConnection();
 		Admin adm = null;
 		ResultSet rs;
 		try {
@@ -80,12 +77,11 @@ public class QueryAdmin extends MyConnection {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
 						rs.getDate("admin_creation_date"), rs.getDate("admin_update_date"),
-						rs.getBoolean("is_super_admin"));
+						rs.getInt("is_super_admin"));
 			}
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
-		closeConnection();
 		return adm;
 	}
 
@@ -97,7 +93,6 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception
 	 */
 	public Admin selectAdminInfoById(int id) throws Exception {
-		openConnection();
 		Admin adm = null;
 		ResultSet rs;
 		try {
@@ -111,12 +106,11 @@ public class QueryAdmin extends MyConnection {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
 						rs.getDate("admin_creation_date"), rs.getDate("admin_update_date"),
-						rs.getBoolean("is_super_admin"));
+						rs.getInt("is_super_admin"));
 			}
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
-		closeConnection();
 		return adm;
 	}
 
@@ -129,7 +123,6 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPrepared(Admin admin) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `admin`(`admin_lastname`,`admin_firstname`,`admin_login`,`admin_password`,`admin_state`,`is_super_admin`) VALUES (?,?,?,?,?,?)";
@@ -143,13 +136,12 @@ public class QueryAdmin extends MyConnection {
 			declaration.setString(3, admin.getUsername());
 			declaration.setString(4, pw_hash);
 			declaration.setString(5, admin.getState());
-			declaration.setBoolean(6, admin.isSuperAdmin());
+			declaration.setInt(6, admin.getSuperAdmin());
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -163,7 +155,6 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePrepared(Admin admin) throws Exception {
-		openConnection();
 		boolean flag = false;
 		System.out.println(
 				admin.getId() + admin.getFirstname() + admin.getUsername() + admin.getLastname() + admin.getState());
@@ -183,7 +174,6 @@ public class QueryAdmin extends MyConnection {
 			error = e.getMessage();
 			e.printStackTrace();
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -197,7 +187,6 @@ public class QueryAdmin extends MyConnection {
 	 */
 
 	public boolean checkPassword(String username, String password) throws Exception {
-		openConnection();
 
 		PreparedStatement declaration;
 		ResultSet rs;
@@ -239,7 +228,6 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean checkUsername(String username) throws Exception {
-		openConnection();
 		PreparedStatement declaration;
 		ResultSet rs;
 		boolean checkUser = false;
@@ -257,7 +245,6 @@ public class QueryAdmin extends MyConnection {
 		} catch (SQLException ex) {
 			Logger.getLogger(ManagePanel.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		closeConnection();
 		return checkUser;
 	}
 
@@ -270,8 +257,7 @@ public class QueryAdmin extends MyConnection {
 	 * @throws Exception 
 	 */
 
-	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) throws Exception {
-		openConnection();
+	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) {
 		boolean flag = false;
 		try {
 			String query = "UPDATE admin SET admin_password=? WHERE id_admin=?";
@@ -287,7 +273,6 @@ public class QueryAdmin extends MyConnection {
 			System.err.println("Error in password modification: " + e.getMessage());
 		}
 
-		closeConnection();
 		return flag;
 
 	}
@@ -302,7 +287,6 @@ public class QueryAdmin extends MyConnection {
 	 */
 
 	public boolean updateState(int id, String state) throws Exception {
-		openConnection();
 		boolean flag = false;
 
 		try {
@@ -318,7 +302,6 @@ public class QueryAdmin extends MyConnection {
 			error = e.getMessage();
 			e.printStackTrace();
 		}
-		closeConnection();
 		return flag;
 	}
 

@@ -71,8 +71,6 @@ public class TabbedPaneChangeListener implements ChangeListener {
 				ProductPanel.creatTable();
 				ProductPanel.createUnitList();
 				ProductPanel.createTypeList();
-			
-				
 					
 			}
 		}

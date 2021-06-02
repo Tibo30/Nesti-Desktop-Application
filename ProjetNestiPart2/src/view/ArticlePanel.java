@@ -281,13 +281,13 @@ public class ArticlePanel extends JPanel {
 							ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
 							queryArt.createPrepared(ArticleCreate);
 
-							JOptionPane.showMessageDialog(null, "Article Ajouté");
+							JOptionPane.showMessageDialog(null, "Article added");
 						} else {
-							JOptionPane.showMessageDialog(null, "Mauvaise saisie");
+							JOptionPane.showMessageDialog(null, "This article already exists");
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(null, "Champs vide");
+						JOptionPane.showMessageDialog(null, "Empty field");
 					}
 				} catch (Exception e1) {
 
