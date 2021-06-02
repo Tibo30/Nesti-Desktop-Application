@@ -4,30 +4,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import java.util.Date;
-
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import entities.Admin;
-import entities.Supplier;
 import tools.BCrypt;
 import view.LoginFrame;
 import view.ManagePanel;
 
+/**
+ * 
+ * @author SAL.BEDDEK
+ *
+ */
 public class QueryAdmin extends MyConnection {
 
-//	public static QueryAdmin queryAdm = new QueryAdmin("127.0.0.1", "root", "", "java_nesti");
-//
-//	public QueryAdmin() {
-//		super(url, login, mdp, bdd);
-//
-//	}
+	public String error = "";
 
 	/**
-	 * Read all the Admins names
+	 * Method to read all the Admin's names
 	 * 
 	 * @throws Exception
 	 */
@@ -47,7 +42,7 @@ public class QueryAdmin extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Recover data */
 
 			while (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_login"), rs.getString("admin_lastname"),
@@ -63,6 +58,13 @@ public class QueryAdmin extends MyConnection {
 		return listAdmin;
 	}
 
+	/**
+	 * Method used to select all Admin's information from admin_login
+	 * 
+	 * @param login
+	 * @return
+	 * @throws Exception
+	 */
 	public Admin selectAdminInfo(String login) throws Exception {
 		openConnection();
 		Admin adm = null;
@@ -73,7 +75,7 @@ public class QueryAdmin extends MyConnection {
 			declaration.setString(1, login);
 			rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Recover data */
 			if (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
@@ -87,6 +89,13 @@ public class QueryAdmin extends MyConnection {
 		return adm;
 	}
 
+	/**
+	 * Method used to select all Admin's information from Admin's id
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public Admin selectAdminInfoById(int id) throws Exception {
 		openConnection();
 		Admin adm = null;
@@ -97,7 +106,7 @@ public class QueryAdmin extends MyConnection {
 			declaration.setInt(1, id);
 			rs = declaration.executeQuery();
 
-			/* Récupération des données */
+			/* Recover Data */
 			if (rs.next()) {
 				adm = new Admin(rs.getInt("id_admin"), rs.getString("admin_lastname"), rs.getString("admin_firstname"),
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
@@ -110,15 +119,10 @@ public class QueryAdmin extends MyConnection {
 		closeConnection();
 		return adm;
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
-	 * This method is used to create a new Admin in the database, during the
-	 * register process
+	 * Method used to create a new Admin in the database, during the register
+	 * process
 	 * 
 	 * @param admin
 	 * @return
@@ -130,10 +134,10 @@ public class QueryAdmin extends MyConnection {
 		try {
 			String query = "INSERT INTO `admin`(`admin_lastname`,`admin_firstname`,`admin_login`,`admin_password`,`admin_state`,`is_super_admin`) VALUES (?,?,?,?,?,?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			
-			// this is used to encrypt the password
-			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12)); 
-																				 
+
+			// This code is used to encrypt the password
+			String pw_hash = BCrypt.hashpw(admin.getPassword(), BCrypt.gensalt(12));
+
 			declaration.setString(1, admin.getLastname());
 			declaration.setString(2, admin.getFirstname());
 			declaration.setString(3, admin.getUsername());
@@ -150,7 +154,7 @@ public class QueryAdmin extends MyConnection {
 	}
 
 	/**
-	 * This method is used to update Admin's values in the database
+	 * Method used to update Admin's values in the database
 	 * 
 	 * @param valueChanged
 	 * @param newValue
@@ -161,9 +165,11 @@ public class QueryAdmin extends MyConnection {
 	public boolean updatePrepared(Admin admin) throws Exception {
 		openConnection();
 		boolean flag = false;
+		System.out.println(
+				admin.getId() + admin.getFirstname() + admin.getUsername() + admin.getLastname() + admin.getState());
 		try {
 			String query = "UPDATE admin SET admin_lastname=?, admin_firstname=?, admin_state=?, admin_login=? WHERE id_admin=?";
-	
+
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, admin.getLastname());
 			declaration.setString(2, admin.getFirstname());
@@ -174,14 +180,15 @@ public class QueryAdmin extends MyConnection {
 			int executeUpdate = declaration.executeUpdate();
 			flag = (executeUpdate == 1);
 		} catch (Exception e) {
-			System.err.println("Error in Admin's modifications: " + e.getMessage());
+			error = e.getMessage();
+			e.printStackTrace();
 		}
 		closeConnection();
 		return flag;
 	}
 
 	/**
-	 * This method is used to check Admin's username and password
+	 * Method used to check Admin's user name and password
 	 * 
 	 * 
 	 * @param login * @param password
@@ -197,21 +204,21 @@ public class QueryAdmin extends MyConnection {
 
 		boolean checkPassword = false;
 
-		String query = "SELECT `admin_password`, `id_admin` FROM `admin` WHERE (`admin_login` =?);";
+		String query = "SELECT `admin_password`, `id_admin` FROM `admin` WHERE `admin_login` =? AND admin_state='Unblocked';";
 
 		try {
 			declaration = accessDataBase.prepareStatement(query);
-			
+
 			declaration.setString(1, username);
 
 			rs = declaration.executeQuery();
 
 			if (rs.next()) {
-				
+
 				if (BCrypt.checkpw(password, rs.getString("admin_password"))) {
 					checkPassword = true;
-					
-				LoginFrame.id= rs.getInt("id_admin"); // stocker l'id de l'admin dans login frame  
+
+					LoginFrame.id = rs.getInt("id_admin"); // stocker l'id de l'admin dans login frame
 
 				}
 			}
@@ -219,13 +226,13 @@ public class QueryAdmin extends MyConnection {
 		} catch (SQLException ex) {
 			Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
-	return checkPassword;
+
+		return checkPassword;
 
 	}
 
 	/**
-	 * This method check if the username is already taken
+	 * Method to check if the user name is already taken
 	 * 
 	 * @param username
 	 * @return
@@ -254,12 +261,20 @@ public class QueryAdmin extends MyConnection {
 		return checkUser;
 	}
 
-	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) throws Exception {
+	/**
+	 * Method to update Admin's password
+	 * 
+	 * @param psw
+	 * @param idAdminSelected
+	 * @return
+	 */
+
+	public boolean updatePasswordPrepared(char[] psw, int idAdminSelected) {
 		openConnection();
 		boolean flag = false;
 		try {
-			String query = "UPDATE admin SET admin_password=? WHERE id_admin=?"; 
-			String pw_hash = BCrypt.hashpw(String.valueOf(psw), BCrypt.gensalt(12)); 
+			String query = "UPDATE admin SET admin_password=? WHERE id_admin=?";
+			String pw_hash = BCrypt.hashpw(String.valueOf(psw), BCrypt.gensalt(12));
 
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setString(1, pw_hash);
@@ -270,13 +285,40 @@ public class QueryAdmin extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Error in password modification: " + e.getMessage());
 		}
-		
+
 		closeConnection();
 		return flag;
-		
+
 	}
-	
-	
-	
+
+	/**
+	 * Method to update the Admin's sate
+	 * 
+	 * @param id
+	 * @param state
+	 * @return
+	 * @throws Exception
+	 */
+
+	public boolean updateState(int id, String state) throws Exception {
+		openConnection();
+		boolean flag = false;
+
+		try {
+			String query = "UPDATE admin SET admin_state=? WHERE id_admin=?";
+
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setString(1, state);
+			declaration.setInt(2, id);
+
+			int executeUpdate = declaration.executeUpdate();
+			flag = (executeUpdate == 1);
+		} catch (Exception e) {
+			error = e.getMessage();
+			e.printStackTrace();
+		}
+		closeConnection();
+		return flag;
+	}
 
 }

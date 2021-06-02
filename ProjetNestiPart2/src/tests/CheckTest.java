@@ -1,8 +1,9 @@
-package tools;
+package tests;
 
 import org.junit.Test;
 
 import junit.framework.TestCase;
+import tools.Check;
 
 
 public class CheckTest extends TestCase {

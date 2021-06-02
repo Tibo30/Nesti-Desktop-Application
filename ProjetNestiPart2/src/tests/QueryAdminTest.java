@@ -1,4 +1,4 @@
-package model;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import org.junit.Test;
 
 import entities.Admin;
+import model.QueryAdmin;
 
 public class QueryAdminTest {
 

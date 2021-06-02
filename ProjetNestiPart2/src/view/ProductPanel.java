@@ -15,8 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
 import entities.Article;
 import entities.Product;
 import entities.UnitMeasure;
@@ -281,7 +284,7 @@ public class ProductPanel extends JPanel {
 						e.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Selectionné la ligne par un double click pour modifier");
+					JOptionPane.showMessageDialog(null, "Selectionnï¿½ la ligne par un double click pour modifier");
 
 				}
 			}
