@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
 import entities.Article;
 import entities.Product;
 import entities.UnitMeasure;

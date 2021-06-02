@@ -2,6 +2,12 @@ package view;
 
 import javax.swing.JTable;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
+
 public class ValueNeededSupplier {
 	
 	Label[] label;

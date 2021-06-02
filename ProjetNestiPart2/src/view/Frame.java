@@ -5,8 +5,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,26 +18,33 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
+import components.Label;
+import components.Panel;
+import entities.Order;
 import entities.Admin;
+import model.QueryOrder;
+import tools.ToolsUi;
+import view.TabbedPaneChangeListener;
 
 //Test commit
 public class Frame {
 
+	/**
+	 * Attributes
+	 */
 	private JFrame frame;
 	private final JPanel panel = new JPanel();
-
 	private JTable table;
-	private JTable table_1;
-	private JTable tSupplier;
-	
-	private JTable table_3;
 	public static ValueNeededSupplier suppl;
-	
-
 	public static ValueNeededAdmin adm;
 	public static Admin activAdmin;
+	public static Order activOrder;
+	private JTable tableHistory;
+	public static ScrollPane scroll;
+	private static QueryOrder queryOrder;
+
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +105,10 @@ public class Frame {
 		Image newimg = img.getScaledInstance(815, 420, java.awt.Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 
-		Label lblNewLabel_2 = new Label("Joe Smith", 10, 194, 790, 72);
+		Label lblNewLabel_2 = new Label(activAdmin.getFirstname() + " " + activAdmin.getLastname(), 10, 194, 790, 72);
+		lblNewLabel_2.setForeground(new Color(255, 250, 250));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 40));
 		panelHome.add(lblNewLabel_2);
 
 		Label lblNewLabel_1 = new Label("Welcome", 10, 143, 790, 58);
@@ -102,14 +116,12 @@ public class Frame {
 
 		lblNewLabel.setIcon(new ImageIcon(newimg));
 		panelHome.add(lblNewLabel);
-		
-		
-		JLabel lblLogo = new JLabel("");
-        lblLogo.setLabelFor(lblLogo);
-        lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
-        lblLogo.setBounds(758, 0, 70, 32);
-        panel.add(lblLogo);
 
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setLabelFor(lblLogo);
+		lblLogo.setIcon(new ImageIcon(Frame.class.getResource("/assets/logo.jpg")));
+		lblLogo.setBounds(758, 0, 70, 32);
+		panel.add(lblLogo);
 
 		/**
 		 * Profil
@@ -117,7 +129,6 @@ public class Frame {
 		ProfilePanel panelProfil = new ProfilePanel();
 
 		TabbedPane.addTab("Profil", new ImageIcon(Frame.class.getResource("/assets/Profil.jpg")), panelProfil, null);
-
 
 		/**
 		 * Supplier
@@ -127,10 +138,7 @@ public class Frame {
 
 		TabbedPane.addTab("Supplier", new ImageIcon(Frame.class.getResource("/assets/Supplier.jpg")), panelSupplier,
 				null);
-		
 
-
-		
 		/**
 		 * Order
 		 */
@@ -138,9 +146,6 @@ public class Frame {
 		OrderPanel panelOrder = new OrderPanel();
 
 		TabbedPane.addTab("Order", new ImageIcon(Frame.class.getResource("/assets/Order.jpg")), panelOrder, null);
-		
-
-		
 
 		/**
 		 * Article
@@ -149,61 +154,150 @@ public class Frame {
 		ArticlePanel panelArticle = new ArticlePanel();
 
 		TabbedPane.addTab("Article", new ImageIcon(Frame.class.getResource("/assets/Article.jpg")), panelArticle, null);
-		
-		
-		
 
-		
 		/**
-         * Product
-         */
+		 * Product
+		 */
 
-       ProductPanel panelProduct = new ProductPanel();
+		ProductPanel panelProduct = new ProductPanel();
 
-       TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
-        
-        
+		TabbedPane.addTab("Product", new ImageIcon(Frame.class.getResource("/assets/Product.jpg")), panelProduct, null);
 
-        
-
-        /**
+		/**
 		 * History
 		 */
 
 		Panel panelHistory = new Panel("panelHistory");
 
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panelHistory, null);
-
-		Button btnHistorySubmit = new Button("History_Submit", 525, 381, 89, 23);
-		panelHistory.add(btnHistorySubmit);
-
-		Button btnHistoryShowCompletedOrders = new Button("Orders placed", 454, 79, 129, 23);
-		panelHistory.add(btnHistoryShowCompletedOrders);
-
-		Button btnHistoryShowOrdersInProgress = new Button("Orders in progress", 593, 79, 149, 23);
-		panelHistory.add(btnHistoryShowOrdersInProgress);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(58, 141, 684, 178);
-		panelHistory.add(scrollPane);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(58, 141, 684, 178);
+        panelHistory.add(scrollPane);
+		
+		
 
-		table = new JTable();
-		table.setBackground(new Color(255, 222, 173));
-		table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
-				new String[] { "Order", "Delivery date", "Validation date", "State" }) {
-			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class };
+		tableHistory = new JTable();
+		tableHistory.setBounds(130, 136, 535, 196);
+		tableHistory.setBackground(new Color(255, 222, 173));
+		panelHistory.add(tableHistory);
 
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+		/**
+		 * History Table Constructor
+		 */
+	
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {,},
+                new String[] { "Order", "Validation date", "Delivery date", "State" }) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                return false;
+            }
+        };
+		tableHistory.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Order", "Validation date", "Delivery date", "State"
+			}
+		));
+
+scrollPane.setViewportView(tableHistory);
+		// Buttons
+		JButton btnOrdersTreated = new JButton("Orders Treated");
+		btnOrdersTreated.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ToolsUi.clearTable(tableHistory);
+				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
+		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
+		            model.removeRow(j);
+		        }
+				QueryOrder queryOrder = new QueryOrder();
+
+				ArrayList<Order> listOrderHistDatabase = null;
+				try {
+
+					listOrderHistDatabase = queryOrder.listOrderHistory("delivered");
+
+					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
+
+
+						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
+
+						model.addRow(row);
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			
+			
+		});
+		 
+		btnOrdersTreated.setBackground(new Color(135, 206, 235));
+
+		btnOrdersTreated.setBounds(385, 76, 127, 27);
+		panelHistory.add(btnOrdersTreated);
+
+		JButton btnOrdersProcessed = new JButton("Orders Processed");
+		btnOrdersProcessed.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ToolsUi.clearTable(tableHistory);
+				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
+		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
+		            model.removeRow(j);
+		        }
+				QueryOrder queryOrder = new QueryOrder();
+
+				ArrayList<Order> listOrderHistDatabase = null;
+				try {
+
+					listOrderHistDatabase = queryOrder.listOrderHistory("");
+
+					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
+
+
+						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
+
+						model.addRow(row);
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			
+			
+		});
+		
+		btnOrdersProcessed.setBackground(new Color(135, 206, 235));
+
+		btnOrdersProcessed.setBounds(522, 76, 143, 27);
+		panelHistory.add(btnOrdersProcessed);
+
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//JTabbedPane pane = new JTabbedPane();
+				JTabbedPane pane = (JTabbedPane) e.getSource();
+				pane.setSelectedIndex(0);
+				
 			}
 		});
-		table.getColumnModel().getColumn(2).setPreferredWidth(106);
-		scrollPane.setViewportView(table);
+		btnSubmit.setBackground(new Color(144, 238, 144));
+
+		btnSubmit.setBounds(543, 359, 85, 21);
+		panelHistory.add(btnSubmit);
 
 		/**
 		 * Manage
@@ -213,11 +307,8 @@ public class Frame {
 
 		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage, null);
 
-		
-		
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
-
 
 	}
 
@@ -233,6 +324,6 @@ public class Frame {
 				}
 			}
 		});
-		
+
 	}
 }

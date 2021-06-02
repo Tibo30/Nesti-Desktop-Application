@@ -5,6 +5,9 @@ import java.awt.TextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import components.Button;
+import components.PasswordField;
+
 public class ValueNeeded {
 	JFrame frame;
 	Label[] label;

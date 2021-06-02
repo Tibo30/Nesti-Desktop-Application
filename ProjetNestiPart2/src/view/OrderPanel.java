@@ -21,6 +21,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
 import entities.Article;
 import entities.Order;
 import entities.OrderLine;
@@ -370,8 +375,8 @@ public class OrderPanel extends JPanel {
 
 						if (String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
 							Article article = new Article(Double.parseDouble(tfPackagingQuantity.getText()), 0,
-                                    (Packaging) listOrderPackaging.getSelectedItem(),
-                                    (Product) listOrderProduct.getSelectedItem());
+									(Packaging) listOrderPackaging.getSelectedItem(),
+									(Product) listOrderProduct.getSelectedItem());
 							// if the created article is not already in the database
 							if (queryArticle.checkArticle(article.getProduct().getName(), article.getPackaging().getName(), article.getQuantity()) == null) {
 								article.setIdAdmin(Frame.activAdmin.getId());
