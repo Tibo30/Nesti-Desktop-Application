@@ -192,7 +192,7 @@ public class Admin {
 		this.updateDate = updateDate;
 	}
 
-<<<<<<< Updated upstream
+
 	/**
 	 * @return the superAdmin
 	 */
@@ -203,12 +203,12 @@ public class Admin {
 	/**
 	 * @param superAdmin the superAdmin to set
 	 */
-=======
+
 	public int SuperAdmin() {
 		return superAdmin;
 	}
 
->>>>>>> Stashed changes
+
 	public void setSuperAdmin(int superAdmin) {
 		this.superAdmin = superAdmin;
 	}
