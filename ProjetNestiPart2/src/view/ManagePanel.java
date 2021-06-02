@@ -51,10 +51,7 @@ public class ManagePanel extends JPanel {
 	 */
 
 	public ManagePanel() throws Exception {
-		Admin adm = new Admin();
 		
-		if (adm.isSuperAdmin() == true) {
-
 			this.setBackground(new Color(213, 167, 113));
 			this.setLayout(null);
 
@@ -163,8 +160,7 @@ public class ManagePanel extends JPanel {
 
 						if (Check.isValidLogin(username) == false) {
 
-							JOptionPane.showMessageDialog(null, "Username is incorrect", "creation aborded",
-									JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Please enter a valid username (At least 8 characters like : JohnDoe7)", "creation aborded", JOptionPane.ERROR_MESSAGE);
 
 						} else if (Check.isValidName(lastname) == false) {
 
@@ -178,8 +174,7 @@ public class ManagePanel extends JPanel {
 
 						} else if (Check.isValidPsw(psw) == false) {
 
-							JOptionPane.showMessageDialog(null, "Password is incorrect", "creation aborded",
-									JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Please enter a valid password (At least 8 characters like : Xxxyx@123)", "creation aborded", JOptionPane.ERROR_MESSAGE);
 
 						} else if (!Check.isValidConf(psw, confpsw)) {
 
@@ -330,10 +325,6 @@ public class ManagePanel extends JPanel {
 
 			actualizeManagePanel();
 
-		} else {
-			JOptionPane.showMessageDialog(null, "You can't access the Manage Tab", "Access denied",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
 	}
 
 	/**
@@ -405,9 +396,6 @@ public class ManagePanel extends JPanel {
 		combo.removeAllItems();
 		combo.addItem(adm1);
 
-		for (Admin adm : queryAdmin.listAllAdmin()) {
-			listAdmin.add(adm);
-		}
 		System.out.println("ManagePanelAdmin");
 		try {
 
@@ -422,6 +410,7 @@ public class ManagePanel extends JPanel {
 			e1.printStackTrace();
 
 		}
+		combo.setSelectedIndex(0);
 	}
 
 }

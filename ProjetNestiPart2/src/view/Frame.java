@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -69,6 +70,7 @@ public class Frame {
 	 */
 	public Frame() throws Exception {
 		initialize();
+		this.frame.setVisible(true);
 	}
 
 	/**
@@ -170,13 +172,11 @@ public class Frame {
 		Panel panelHistory = new Panel("panelHistory");
 
 		TabbedPane.addTab("History", new ImageIcon(Frame.class.getResource("/assets/History.jpg")), panelHistory, null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(58, 141, 684, 178);
-        panelHistory.add(scrollPane);
-		
-		
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(58, 141, 684, 178);
+		panelHistory.add(scrollPane);
 
 		tableHistory = new JTable();
 		tableHistory.setBounds(130, 136, 535, 196);
@@ -186,35 +186,29 @@ public class Frame {
 		/**
 		 * History Table Constructor
 		 */
-	
+
 		DefaultTableModel model = new DefaultTableModel(new Object[][] {,},
-                new String[] { "Order", "Validation date", "Delivery date", "State" }) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
+				new String[] { "Order", "Validation date", "Delivery date", "State" }) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
 
-                return false;
-            }
-        };
-		tableHistory.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"Order", "Validation date", "Delivery date", "State"
+				return false;
 			}
-		));
+		};
+		tableHistory.setModel(
+				new DefaultTableModel(new Object[][] { { null, null, null, null }, { null, null, null, null }, },
+						new String[] { "Order", "Validation date", "Delivery date", "State" }));
 
-scrollPane.setViewportView(tableHistory);
+		scrollPane.setViewportView(tableHistory);
 		// Buttons
-		JButton btnOrdersTreated = new JButton("Orders Treated");
+		JButton btnOrdersTreated = new JButton("Orders Delivered");
 		btnOrdersTreated.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ToolsUi.clearTable(tableHistory);
 				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
-		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
-		            model.removeRow(j);
-		        }
+				for (int j = model.getRowCount() - 1; j >= 0; j--) {
+					model.removeRow(j);
+				}
 				QueryOrder queryOrder = new QueryOrder();
 
 				ArrayList<Order> listOrderHistDatabase = null;
@@ -224,9 +218,10 @@ scrollPane.setViewportView(tableHistory);
 
 					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
 
-
-						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
-								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
+						Object[] row = { listOrderHistDatabase.get(i).toString(),
+								listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(),
+								listOrderHistDatabase.get(i).getState() };
 
 						model.addRow(row);
 
@@ -237,23 +232,21 @@ scrollPane.setViewportView(tableHistory);
 				}
 			}
 
-			
-			
 		});
-		 
+
 		btnOrdersTreated.setBackground(new Color(135, 206, 235));
 
-		btnOrdersTreated.setBounds(385, 76, 127, 27);
+		btnOrdersTreated.setBounds(375, 76, 145, 27);
 		panelHistory.add(btnOrdersTreated);
 
-		JButton btnOrdersProcessed = new JButton("Orders Processed");
+		JButton btnOrdersProcessed = new JButton("Orders in process");
 		btnOrdersProcessed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ToolsUi.clearTable(tableHistory);
 				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
-		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
-		            model.removeRow(j);
-		        }
+				for (int j = model.getRowCount() - 1; j >= 0; j--) {
+					model.removeRow(j);
+				}
 				QueryOrder queryOrder = new QueryOrder();
 
 				ArrayList<Order> listOrderHistDatabase = null;
@@ -263,9 +256,10 @@ scrollPane.setViewportView(tableHistory);
 
 					for (int i = 0; i < listOrderHistDatabase.size(); i++) {
 
-
-						Object[] row = { listOrderHistDatabase.get(i).toString(), listOrderHistDatabase.get(i).getValidationDate(),
-								listOrderHistDatabase.get(i).getDeliveryDate(), listOrderHistDatabase.get(i).getState()};
+						Object[] row = { listOrderHistDatabase.get(i).toString(),
+								listOrderHistDatabase.get(i).getValidationDate(),
+								listOrderHistDatabase.get(i).getDeliveryDate(),
+								listOrderHistDatabase.get(i).getState() };
 
 						model.addRow(row);
 
@@ -276,10 +270,8 @@ scrollPane.setViewportView(tableHistory);
 				}
 			}
 
-			
-			
 		});
-		
+
 		btnOrdersProcessed.setBackground(new Color(135, 206, 235));
 
 		btnOrdersProcessed.setBounds(522, 76, 143, 27);
@@ -288,10 +280,10 @@ scrollPane.setViewportView(tableHistory);
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JTabbedPane pane = new JTabbedPane();
+				// JTabbedPane pane = new JTabbedPane();
 				JTabbedPane pane = (JTabbedPane) e.getSource();
 				pane.setSelectedIndex(0);
-				
+
 			}
 		});
 		btnSubmit.setBackground(new Color(144, 238, 144));
@@ -303,27 +295,18 @@ scrollPane.setViewportView(tableHistory);
 		 * Manage
 		 */
 
-		ManagePanel panelManage = new ManagePanel();
+		if (Frame.activAdmin.getSuperAdmin() == 1) {
+			ManagePanel panelManage = new ManagePanel();
 
-		TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage, null);
-
+			TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage,
+					null);
+		} else {
+			JOptionPane.showMessageDialog(null, "You can't access the Manage Tab", "Access denied",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
 
 	}
 
-	public void show() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Frame window = new Frame();
-					window.frame.setVisible(true);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
 }

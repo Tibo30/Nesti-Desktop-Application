@@ -11,16 +11,25 @@ import entities.Order;
 import entities.OrderLine;
 import entities.Supplier;
 
+/**
+ * Class for the order queries
+ * @author Thibault
+ *
+ */
 public class QueryOrder extends MyConnection {
 
 	private QuerySupplier querySupplier = new QuerySupplier();
 	private QueryArticle queryArticle = new QueryArticle();
 
+	/**
+	 * This method is used to get all orders from database
+	 * @return ArrayList<Order>
+	 * @throws Exception
+	 */
 	public ArrayList<Order> listAllOrder() throws Exception {
 		ArrayList<Order> listOrder = new ArrayList<Order>();
 		Order ord = null;
 		try {
-			openConnection();
 
 			String query = "SELECT request_order.id_order,request_order.order_validation_date,request_order.order_delivery_date,request_order.order_state,request_order.id_admin, supplier.supplier_name FROM request_order JOIN supplier ON request_order.id_supplier=supplier.id_supplier;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -36,15 +45,19 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listOrder;
 	}
 
+	/**
+	 * This method is used to get all the orderlines of an order
+	 * @param int idOrder
+	 * @return ArrayList<OrderLine>
+	 * @throws Exception
+	 */
 	public ArrayList<OrderLine> listAllOrderLine(int idOrder) throws Exception {
 		ArrayList<OrderLine> listOrderLine = new ArrayList<OrderLine>();
 		OrderLine ordLine = null;
 		try {
-			openConnection();
 
 			String query = "SELECT * FROM request_order_line JOIN request_order ON request_order_line.id_order=request_order.id_order JOIN article ON request_order_line.id_article=article.id_article WHERE (request_order_line.id_order = ?);";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -59,7 +72,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listOrderLine;
 	}
 	
@@ -73,7 +85,6 @@ public class QueryOrder extends MyConnection {
 		ArrayList<Order> listOrderHistory = new ArrayList<Order>();
 		Order ordHist = null;
 		try {
-			openConnection();
 			
 			String query = "SELECT * FROM request_order WHERE order_delivery_date IS null";
 			if(delivery.equals("delivered")) {
@@ -90,12 +101,16 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("error when displaying Orders " + e.getMessage());
 		}
-		closeConnection();
 		return listOrderHistory;
 	}
 
+	/**
+	 * This method is used to create an order in the database
+	 * @param Order order
+	 * @return int
+	 * @throws Exception
+	 */
 	public int createPreparedOrderId(Order order) throws Exception {
-		openConnection();
 		int last_inserted_id=0;
 		try {
 			String query="";
@@ -122,12 +137,16 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return last_inserted_id;
 	}
 
+	/**
+	 * This method is used to create an order line in the database
+	 * @param Orderline orderline
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean createPreparedOrderLine(OrderLine orderline) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `request_order_line`(id_article,id_order,request_order_line_quantity) VALUES (?,?,?)";
@@ -141,12 +160,18 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
+	/**
+	 * This method is used to update order in database
+	 * @param string valueChanged
+	 * @param string newValue
+	 * @param int iD
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean updatePreparedOrder(String valueChanged, String newValue, int iD) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "";
@@ -181,12 +206,18 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
+	/**
+	 * This method is used to update the quantity of an orderline in the database
+	 * @param int quantity
+	 * @param int iDOrder
+	 * @param int iDArticle
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean updatePreparedQuantityOrderLine(int quantity, int iDOrder, int iDArticle) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 
@@ -202,13 +233,18 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 	
+	/**
+	 * This method is used to delete an orderline
+	 * @param int iDOrder
+	 * @param int iDArticle
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean deletePreparedOrderLine(int iDOrder, int iDArticle) throws Exception {
 		boolean success = false;
-		openConnection();
 		try {
 			String query = "DELETE request_order_line FROM request_order_line WHERE (id_article = ?) AND (id_order = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -219,7 +255,6 @@ public class QueryOrder extends MyConnection {
 		} catch (SQLException e) {
 			System.err.println("Erreur suppression ingredient: " + e.getMessage());
 		}
-		closeConnection();
 		return success;
 	}
 

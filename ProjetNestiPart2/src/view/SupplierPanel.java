@@ -24,6 +24,10 @@ import model.QuerySupplier;
 import model.QuerySupplierSell;
 import tools.Check;
 
+/**
+ * Class for the supplier panel frame
+ * @author Thibault
+ */
 public class SupplierPanel extends JPanel {
 
 	private JTable tSupplier;
@@ -42,6 +46,10 @@ public class SupplierPanel extends JPanel {
 	public static Supplier activSupplier;
 	public static SupplierSell activSupplierSell;
 
+	/**
+	 * Constructor
+	 * @throws Exception
+	 */
 	public SupplierPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -49,7 +57,7 @@ public class SupplierPanel extends JPanel {
 		querySell = new QuerySupplierSell();
 		queryProd = new QueryProduct();
 
-		Button btnSupplierLaunch = new Button("LaunchSupplier", 531, 36, 86, 23);
+		Button btnSupplierLaunch = new Button("Launch_Supplier", 531, 36, 90, 23);
 		this.add(btnSupplierLaunch);
 
 		Button btnSupplierBlock = new Button("SupplierBlock / Unblock", 10, 72, 122, 23);
@@ -77,7 +85,7 @@ public class SupplierPanel extends JPanel {
 		Label lblSupplierName = new Label("Supplier Name", 20, 112, 92, 14);
 		this.add(lblSupplierName);
 
-		Label lblSupplierAdress = new Label("Supplier Adress", 152, 112, 199, 14);
+		Label lblSupplierAdress = new Label("Supplier Address", 152, 112, 199, 14);
 		this.add(lblSupplierAdress);
 
 		Label lblSupplierTown = new Label("Supplier Town", 376, 112, 85, 14);
@@ -157,6 +165,9 @@ public class SupplierPanel extends JPanel {
 
 		table = tSupplier;
 
+		/**
+		 * Action listener on the button block/unblock
+		 */
 		btnSupplierBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -174,10 +185,14 @@ public class SupplierPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button launch
+		 */
 		btnSupplierLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					clearTable();
+					// if it is not a creation
 					if (!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
 						btnSupplierCreate.setEnabled(false);
 						btnSupplierModify.setEnabled(true);
@@ -206,7 +221,9 @@ public class SupplierPanel extends JPanel {
 						btnSupplierBlock.setBackground(new Color(173, 246, 100));
 					}
 					// if the state is unblocked or it is a new supplier
-					if ((!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier") && activSupplier.getState().equals("Unblocked"))||String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
+					if ((!String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")
+							&& activSupplier.getState().equals("Unblocked"))
+							|| String.valueOf(listSupplier.getSelectedItem()).equals("Create New Supplier")) {
 						btnSupplierPlus.setEnabled(true);
 						btnSupplierDEL.setEnabled(true);
 						listSupplierProduct.setEnabled(true);
@@ -214,7 +231,6 @@ public class SupplierPanel extends JPanel {
 					}
 
 					btnSupplierBlock.setEnabled(true);
-			
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -222,14 +238,23 @@ public class SupplierPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button create
+		 */
 		btnSupplierCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					// if the name is not already taken
 					if (isNameTaken(tfSupplierName.getText()) == false) {
-						if (Check.isValidPhoneNumber(tfContactTel.getText())) {
+						if (Check.isValidPhoneNumber(tfContactTel.getText())
+								&& Check.isValidString(tfSupplierName.getText())
+								&& Check.isValidAddress(tfSupplierAdress.getText())
+								&& Check.isValidString(tfSupplierTown.getText())
+								&& Check.isValidString(tfContactName.getText())
+								&& Check.isValidString(tfContactFirstname.getText())) {
 							Supplier supplCreate = new Supplier(tfSupplierName.getText(), tfSupplierAdress.getText(),
-									tfSupplierTown.getText(),tfContactTel.getText(), tfContactName.getText(), tfContactFirstname.getText(), "Unblocked", Frame.activAdmin.getId());
+									tfSupplierTown.getText(), tfContactTel.getText(), tfContactName.getText(),
+									tfContactFirstname.getText(), "Unblocked", Frame.activAdmin.getId());
 
 							querySupp.createPrepared(supplCreate);
 							// if we added product in the table, we have to add it to the database
@@ -247,7 +272,25 @@ public class SupplierPanel extends JPanel {
 							clearAndEnableFalse();
 							clearTable();
 						} else {
-							JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
+							if (Check.isValidPhoneNumber(tfContactTel.getText()) == false) {
+								JOptionPane.showMessageDialog(null, "Please enter a valid phone number");
+							} else if (Check.isValidString(tfSupplierName.getText())== false) {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a name with a maximum of 50 characters, spaces included");
+							} else if (Check.isValidAddress(tfSupplierAdress.getText())== false) {
+								JOptionPane.showMessageDialog(null,
+										"Please enter an adress with a maximum of 250 characters, spaces included");
+							} else if (Check.isValidString(tfSupplierTown.getText())== false) {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a city with a maximum of 50 characters, spaces included");
+							} else if (Check.isValidString(tfContactName.getText())== false) {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a name with a maximum of 50 characters, spaces included");
+							} else if (Check.isValidString(tfContactFirstname.getText())== false) {
+								JOptionPane.showMessageDialog(null,
+										"Please enter a firstname with a maximum of 50 characters, spaces included");
+							}
+
 						}
 
 					} else {
@@ -260,6 +303,9 @@ public class SupplierPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button add (product)
+		 */
 		btnSupplierPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -291,6 +337,9 @@ public class SupplierPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button delete (product)
+		 */
 		btnSupplierDEL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -302,18 +351,21 @@ public class SupplierPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button modify
+		 */
 		btnSupplierModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					// if we change the name of the selected supplier
 					if (!activSupplier.getName().equals(tfSupplierName.getText())) {
 						if (isNameTaken(tfSupplierName.getText()) == false) {
-							if (tfSupplierName.getText().length() <= 50) {
+							if (Check.isValidString(tfSupplierName.getText())) {
 								querySupp.updatePrepared("name", tfSupplierName.getText(), activSupplier.getName());
 								activSupplier.setName(tfSupplierName.getText());
 							} else {
 								JOptionPane.showMessageDialog(null,
-										"Please enter a name with a maximum of 50 characters, spaces includes");
+										"Please enter a name with a maximum of 50 characters, spaces included");
 								return; // the rest of the method is not used if this condition is not respected !
 							}
 						} else {
@@ -322,40 +374,40 @@ public class SupplierPanel extends JPanel {
 						}
 					}
 					if (!activSupplier.getAdress().equals(tfSupplierAdress.getText())) {
-						if (tfSupplierAdress.getText().length() <= 250) {
+						if (Check.isValidAddress(tfSupplierAdress.getText())) {
 							querySupp.updatePrepared("adress", tfSupplierAdress.getText(), activSupplier.getName());
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Please enter an adress with a maximum of 250 characters, spaces includes");
+									"Please enter an adress with a maximum of 250 characters, spaces included");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
 					if (!activSupplier.getCity().equals(tfSupplierTown.getText())) {
-						if (tfSupplierTown.getText().length() <= 50) {
+						if (Check.isValidString(tfSupplierTown.getText())) {
 							querySupp.updatePrepared("city", tfSupplierTown.getText(), activSupplier.getName());
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Please enter a city with a maximum of 50 characters, spaces includes");
+									"Please enter a city with a maximum of 50 characters, spaces included");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
 					if (!activSupplier.getContactLastname().equals(tfContactName.getText())) {
-						if (tfContactName.getText().length() <= 50) {
+						if (Check.isValidString(tfContactName.getText())) {
 							querySupp.updatePrepared("contactLastname", tfContactName.getText(),
 									activSupplier.getName());
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Please enter a name with a maximum of 50 characters, spaces includes");
+									"Please enter a name with a maximum of 50 characters, spaces included");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
 					if (!activSupplier.getContactFirstname().equals(tfContactFirstname.getText())) {
-						if (tfContactFirstname.getText().length() <= 50) {
+						if (Check.isValidString(tfContactFirstname.getText())) {
 							querySupp.updatePrepared("contactFirstname", tfContactFirstname.getText(),
 									activSupplier.getName());
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Please enter a firstname with a maximum of 50 characters, spaces includes");
+									"Please enter a firstname with a maximum of 50 characters, spaces included");
 							return; // the rest of the method is not used if this condition is not respected !
 						}
 					}
@@ -392,6 +444,12 @@ public class SupplierPanel extends JPanel {
 
 	}
 
+	/**
+	 * This method is used to modify in the database what the supplier is selling
+	 * according to the table
+	 * 
+	 * @throws Exception
+	 */
 	public void modifyFromTable() throws Exception {
 		ArrayList<String> newListProduct = new ArrayList<String>();
 		ArrayList<Double> newListPrice = new ArrayList<Double>();
@@ -422,7 +480,7 @@ public class SupplierPanel extends JPanel {
 				querySell.createPrepared(newSupplierSellProduct);
 			} else {
 				// if a product from the table is already in the database but the price is
-				// different		
+				// different
 				if (!newListProduct.get(i).equals(querySell.getPrice(newListProduct.get(i), activSupplier.getName()))) {
 					querySell.updatePrice(String.valueOf(newListPrice.get(i)), newListProduct.get(i),
 							activSupplierSell.getSupplier().getName());
@@ -438,6 +496,9 @@ public class SupplierPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to clear the table
+	 */
 	public static void clearTable() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
@@ -445,6 +506,9 @@ public class SupplierPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to clear the textfields and enable the buttons
+	 */
 	public static void clearAndEnableFalse() {
 		for (TextField text : textField) {
 			text.setEditable(false);
@@ -459,12 +523,18 @@ public class SupplierPanel extends JPanel {
 		button[1].setBackground(new Color(191, 244, 255));
 	}
 
+	/**
+	 * This method is used to empty the textfields
+	 */
 	public static void emptyTextField() {
 		for (TextField text : textField) {
 			text.setText("");
 		}
 	}
 
+	/**
+	 * This method is used to make the textfields editable
+	 */
 	public static void editableText() {
 		for (TextField text : textField) {
 			text.setEditable(true);
@@ -473,8 +543,12 @@ public class SupplierPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to update the list of uspplier in the combobox
+	 * 
+	 * @throws Exception
+	 */
 	public static void updateListSupplier() throws Exception {
-
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[0].removeAllItems();
 		combo[0].addItem("Create New Supplier");
@@ -490,6 +564,11 @@ public class SupplierPanel extends JPanel {
 		combo[0].setSelectedIndex(0);
 	}
 
+	/**
+	 * This method is used to update the list of products in the combobox
+	 * 
+	 * @throws Exception
+	 */
 	public static void updateListProduct() throws Exception {
 		combo[1].removeAllItems();
 		ArrayList<Product> listProduct = queryProd.listAllProduct();
@@ -501,22 +580,34 @@ public class SupplierPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the table with supplier selling information
+	 * 
+	 * @param Supplier supplier
+	 * @return SupplierSell
+	 * @throws Exception
+	 */
 	public static SupplierSell fillProductSupplierTable(Supplier supplier) throws Exception {
-        SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
-        ArrayList<Product> product = supplSell.getProducts();
-        ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
-        clearTable();
-        if (product.size() > 0) {
-            for (int i = 0; i < product.size(); i++) {
-                Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
-                        buyingPrices.get(i) + " €/u" };
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.addRow(row);
-            }
-        }
-        return supplSell;
-    }
+		SupplierSell supplSell = querySell.createSupplierSellInfo(supplier);
+		ArrayList<Product> product = supplSell.getProducts();
+		ArrayList<Double> buyingPrices = supplSell.getBuyingPrices();
+		clearTable();
+		if (product.size() > 0) {
+			for (int i = 0; i < product.size(); i++) {
+				Object[] row = { product.get(i).getName(), product.get(i).getUnit().getName(),
+						buyingPrices.get(i) + " €/u" };
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(row);
+			}
+		}
+		return supplSell;
+	}
 
+	/**
+	 * This method is used to fill the textfields with supplier information
+	 * 
+	 * @param Supplier supplier
+	 */
 	public static void fillTextField(Supplier supplier) {
 
 		textField[0].setText(supplier.getName());
@@ -527,6 +618,12 @@ public class SupplierPanel extends JPanel {
 		textField[5].setText(supplier.getContactNumber());
 	}
 
+	/**
+	 * This method is used to check if a string is numeric
+	 * 
+	 * @param String str
+	 * @return boolean
+	 */
 	public static boolean isNumeric(String str) {
 		boolean numeric = false;
 		try {
@@ -538,6 +635,12 @@ public class SupplierPanel extends JPanel {
 		return numeric;
 	}
 
+	/**
+	 * This method is used to check if the name of the supplier is already taken
+	 * 
+	 * @param String name
+	 * @return boolean
+	 */
 	public static boolean isNameTaken(String name) {
 		boolean taken = true;
 		ArrayList<String> list = new ArrayList<String>();
