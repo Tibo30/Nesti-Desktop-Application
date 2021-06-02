@@ -25,6 +25,7 @@ import entities.Product;
 import entities.UnitMeasure;
 import model.QueryArticle;
 import model.QueryProduct;
+import tools.Check;
 
 public class ProductPanel extends JPanel {
 	public static JTable table_1;
@@ -146,16 +147,19 @@ public class ProductPanel extends JPanel {
 		table_1.setModel(model2);
 		scrollPane_1.setViewportView(table_1);
 
+		
 		btnProductAddTextfield.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 				int mousetrue;
 				int rowadd = table_1.getSelectedRow();
+				
 				// Validate condition of adding Product
 				if (rowadd != -1) {
+					
 					if (tfProduct.getText().toString().equals("")) {
 
-						JOptionPane.showMessageDialog(null, "Le champs Product est vide");
+						JOptionPane.showMessageDialog(null, "Product is empty");
 					} else {
 						System.out.println(tfProduct.getText().toString());
 
@@ -170,7 +174,9 @@ public class ProductPanel extends JPanel {
 								} else {
 									mousetrue = table_1.getRowCount() - 1;
 								}
-								// Create an object product with value and add it in table
+								
+								if (Check.isValidString(tfProduct.getText())) {
+									// Create an object product with value and add it in table
 								Product product = new Product(tfProduct.getText(),
 										table_1.getValueAt(mousetrue, 1).toString(),
 										listProductType.getSelectedItem().toString(), unit);
@@ -179,7 +185,9 @@ public class ProductPanel extends JPanel {
 
 								DefaultTableModel model = (DefaultTableModel) table_1.getModel();
 								model.addRow(row);
-
+								}else {
+									JOptionPane.showMessageDialog(null, "Please enter a valid string with max 50 caracters.");
+								}
 								try {
 									// Send Object to DDB
 									UnitMeasure unitinfo = queryProd
@@ -196,11 +204,11 @@ public class ProductPanel extends JPanel {
 								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Cliquer dans le tableau");
+							JOptionPane.showMessageDialog(null, "Click on the table");
 						}
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Cliquer dans le tableau pour lui ajouter un élémnents");
+					JOptionPane.showMessageDialog(null, "Click on the table adding element");
 
 				}
 			}
@@ -212,13 +220,18 @@ public class ProductPanel extends JPanel {
 		btnProductModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table_1.getSelectedRow();
+				
 				if (row != -1) {
 					try {
+				
 						// Controle if the name is already use and if not Change it
 						if (!activProduct.getName().equals(tfProduct.getText())) {
 							if (SupplierPanel.isNameTaken(tfProduct.getText()) == false) {
+								if (Check.isValidString(tfProduct.getText())) {
 								queryProd.UpdateProductPrepared("name", tfProduct.getText(), activProduct.getName());
 								activProduct.setName(tfProduct.getText());
+							
+								}
 							} else {
 								JOptionPane.showMessageDialog(null, "This Product's name is already taken");
 							}
@@ -261,15 +274,17 @@ public class ProductPanel extends JPanel {
 							// Reinitialize table
 							clearTable();
 							creatTable();
+							emptyCombobox();
 							createUnitList();
 							createTypeList();
+							
 						}
 					} catch (Exception e) {
 						System.out.println("modify clear table error");
 						e.printStackTrace();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Selectionné la ligne par un double click pour modifier");
+					JOptionPane.showMessageDialog(null, "Selectionnï¿½ la ligne par un double click pour modifier");
 
 				}
 			}
@@ -324,8 +339,8 @@ public class ProductPanel extends JPanel {
 		ArrayList<Product> listProd;
 		ArrayList<Article> listAllArticle;
 		try {
-			listProd = queryProd.listAllProductYann();
-			listAllArticle = queryArticle.listAllArticle();
+			listProd = queryProd.listAllProduct();
+			
 
 			DefaultTableModel model = (DefaultTableModel) ProductPanel.table_1.getModel();
 			for (int i = 0; i < listProd.size(); i++) {
@@ -333,7 +348,8 @@ public class ProductPanel extends JPanel {
 				// add the list elements to the search combo box
 				// System.out.println(listProd.get(i).getState());
 				try {
-					quant = (double) listAllArticle.get(i).getQuantity();
+					listAllArticle = queryArticle.listAllArticleByProduct(listProd.get(i));
+					quant = (double) listAllArticle.size();
 				} catch (Exception e) {
 					quant = 0;
 
@@ -379,9 +395,7 @@ public class ProductPanel extends JPanel {
 
 			// add the list elements to the search combo box
 			for (int i = 0; i < listType.size(); i++) {
-
 				ProductPanel.combo[1].addItem(listType.get(i));
-
 			}
 
 		} catch (Exception e2) {
@@ -400,6 +414,11 @@ public class ProductPanel extends JPanel {
 			model.removeRow(j);
 		}
 	}
+	public static void emptyCombobox() {
+		for (ComboBox text : combo) {
+			text.removeAllItems();
+		}
+	}
 
 	/*
 	 * Change the format of the number
@@ -410,5 +429,5 @@ public class ProductPanel extends JPanel {
 		String resultFormat = df.format(number);
 		return resultFormat;
 	}
-
+	
 }

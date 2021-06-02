@@ -41,37 +41,7 @@ public class QueryProduct extends MyConnection {
 		return prod;
 	}
 
-	/**
-	 * Read all the Product with id join article and unit measure
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public ArrayList<Product> listAllProductYann() throws Exception {
-		openConnection();
-		ArrayList<Product> prod = new ArrayList<Product>();
-
-		try {
-
-			String query = "SELECT p.id_product, p.product_name, p.product_type, p.product_state, u.unit_measure_name, a.article_quantity FROM product AS p INNER JOIN unit_measure AS u ON p.id_unit_measure = u.id_unit_measure LEFT JOIN article AS a ON p.id_product = a.id_product ";
-			PreparedStatement declaration = accessDataBase.prepareStatement(query);
-			ResultSet resultat = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
-			while (resultat.next()) {
-
-				UnitMeasure unit = new UnitMeasure(resultat.getString("unit_measure_name"));
-				Product toto = new Product(resultat.getInt("id_product"), resultat.getString("product_name"),
-						resultat.getString("product_type"), resultat.getString("product_state"), unit);
-
-				prod.add(toto);
-			}
-		} catch (Exception e) {
-			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
-		}
-		closeConnection();
-
-		return prod;
-	}
+	
 
 	/**
 	 * Read all the unit measure
