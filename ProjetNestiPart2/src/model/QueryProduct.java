@@ -16,7 +16,6 @@ public class QueryProduct extends MyConnection {
 	 */
 
 	public ArrayList<Product> listAllProduct() throws Exception {
-		openConnection();
 		ArrayList<Product> prod = new ArrayList<Product>();
 
 		try {
@@ -36,7 +35,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 
 		return prod;
 	}
@@ -52,7 +50,6 @@ public class QueryProduct extends MyConnection {
 
 	public ArrayList<UnitMeasure> AllUnit() throws Exception {
 		ArrayList<UnitMeasure> Unit = new ArrayList<UnitMeasure>();
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "SELECT DISTINCT unit_measure_name FROM unit_measure";
@@ -65,7 +62,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return Unit;
 	}
 
@@ -77,7 +73,6 @@ public class QueryProduct extends MyConnection {
 	 */
 	public ArrayList<String> AllType() throws Exception {
 		ArrayList<String> type = new ArrayList<String>();
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "SELECT DISTINCT product_type FROM product";
@@ -89,7 +84,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 
 		return type;
 
@@ -103,7 +97,6 @@ public class QueryProduct extends MyConnection {
 	 * @throws Exception
 	 */
 	public Product createProductInfo(String productName) throws Exception {
-		openConnection();
 		Product prod = null;
 		ResultSet rs;
 
@@ -122,7 +115,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur createProductInfo: " + e.getMessage());
 		}
-		closeConnection();
 		return prod;
 	}
 
@@ -134,7 +126,6 @@ public class QueryProduct extends MyConnection {
 	 * @throws Exception
 	 */
 	public UnitMeasure createUnitInfo(String unitName) throws Exception {
-		openConnection();
 		UnitMeasure unit = null;
 		ResultSet rs;
 		try {
@@ -149,7 +140,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur createUnitInfo: " + e.getMessage());
 		}
-		closeConnection();
 		return unit;
 	}
 
@@ -161,7 +151,6 @@ public class QueryProduct extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPrepared(Product product) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO product(product_name, product_type, product_state, id_unit_measure) VALUES (?,?,?,(SELECT id_unit_measure FROM unit_measure WHERE (unit_measure_name=?)))";
@@ -177,7 +166,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur createPrepared: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -193,7 +181,6 @@ public class QueryProduct extends MyConnection {
 	 */
 	public boolean UpdateProductPrepared(String valueChanged, String newValue, String name) throws Exception {
 		System.out.println(valueChanged + "   " + newValue + "  " + name);
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "";
@@ -221,7 +208,6 @@ public class QueryProduct extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 
 	}

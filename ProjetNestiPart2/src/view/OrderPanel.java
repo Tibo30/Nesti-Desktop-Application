@@ -41,6 +41,11 @@ import model.QuerySupplier;
 import model.QuerySupplierSell;
 import tools.Check;
 
+/**
+ * Class for the order panel frame
+ * @author Thibault
+ *
+ */
 public class OrderPanel extends JPanel {
 
 	private JTable table_Order;
@@ -63,6 +68,10 @@ public class OrderPanel extends JPanel {
 	public static Supplier activSupplier;
 	public static Product activProduct;
 
+	/**
+	 * Constructor
+	 * @throws Exception
+	 */
 	public OrderPanel() throws Exception {
 		this.setBackground(new Color(213, 167, 113));
 		this.setLayout(null);
@@ -198,6 +207,9 @@ public class OrderPanel extends JPanel {
 		columnModel.getColumn(4).setPreferredWidth(230);
 		table = table_Order;
 
+		/**
+		 * Action listener on the button launch (order)
+		 */
 		btnOrderLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -205,7 +217,7 @@ public class OrderPanel extends JPanel {
 					clearAndEnableFalse();
 					listState();
 					listOrderState.setEnabled(true);
-
+					// if it is not a creation
 					if (!String.valueOf(listOrder.getSelectedItem()).equals("Create New Order")) {
 
 						// get the object order from the database according to the name selected
@@ -267,11 +279,14 @@ public class OrderPanel extends JPanel {
 				}
 			}
 		});
-
+		
+		/**
+		 * Action Listener on the button launch (article)
+		 */
 		btnOrderArticleLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-
+					// if it is not a creation
 					if (!String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
 						// get the object order from the database according to the name selected
 						// in the search combo box
@@ -305,16 +320,15 @@ public class OrderPanel extends JPanel {
 						}
 
 					}
-//					if (String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
-//						listOrderProduct.setSelectedIndex(0);
-//					}
-
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 
+		/**
+		 * Action listener on the supplier combobox
+		 */
 		listOrderSupplier.addItemListener(new ItemListener() {
 
 			@Override
@@ -366,6 +380,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button add (order)
+		 */
 		btnOrderAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -434,6 +451,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button add (quantity)
+		 */
 		btnOrderAdd2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -452,6 +472,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button minus (quantity)
+		 */
 		btnOrderMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -470,6 +493,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button remove
+		 */
 		btnOrderRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -484,6 +510,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the state combobox
+		 */
 		listOrderState.addItemListener(new ItemListener() {
 
 			@Override
@@ -518,6 +547,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 
+		/**
+		 * Action listener on the button modify
+		 */
 		btnOrderModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -568,6 +600,9 @@ public class OrderPanel extends JPanel {
 			}
 		});
 		
+		/**
+		 * Action listener on the button create
+		 */
 		btnOrderCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -593,6 +628,12 @@ public class OrderPanel extends JPanel {
 
 	}
 	
+	/**
+	 * This method is used to modify the order in the database
+	 * according to the table
+	 * 
+	 * @throws Exception
+	 */
 	public void modifyFromTable() throws Exception {
 	
 			ArrayList<Article> newListArticle = new ArrayList<Article>();
@@ -645,6 +686,10 @@ public class OrderPanel extends JPanel {
 		
 	}
 
+	/**
+	 * This method is used to fill the list of order in the combobox
+	 * @throws Exception
+	 */
 	public static void listOfOrder() throws Exception {
 
 		combo[0].removeAllItems();
@@ -660,6 +705,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of article in the combobox from the database
+	 * @throws Exception
+	 */
 	public static void listOfArticle() throws Exception {
 		combo[1].removeAllItems();
 		ArrayList<Article> listArticle = new ArrayList<Article>();
@@ -675,6 +724,11 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of article in the combobox according to the supplier
+	 * @param Supplier supplier
+	 * @throws Exception
+	 */
 	public static void listOfArticle(Supplier supplier) throws Exception {
 		combo[1].removeAllItems();
 		ArrayList<Article> listArticle = new ArrayList<Article>();
@@ -690,6 +744,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of supplier
+	 * @throws Exception
+	 */
 	public static void listOfSupplier() throws Exception {
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[2].removeAllItems();
@@ -705,6 +763,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of product
+	 * @throws Exception
+	 */
 	public static void listOfProduct() throws Exception {
 		combo[3].removeAllItems();
 		ArrayList<Product> listProduct = queryProduct.listAllProduct();
@@ -716,6 +778,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of packaging
+	 * @throws Exception
+	 */
 	public static void listOfPackaging() throws Exception {
 
 		combo[4].removeAllItems();
@@ -727,6 +793,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to fill the list of state
+	 * @throws Exception
+	 */
 	public static void listState() throws Exception {
 
 		combo[5].removeAllItems();
@@ -737,6 +807,9 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to clear the table
+	 */
 	public static void clearTable() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		for (int j = model.getRowCount() - 1; j >= 0; j--) {
@@ -744,6 +817,9 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to clear the textfields and enable the button
+	 */
 	public static void clearAndEnableFalse() {
 
 		for (int i = 0; i < textField.length; i++) {
@@ -766,6 +842,9 @@ public class OrderPanel extends JPanel {
 		
 	}
 
+	/**
+	 * This method is used to make the textfields editable
+	 */
 	public static void editableText() {
 		for (int i = 0; i < textField.length; i++) {
 			if (i != 1) {
@@ -776,6 +855,10 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to make a textfield editable
+	 * @param i
+	 */
 	public static void editableText(int i) {
 		textField[i].setEditable(true);
 		textField[i].setForeground(Color.BLACK);
@@ -783,6 +866,9 @@ public class OrderPanel extends JPanel {
 
 	}
 
+	/**
+	 * This method is used to empty the textfields
+	 */
 	public static void emptyTextField() {
 		for (int i = 0; i < textField.length; i++) {
 			textField[i].setText("");
@@ -792,7 +878,7 @@ public class OrderPanel extends JPanel {
 	/**
 	 * This method is used to fill the Table when you select an existing order
 	 * 
-	 * @param order
+	 * @param Order order
 	 * @throws Exception
 	 */
 	public static void fillOrderTable(Order order) throws Exception {
@@ -823,6 +909,13 @@ public class OrderPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * This method is used to calcul the price
+	 * @param Supplier supplier
+	 * @param Article article
+	 * @param int quantity
+	 * @return String
+	 */
 	public static String calculPrice(Supplier supplier, Article article, int quantity) {
 
 		double buyingPrice = 0;
@@ -842,8 +935,8 @@ public class OrderPanel extends JPanel {
 	/**
 	 * This method is used to format the number (used to not display 2.0 but 2)
 	 * 
-	 * @param number
-	 * @return
+	 * @param int number
+	 * @return String
 	 */
 	public static String formatI(int number) {
 		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
@@ -855,8 +948,8 @@ public class OrderPanel extends JPanel {
 	/**
 	 * This method is used to format the number (used to not display 2.0 but 2)
 	 * 
-	 * @param number
-	 * @return
+	 * @param double number
+	 * @return String
 	 */
 	public static String formatD(double number) {
 		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);

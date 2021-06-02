@@ -11,10 +11,10 @@ public class Admin {
 	String state;
 	Date creationDate;
 	Date updateDate;
-	boolean superAdmin;
+	int superAdmin;
 
 	public Admin(int id, String lastname, String firstname, String username, String password, String state,
-			Date creationDate, Date updateDate, boolean superAdmin) {
+			Date creationDate, Date updateDate, int superAdmin) {
 		this.id = id;
 		this.lastname = lastname;
 		this.firstname = firstname;
@@ -75,79 +75,137 @@ public class Admin {
 		this.username = username;
 	}
 
+	
+
+	
+
+	
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return the lastname
+	 */
 	public String getLastname() {
 		return lastname;
 	}
 
+	/**
+	 * @param lastname the lastname to set
+	 */
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
+	/**
+	 * @return the firstname
+	 */
 	public String getFirstname() {
 		return firstname;
 	}
 
+	/**
+	 * @param firstname the firstname to set
+	 */
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
 
+	/**
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * @param username the username to set
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * @param password the password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	/**
+	 * @return the state
+	 */
 	public String getState() {
 		return state;
 	}
 
+	/**
+	 * @param state the state to set
+	 */
 	public void setState(String state) {
 		this.state = state;
 	}
 
+	/**
+	 * @return the creationDate
+	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
+	/**
+	 * @param creationDate the creationDate to set
+	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
+	/**
+	 * @return the updateDate
+	 */
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
+	/**
+	 * @param updateDate the updateDate to set
+	 */
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 
-	public boolean isSuperAdmin() {
+	/**
+	 * @return the superAdmin
+	 */
+	public int getSuperAdmin() {
 		return superAdmin;
 	}
 
-	public void setSuperAdmin(boolean superAdmin) {
+	/**
+	 * @param superAdmin the superAdmin to set
+	 */
+	public void setSuperAdmin(int superAdmin) {
 		this.superAdmin = superAdmin;
 	}
 
-	
 	/**
 	 * Boolean method to check if lastname, firstname, username is equivalent to 
 	 * @param adminProfil

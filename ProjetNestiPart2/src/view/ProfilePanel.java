@@ -95,7 +95,7 @@ public class ProfilePanel extends JPanel {
 
 					if (Check.isValidLogin(username) == false) {
 
-						JOptionPane.showMessageDialog(null, "Username is incorrect", "Modification aborded",
+						JOptionPane.showMessageDialog(null, "Please enter a valid username (At least 8 characters like : JohnDoe7)", "Modification aborded",
 								JOptionPane.ERROR_MESSAGE);
 
 					} else if (Check.isValidName(lastname) == false) {
@@ -186,7 +186,7 @@ public class ProfilePanel extends JPanel {
 
 					if (Check.isValidPsw(psw) == false) {
 
-						JOptionPane.showMessageDialog(null, "Password is required", "Update password aborded",
+						JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
 								JOptionPane.ERROR_MESSAGE);
 
 					} else if (qa.checkPassword(username, String.valueOf(psw)) == false) {
@@ -199,11 +199,18 @@ public class ProfilePanel extends JPanel {
 
 						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match",
 								"Update password aborded", JOptionPane.ERROR_MESSAGE);
+					} else if (Check.isValidPsw(newpsw) == false) {
+
+						JOptionPane.showMessageDialog(null, "Please enter a valid password (At least 8 characters like : Xxxyx@123)", "Update password aborded", JOptionPane.ERROR_MESSAGE);
 					} else {
 
 						if (qa.updatePasswordPrepared(newpsw, LoginFrame.id)) {
 							JOptionPane.showMessageDialog(null, "Password was succussfully changed", "Update password",
 									JOptionPane.INFORMATION_MESSAGE);
+							
+							profilPassword.setText("");
+							profilConfirmPassword.setText("");
+							profilNewPassword.setText("");
 
 						} else {
 
@@ -253,11 +260,11 @@ public class ProfilePanel extends JPanel {
 		profilPassword = new PasswordField("Profil Password", 439, 113, 138, 20);
 		profilPassword.disabled();
 		this.add(profilPassword);
-		
+
 		profilNewPassword = new PasswordField("Profil NewPassword", 439, 167, 138, 20);
 		profilNewPassword.disabled();
 		this.add(profilNewPassword);
-		
+
 		profilConfirmPassword = new PasswordField("Profil Conform Password", 439, 220, 138, 20);
 		profilConfirmPassword.disabled();
 		this.add(profilConfirmPassword);
