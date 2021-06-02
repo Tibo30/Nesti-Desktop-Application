@@ -49,6 +49,21 @@ public class Order {
 		this.supplier = supplier;
 		this.idAdmin = idAdmin;
 	}
+	
+	/**
+	 * Constructor
+	 * @param int id
+	 * @param Date deliveryDate
+	 * @param Date validationDate
+	 * @param String state
+	 */
+	public Order(int id, Date deliveryDate, Date validationDate,String state) {
+		this.id=id;
+		this.state=state;
+		this.validationDate=validationDate;
+		this.deliveryDate=deliveryDate;
+		
+	}
 
 	/**
 	 * ToString method for the order reference

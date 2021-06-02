@@ -549,7 +549,6 @@ public class SupplierPanel extends JPanel {
 	 * @throws Exception
 	 */
 	public static void updateListSupplier() throws Exception {
-
 		ArrayList<Supplier> listSuppl = new ArrayList<Supplier>();
 		combo[0].removeAllItems();
 		combo[0].addItem("Create New Supplier");

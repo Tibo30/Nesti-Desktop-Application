@@ -30,7 +30,6 @@ public class QueryOrder extends MyConnection {
 		ArrayList<Order> listOrder = new ArrayList<Order>();
 		Order ord = null;
 		try {
-			openConnection();
 
 			String query = "SELECT request_order.id_order,request_order.order_validation_date,request_order.order_delivery_date,request_order.order_state,request_order.id_admin, supplier.supplier_name FROM request_order JOIN supplier ON request_order.id_supplier=supplier.id_supplier;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -46,7 +45,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listOrder;
 	}
 
@@ -60,7 +58,6 @@ public class QueryOrder extends MyConnection {
 		ArrayList<OrderLine> listOrderLine = new ArrayList<OrderLine>();
 		OrderLine ordLine = null;
 		try {
-			openConnection();
 
 			String query = "SELECT * FROM request_order_line JOIN request_order ON request_order_line.id_order=request_order.id_order JOIN article ON request_order_line.id_article=article.id_article WHERE (request_order_line.id_order = ?);";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -75,7 +72,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listOrderLine;
 	}
 	
@@ -89,7 +85,6 @@ public class QueryOrder extends MyConnection {
 		ArrayList<Order> listOrderHistory = new ArrayList<Order>();
 		Order ordHist = null;
 		try {
-			openConnection();
 			
 			String query = "SELECT * FROM request_order WHERE order_delivery_date IS null";
 			if(delivery.equals("delivered")) {
@@ -106,7 +101,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("error when displaying Orders " + e.getMessage());
 		}
-		closeConnection();
 		return listOrderHistory;
 	}
 
@@ -117,7 +111,6 @@ public class QueryOrder extends MyConnection {
 	 * @throws Exception
 	 */
 	public int createPreparedOrderId(Order order) throws Exception {
-		openConnection();
 		int last_inserted_id=0;
 		try {
 			String query="";
@@ -144,7 +137,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return last_inserted_id;
 	}
 
@@ -155,7 +147,6 @@ public class QueryOrder extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPreparedOrderLine(OrderLine orderline) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `request_order_line`(id_article,id_order,request_order_line_quantity) VALUES (?,?,?)";
@@ -169,7 +160,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -182,7 +172,6 @@ public class QueryOrder extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePreparedOrder(String valueChanged, String newValue, int iD) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "";
@@ -217,7 +206,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -230,7 +218,6 @@ public class QueryOrder extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePreparedQuantityOrderLine(int quantity, int iDOrder, int iDArticle) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 
@@ -246,7 +233,6 @@ public class QueryOrder extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 	
@@ -259,7 +245,6 @@ public class QueryOrder extends MyConnection {
 	 */
 	public boolean deletePreparedOrderLine(int iDOrder, int iDArticle) throws Exception {
 		boolean success = false;
-		openConnection();
 		try {
 			String query = "DELETE request_order_line FROM request_order_line WHERE (id_article = ?) AND (id_order = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -270,7 +255,6 @@ public class QueryOrder extends MyConnection {
 		} catch (SQLException e) {
 			System.err.println("Erreur suppression ingredient: " + e.getMessage());
 		}
-		closeConnection();
 		return success;
 	}
 

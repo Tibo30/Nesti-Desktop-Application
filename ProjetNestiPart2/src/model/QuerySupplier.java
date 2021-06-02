@@ -24,7 +24,6 @@ public class QuerySupplier extends MyConnection {
 		ArrayList<Supplier> listSupplier=new ArrayList<Supplier>();
 		Supplier sup = null;
 		try {
-			openConnection();
 			
 			String query = "SELECT id_supplier, supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
 					+ "supplier_contact_firstname, supplier_state,supplier_creation_date,supplier_update_date, id_admin FROM supplier;";
@@ -41,7 +40,6 @@ public class QuerySupplier extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
 		}
-		closeConnection();
 		return listSupplier;
 	}
 
@@ -52,7 +50,6 @@ public class QuerySupplier extends MyConnection {
 	 * @throws Exception
 	 */
 	public Supplier createSupplierInfo(String supplierName) throws Exception {
-		openConnection();
 		Supplier sup = null;
 		ResultSet rs;
 		try {
@@ -71,7 +68,6 @@ public class QuerySupplier extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return sup;
 	}
 
@@ -84,7 +80,6 @@ public class QuerySupplier extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPrepared(Supplier supplier) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `supplier`(supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
@@ -104,7 +99,6 @@ public class QuerySupplier extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -118,7 +112,6 @@ public class QuerySupplier extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePrepared(String valueChanged, String newValue, String name) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "";
@@ -155,7 +148,6 @@ public class QuerySupplier extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 

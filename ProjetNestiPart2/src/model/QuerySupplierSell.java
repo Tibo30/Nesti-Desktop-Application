@@ -66,7 +66,6 @@ public class QuerySupplierSell extends MyConnection {
 	 * @throws Exception
 	 */
 	public SupplierSell createSupplierSellInfo(Supplier supplier) throws Exception {
-		openConnection();
 		SupplierSell supSell = null;
 		ArrayList<Product> products = new ArrayList<Product>();
 		ArrayList<Double> buyingPrices = new ArrayList<Double>();
@@ -90,7 +89,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return supSell;
 	}
 
@@ -103,7 +101,6 @@ public class QuerySupplierSell extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean createPrepared(SupplierSell supplier) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "INSERT INTO `sell`(id_supplier, id_product, buying_price) "
@@ -118,7 +115,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur d'insertion utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 
@@ -132,7 +128,6 @@ public class QuerySupplierSell extends MyConnection {
 	 * @throws Exception
 	 */
 	public boolean updatePrice(String newValue, String productName, String supplierName) throws Exception {
-		openConnection();
 		boolean flag = false;
 		try {
 			String query = "UPDATE sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON supplier.id_supplier=sell.id_supplier SET sell.buying_price=? WHERE (product.product_name = ?) AND (supplier.supplier_name=?);";
@@ -147,7 +142,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return flag;
 	}
 	
@@ -159,7 +153,6 @@ public class QuerySupplierSell extends MyConnection {
 	 * @throws Exception
 	 */
 	public double getPrice(String productName, String supplierName) throws Exception {
-		openConnection();
 		double price = 0;
 		ResultSet rs;
 		try {
@@ -176,7 +169,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (Exception e) {
 			System.err.println("Erreur de modification utilisateur: " + e.getMessage());
 		}
-		closeConnection();
 		return price;
 	}
 
@@ -189,7 +181,6 @@ public class QuerySupplierSell extends MyConnection {
 	 */
 	public boolean deletePrepared(Supplier supplier, String productName) throws Exception {
 		boolean success = false;
-		openConnection();
 		try {
 			String query = "DELETE sell FROM sell JOIN product ON sell.id_product=product.id_product JOIN supplier ON sell.id_supplier = supplier.id_supplier WHERE (product.product_name = ?) AND (supplier.supplier_name = ?)";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
@@ -200,7 +191,6 @@ public class QuerySupplierSell extends MyConnection {
 		} catch (SQLException e) {
 			System.err.println("Erreur suppression ingredient: " + e.getMessage());
 		}
-		closeConnection();
 		return success;
 	}
 
