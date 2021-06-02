@@ -305,7 +305,7 @@ public class Frame {
 		/**
 		 * Manage
 		 */
-
+				
 		if (Frame.activAdmin.getSuperAdmin() == 1) {
 			ManagePanel panelManage = new ManagePanel();
 
@@ -317,6 +317,21 @@ public class Frame {
 		}
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
+
+	}
+
+	public void show() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frame window = new Frame();
+					window.frame.setVisible(true);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 	}
 

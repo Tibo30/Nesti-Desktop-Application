@@ -264,6 +264,9 @@ public class QueryArticle extends MyConnection {
 			case "state":
 				query = "UPDATE article SET article_state=? WHERE  id_article=?";
 				break;
+			case "quantity":
+				query = "UPDATE article SET article_quantity=? WHERE  id_article=?";
+				break;
 			}
 
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
