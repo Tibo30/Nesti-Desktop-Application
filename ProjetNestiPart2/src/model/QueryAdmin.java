@@ -78,6 +78,8 @@ public class QueryAdmin extends MyConnection {
 						rs.getString("admin_login"), rs.getString("admin_password"), rs.getString("admin_state"),
 						rs.getDate("admin_creation_date"), rs.getDate("admin_update_date"),
 						rs.getInt("is_super_admin"));
+				System.out.println(rs.getInt("is_super_admin"));
+			
 			}
 		} catch (Exception e) {
 			System.err.println("Error in Admin creation: " + e.getMessage());

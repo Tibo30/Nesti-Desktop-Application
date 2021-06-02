@@ -23,7 +23,7 @@ public class Admin {
 		this.state = state;
 		this.creationDate = creationDate;
 		this.updateDate = updateDate;
-		this.superAdmin = 0;
+		this.superAdmin= superAdmin;
 	}
 
 	/**

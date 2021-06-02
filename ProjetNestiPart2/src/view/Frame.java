@@ -294,7 +294,7 @@ public class Frame {
 		/**
 		 * Manage
 		 */
-
+				
 		if (Frame.activAdmin.getSuperAdmin() == 1) {
 			ManagePanel panelManage = new ManagePanel();
 

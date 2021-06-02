@@ -74,9 +74,7 @@ public class LoginFrame extends JFrame {
 
 				String user = tfUsername.getText();
 				char[] psw = pfPassword.getPassword();
-
-
-					
+		
 					try {
 						System.out.println(psw);
 						queryAdmin.openConnection();
@@ -99,20 +97,9 @@ public class LoginFrame extends JFrame {
 					
 				};
 				
+								
 				
 				
-				
-				//1) champs non vides  
-				
-				
-				
-				//2) champs valides
-				//3) requête pr vrifier si c'est le bon psw
-				//si oui ouvrir l'appli si non  
-				
-		
-			//}
-
 		});
 
 		Label lblLogo = new Label("logo", 124, 62, 72, 58);
