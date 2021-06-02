@@ -295,6 +295,7 @@ public class Frame {
 		 * Manage
 		 */
 
+<<<<<<< Updated upstream
 		if (Frame.activAdmin.getSuperAdmin() == 1) {
 			ManagePanel panelManage = new ManagePanel();
 
@@ -306,7 +307,42 @@ public class Frame {
 		}
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
+=======
+		Admin adm = new Admin();
+
+		if (adm.SuperAdmin() == 0) {
+
+			ManagePanel panelManage = new ManagePanel();
+>>>>>>> Stashed changes
+
+			TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage,
+					null);
+
+			// add a changeListener to the tabbedPane
+			TabbedPane.addChangeListener(new TabbedPaneChangeListener());
+
+		} else {
+			//JOptionPane.showMessageDialog(null, "You can't access the Manage Tab", "Access denied",
+				//	JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+<<<<<<< Updated upstream
+=======
+	public void show() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frame window = new Frame();
+					window.frame.setVisible(true);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 	}
 
+>>>>>>> Stashed changes
 }

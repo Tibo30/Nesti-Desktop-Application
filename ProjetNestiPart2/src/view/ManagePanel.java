@@ -51,7 +51,14 @@ public class ManagePanel extends JPanel {
 	 */
 
 	public ManagePanel() throws Exception {
+<<<<<<< Updated upstream
 		
+=======
+	//	Admin adm = new Admin();
+		
+	//	if (adm.isSuperAdmin() == true) {
+
+>>>>>>> Stashed changes
 			this.setBackground(new Color(213, 167, 113));
 			this.setLayout(null);
 
@@ -325,7 +332,15 @@ public class ManagePanel extends JPanel {
 
 			actualizeManagePanel();
 
+<<<<<<< Updated upstream
 	}
+=======
+		} //else {
+		//	JOptionPane.showMessageDialog(null, "You can't access the Manage Tab", "Access denied",
+		//			JOptionPane.INFORMATION_MESSAGE);
+		//}
+//	}
+>>>>>>> Stashed changes
 
 	/**
 	 * Function to handle the launch button

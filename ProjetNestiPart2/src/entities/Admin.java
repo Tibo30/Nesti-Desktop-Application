@@ -23,7 +23,7 @@ public class Admin {
 		this.state = state;
 		this.creationDate = creationDate;
 		this.updateDate = updateDate;
-		this.superAdmin = superAdmin;
+		this.superAdmin = 0;
 	}
 
 	/**
@@ -192,6 +192,7 @@ public class Admin {
 		this.updateDate = updateDate;
 	}
 
+<<<<<<< Updated upstream
 	/**
 	 * @return the superAdmin
 	 */
@@ -202,6 +203,12 @@ public class Admin {
 	/**
 	 * @param superAdmin the superAdmin to set
 	 */
+=======
+	public int SuperAdmin() {
+		return superAdmin;
+	}
+
+>>>>>>> Stashed changes
 	public void setSuperAdmin(int superAdmin) {
 		this.superAdmin = superAdmin;
 	}
