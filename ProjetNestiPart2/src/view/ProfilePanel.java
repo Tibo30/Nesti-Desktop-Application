@@ -243,6 +243,7 @@ public class ProfilePanel extends JPanel {
 		Label lblProfilNewPassword = new Label("New Password", 439, 142, 138, 22);
 		this.add(lblProfilNewPassword);
 		Label lblProfilConfirmPassword = new Label("Confirm Password", 439, 198, 138, 14);
+		lblProfilConfirmPassword.setBounds(439, 198, 149, 14);
 		this.add(lblProfilConfirmPassword);
 
 		// TextFields
