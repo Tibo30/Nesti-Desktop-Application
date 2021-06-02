@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import entities.Order;
 import entities.OrderLine;
+import entities.Product;
 import entities.Supplier;
+import entities.UnitMeasure;
 
 /**
  * Class for the order queries
@@ -256,6 +258,32 @@ public class QueryOrder extends MyConnection {
 			System.err.println("Erreur suppression ingredient: " + e.getMessage());
 		}
 		return success;
+	}
+	
+	/**
+	 * This method is used to get the total amount of an order
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	public double getTotalOrder(Order order) throws Exception {
+		double total = 0;
+		ResultSet rs;
+
+		try {
+
+			String query = "SELECT total_order(?) AS total;";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setInt(1, order.getId());
+			rs = declaration.executeQuery();
+
+			if (rs.next()) {
+				total=rs.getDouble("total");
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'utilisateur createProductInfo: " + e.getMessage());
+		}
+		return total;
 	}
 
 }
