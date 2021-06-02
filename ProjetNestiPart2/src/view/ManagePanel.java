@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.EventObject;
+
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,7 +17,7 @@ import components.TextField;
 import entities.Admin;
 import model.QueryAdmin;
 import tools.Check;
-
+import view.TabbedPaneChangeListener;
 
 /**
  * 
@@ -49,281 +51,289 @@ public class ManagePanel extends JPanel {
 	 */
 
 	public ManagePanel() throws Exception {
+		Admin adm = new Admin();
+		
+		if (adm.isSuperAdmin() == true) {
 
-		this.setBackground(new Color(213, 167, 113));
-		this.setLayout(null);
+			this.setBackground(new Color(213, 167, 113));
+			this.setLayout(null);
 
-		// Buttons
-		btnManageModifyProfile = new Button("Manage_Modify_Profile", 154, 372, 138, 29);
-		this.add(btnManageModifyProfile);
-		btnManageModifyPassWord = new Button("Manage_Modify_PassWord", 507, 372, 147, 34);
-		this.add(btnManageModifyPassWord);
-		btnManageBlockAdmin = new Button("Manage_Block / Unblock", 324, 315, 147, 29);
-		this.add(btnManageBlockAdmin);
-		btnManageLaunch = new Button("Manage_Launch", 539, 48, 86, 23);
-		this.add(btnManageLaunch);
-		btnManageCreate = new Button("Create Profile", 344, 372, 113, 32);
-		this.add(btnManageCreate);
+			// Buttons
+			btnManageModifyProfile = new Button("Manage_Modify_Profile", 154, 372, 138, 29);
+			this.add(btnManageModifyProfile);
+			btnManageModifyPassWord = new Button("Manage_Modify_PassWord", 507, 372, 147, 34);
+			this.add(btnManageModifyPassWord);
+			btnManageBlockAdmin = new Button("Manage_Block / Unblock", 324, 315, 147, 29);
+			this.add(btnManageBlockAdmin);
+			btnManageLaunch = new Button("Manage_Launch", 539, 48, 86, 23);
+			this.add(btnManageLaunch);
+			btnManageCreate = new Button("Create Profile", 344, 372, 113, 32);
+			this.add(btnManageCreate);
 
-		// labels
-		Label lblManageSearch = new Label("Search", 133, 46, 95, 27);
-		this.add(lblManageSearch);
-		Label lblManageFirsName = new Label("Firstname", 59, 130, 160, 20);
-		this.add(lblManageFirsName);
-		Label lblManagePassword = new Label("Password", 584, 141, 138, 14);
-		this.add(lblManagePassword);
-		Label lblManageLastName = new Label("Lastname", 57, 182, 162, 20);
-		this.add(lblManageLastName);
-		Label lblManageUserName = new Label("Username", 58, 236, 161, 20);
-		this.add(lblManageUserName);
-		Label lblManageConfirmPassword = new Label("Confirm password", 584, 190, 138, 14);
-		this.add(lblManageConfirmPassword);
+			// labels
+			Label lblManageSearch = new Label("Search", 133, 46, 95, 27);
+			this.add(lblManageSearch);
+			Label lblManageFirsName = new Label("Firstname", 59, 130, 160, 20);
+			this.add(lblManageFirsName);
+			Label lblManagePassword = new Label("Password", 584, 141, 138, 14);
+			this.add(lblManagePassword);
+			Label lblManageLastName = new Label("Lastname", 57, 182, 162, 20);
+			this.add(lblManageLastName);
+			Label lblManageUserName = new Label("Username", 58, 236, 161, 20);
+			this.add(lblManageUserName);
+			Label lblManageConfirmPassword = new Label("Confirm password", 584, 190, 138, 14);
+			this.add(lblManageConfirmPassword);
 
-		// TextFields
-		this.tfManageFirstname = new TextField("manageFirstname", 59, 151, 160, 20);
-		this.add(tfManageFirstname);
-		this.tfManageLastname = new TextField("manageLastname", 59, 205, 160, 20);
-		this.add(tfManageLastname);
-		this.tfManageUsername = new TextField("", 59, 258, 160, 20);
-		this.add(tfManageUsername);
+			// TextFields
+			this.tfManageFirstname = new TextField("manageFirstname", 59, 151, 160, 20);
+			this.add(tfManageFirstname);
+			this.tfManageLastname = new TextField("manageLastname", 59, 205, 160, 20);
+			this.add(tfManageLastname);
+			this.tfManageUsername = new TextField("", 59, 258, 160, 20);
+			this.add(tfManageUsername);
 
-		// Passwords
-		this.pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
-		this.add(pwManagePassword);
-		this.pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
-		this.add(pwManageConfPassword);
+			// Passwords
+			this.pwManagePassword = new PasswordField("Manage Password", 584, 159, 138, 20);
+			this.add(pwManagePassword);
+			this.pwManageConfPassword = new PasswordField("Manage Conf Password", 584, 212, 138, 20);
+			this.add(pwManageConfPassword);
 
-		// Combo
-		combo = new JComboBox<>();
-		combo.setBounds(190, 43, 339, 32);
-		this.add(combo);
+			// Combo
+			combo = new JComboBox<>();
+			combo.setBounds(190, 43, 339, 32);
+			this.add(combo);
 
-		/**
-		 * ActionListener to launch the search of an admin
-		 */
-		btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				handleManageLaunch();
-			}
-
-		});
-
-		//
-
-		/**
-		 * ActionListener to block unblock an admin
-		 */
-
-		btnManageBlockAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Admin adm = (Admin) combo.getSelectedItem();
-					QueryAdmin queryAdmin = new QueryAdmin();
-
-					if (adm.isBlocked()) {
-						queryAdmin.updateState(adm.getId(), "Unblocked");
-						btnManageBlockAdmin.unblocked();
-					} else {
-						queryAdmin.updateState(adm.getId(), "Blocked");
-						btnManageBlockAdmin.blocked();
-
-					}
-
-					actualizeManagePanel();
-				} catch (Exception e1) {
-					e1.printStackTrace();
+			/**
+			 * ActionListener to launch the search of an admin
+			 */
+			btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					handleManageLaunch();
 				}
-			}
-		});
 
-		/**
-		 * ActionListener to create an admin
-		 */
+			});
 
-		btnManageCreate.addActionListener((ActionListener) new ActionListener() {
+			//
 
-			public void actionPerformed(ActionEvent e) {
+			/**
+			 * ActionListener to block unblock an admin
+			 */
 
-				try {
+			btnManageBlockAdmin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						Admin adm = (Admin) combo.getSelectedItem();
+						QueryAdmin queryAdmin = new QueryAdmin();
 
-					// 1)Get the data (lastname, firstname, username, psw, confpsw)
+						if (adm.isBlocked()) {
+							queryAdmin.updateState(adm.getId(), "Unblocked");
+							btnManageBlockAdmin.unblocked();
+						} else {
+							queryAdmin.updateState(adm.getId(), "Blocked");
+							btnManageBlockAdmin.blocked();
 
-					String lastname = tfManageLastname.getText();
-					String firstname = tfManageFirstname.getText();
-					String username = tfManageUsername.getText();
-					char[] psw = pwManagePassword.getPassword();
-					char[] confpsw = pwManageConfPassword.getPassword();
+						}
 
-					// 2) Check the validity of Textfields and Passwordfilds
+						actualizeManagePanel();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
 
-					if (Check.isValidLogin(username) == false) {
+			/**
+			 * ActionListener to create an admin
+			 */
 
-						JOptionPane.showMessageDialog(null, "Username is incorrect", "creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+			btnManageCreate.addActionListener((ActionListener) new ActionListener() {
 
-					} else if (Check.isValidName(lastname) == false) {
+				public void actionPerformed(ActionEvent e) {
 
-						JOptionPane.showMessageDialog(null, "Last name is incorrect", "creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+					try {
 
-					} else if (Check.isValidName(firstname) == false) {
+						// 1)Get the data (lastname, firstname, username, psw, confpsw)
 
-						JOptionPane.showMessageDialog(null, "First name is incorrect", "creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+						String lastname = tfManageLastname.getText();
+						String firstname = tfManageFirstname.getText();
+						String username = tfManageUsername.getText();
+						char[] psw = pwManagePassword.getPassword();
+						char[] confpsw = pwManageConfPassword.getPassword();
 
-					} else if (Check.isValidPsw(psw) == false) {
+						// 2) Check the validity of Textfields and Passwordfilds
 
-						JOptionPane.showMessageDialog(null, "Password is incorrect", "creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+						if (Check.isValidLogin(username) == false) {
 
-					} else if (!Check.isValidConf(psw, confpsw)) {
-
-						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match", "creation aborded",
-								JOptionPane.ERROR_MESSAGE);
-
-					} else {
-
-						// 3) Query
-
-						Admin adm = new Admin(lastname, firstname, username, String.valueOf(psw), "Unblocked");
-						// Call the Qyery Objet (or model) "QueryAdmin"
-
-						QueryAdmin qa = new QueryAdmin();
-
-						// 4) Treat the answer
-
-						if (qa.createPrepared(adm) == false) {
-
-							JOptionPane.showMessageDialog(null, "Error in Admin insert", "creation aborded",
+							JOptionPane.showMessageDialog(null, "Username is incorrect", "creation aborded",
 									JOptionPane.ERROR_MESSAGE);
+
+						} else if (Check.isValidName(lastname) == false) {
+
+							JOptionPane.showMessageDialog(null, "Last name is incorrect", "creation aborded",
+									JOptionPane.ERROR_MESSAGE);
+
+						} else if (Check.isValidName(firstname) == false) {
+
+							JOptionPane.showMessageDialog(null, "First name is incorrect", "creation aborded",
+									JOptionPane.ERROR_MESSAGE);
+
+						} else if (Check.isValidPsw(psw) == false) {
+
+							JOptionPane.showMessageDialog(null, "Password is incorrect", "creation aborded",
+									JOptionPane.ERROR_MESSAGE);
+
+						} else if (!Check.isValidConf(psw, confpsw)) {
+
+							JOptionPane.showMessageDialog(null, "Confirmation password doesn't match",
+									"creation aborded", JOptionPane.ERROR_MESSAGE);
 
 						} else {
 
-							JOptionPane.showMessageDialog(null, "Admin was successfully inserted", "creation succeded",
-									JOptionPane.INFORMATION_MESSAGE);
+							// 3) Query
+
+							Admin adm = new Admin(lastname, firstname, username, String.valueOf(psw), "Unblocked");
+							// Call the Qyery Objet (or model) "QueryAdmin"
+
+							QueryAdmin qa = new QueryAdmin();
+
+							// 4) Treat the answer
+
+							if (qa.createPrepared(adm) == false) {
+
+								JOptionPane.showMessageDialog(null, "Error in Admin insert", "creation aborded",
+										JOptionPane.ERROR_MESSAGE);
+
+							} else {
+
+								JOptionPane.showMessageDialog(null, "Admin was successfully inserted",
+										"creation succeded", JOptionPane.INFORMATION_MESSAGE);
+
+							}
+							;
 
 						}
-						;
+					} catch (Exception ex) {
+
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 
 					}
-				} catch (Exception ex) {
-
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
 
 				}
 
-			}
+			});
 
-		});
+			/**
+			 * ActionListener to modify Admin profile
+			 */
 
-		/**
-		 * ActionListener to modify Admin profile
-		 */
+			btnManageModifyProfile.addActionListener((ActionListener) new ActionListener() {
 
-		btnManageModifyProfile.addActionListener((ActionListener) new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				try {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
 
 //					
-					// 1)Get the data (lastname, firstname, username, psw, confpsw)
+						// 1)Get the data (lastname, firstname, username, psw, confpsw)
 
-					String lastname = tfManageLastname.getText();
-					String firstname = tfManageFirstname.getText();
-					String username = tfManageUsername.getText();
+						String lastname = tfManageLastname.getText();
+						String firstname = tfManageFirstname.getText();
+						String username = tfManageUsername.getText();
 
-					// 2) Check the validity of Textfields
+						// 2) Check the validity of Textfields
 
-					if (Check.isValidLogin(username) == false) {
+						if (Check.isValidLogin(username) == false) {
 
-						JOptionPane.showMessageDialog(null, "Username is incorrect", "Creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Username is incorrect", "Creation aborded",
+									JOptionPane.ERROR_MESSAGE);
 
-					} else if (Check.isValidName(lastname) == false) {
+						} else if (Check.isValidName(lastname) == false) {
 
-						JOptionPane.showMessageDialog(null, "Last name is incorrect", "Creation aborded",
-								JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Last name is incorrect", "Creation aborded",
+									JOptionPane.ERROR_MESSAGE);
 
-					} else if (Check.isValidName(firstname) == false) {
+						} else if (Check.isValidName(firstname) == false) {
 
-						JOptionPane.showMessageDialog(null, "First name is incorrect", "Creation aborded",
-								JOptionPane.ERROR_MESSAGE);
-
-					} else {
-
-						Admin adm = new Admin(lastname, firstname, username, null, "Unblocked");
-
-						adm.setId(idAdminSelected);
-
-						QueryAdmin qa = new QueryAdmin();
-
-						if (qa.updatePrepared(adm) == false) {
-
-							JOptionPane.showMessageDialog(null, "Error in Admin modification", "Modification aborded",
+							JOptionPane.showMessageDialog(null, "First name is incorrect", "Creation aborded",
 									JOptionPane.ERROR_MESSAGE);
 
 						} else {
 
-							JOptionPane.showMessageDialog(null, "Admin was successfully modified",
-									"Modification succeded", JOptionPane.INFORMATION_MESSAGE);
+							Admin adm = new Admin(lastname, firstname, username, null, "Unblocked");
 
-							actualizeManagePanel();
+							adm.setId(idAdminSelected);
+
+							QueryAdmin qa = new QueryAdmin();
+
+							if (qa.updatePrepared(adm) == false) {
+
+								JOptionPane.showMessageDialog(null, "Error in Admin modification",
+										"Modification aborded", JOptionPane.ERROR_MESSAGE);
+
+							} else {
+
+								JOptionPane.showMessageDialog(null, "Admin was successfully modified",
+										"Modification succeded", JOptionPane.INFORMATION_MESSAGE);
+
+								actualizeManagePanel();
+							}
+							;
+
 						}
-						;
 
+					} catch (Exception e1) {
+
+						e1.printStackTrace();
 					}
 
-				} catch (Exception e1) {
-
-					e1.printStackTrace();
 				}
+			});
 
-			}
-		});
+			/**
+			 * ActionListener to modify Admin's password
+			 */
+			btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
 
-		/**
-		 * ActionListener to modify Admin's password
-		 */
-		btnManageModifyPassWord.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
+						char[] psw = pwManagePassword.getPassword();
+						char[] confpsw = pwManageConfPassword.getPassword();
+						System.out.println(psw);
+						if (Check.isValidPsw(psw) == false) {
 
-					char[] psw = pwManagePassword.getPassword();
-					char[] confpsw = pwManageConfPassword.getPassword();
-					System.out.println(psw);
-					if (Check.isValidPsw(psw) == false) {
-
-						JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
-								JOptionPane.ERROR_MESSAGE);
-
-					} else if (!Check.isValidConf(psw, confpsw)) {
-
-						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match",
-								"Update password aborded", JOptionPane.ERROR_MESSAGE);
-					} else {
-
-						QueryAdmin qa = new QueryAdmin();
-
-						if (qa.updatePasswordPrepared(psw, idAdminSelected)) {
-							JOptionPane.showMessageDialog(null, "Password was succussfully changed", "Update password",
-									JOptionPane.INFORMATION_MESSAGE);
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Password was not changed", "Update password aborded",
+							JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
 									JOptionPane.ERROR_MESSAGE);
 
+						} else if (!Check.isValidConf(psw, confpsw)) {
+
+							JOptionPane.showMessageDialog(null, "Confirmation password doesn't match",
+									"Update password aborded", JOptionPane.ERROR_MESSAGE);
+						} else {
+
+							QueryAdmin qa = new QueryAdmin();
+
+							if (qa.updatePasswordPrepared(psw, idAdminSelected)) {
+								JOptionPane.showMessageDialog(null, "Password was succussfully changed",
+										"Update password", JOptionPane.INFORMATION_MESSAGE);
+
+							} else {
+								JOptionPane.showMessageDialog(null, "Password was not changed",
+										"Update password aborded", JOptionPane.ERROR_MESSAGE);
+
+							}
+
 						}
 
+					} catch (Exception e1) {
+
+						e1.printStackTrace();
 					}
-
-				} catch (Exception e1) {
-
-					e1.printStackTrace();
 				}
-			}
-		});
+			});
 
-		actualizeManagePanel();
+			actualizeManagePanel();
+
+		} else {
+			JOptionPane.showMessageDialog(null, "You can't access the Manage Tab", "Access denied",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	/**
@@ -381,7 +391,7 @@ public class ManagePanel extends JPanel {
 	}
 
 	/**
-	 * Function to actualize the Manage panel and create new admin
+	 * Function to actualize the Manage panel and create new Admin
 	 * 
 	 * @throws Exception
 	 */

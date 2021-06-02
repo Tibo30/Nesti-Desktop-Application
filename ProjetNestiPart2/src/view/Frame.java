@@ -25,6 +25,8 @@ import components.Panel;
 import entities.Order;
 import entities.Admin;
 import model.QueryOrder;
+import tools.ToolsUi;
+import view.TabbedPaneChangeListener;
 
 //Test commit
 public class Frame {
@@ -208,6 +210,7 @@ scrollPane.setViewportView(tableHistory);
 		JButton btnOrdersTreated = new JButton("Orders Treated");
 		btnOrdersTreated.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ToolsUi.clearTable(tableHistory);
 				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
 		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
 		            model.removeRow(j);
@@ -246,6 +249,7 @@ scrollPane.setViewportView(tableHistory);
 		JButton btnOrdersProcessed = new JButton("Orders Processed");
 		btnOrdersProcessed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ToolsUi.clearTable(tableHistory);
 				DefaultTableModel model = (DefaultTableModel) tableHistory.getModel();
 		        for (int j = model.getRowCount() - 1; j >= 0; j--) {
 		            model.removeRow(j);
@@ -282,6 +286,14 @@ scrollPane.setViewportView(tableHistory);
 		panelHistory.add(btnOrdersProcessed);
 
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//JTabbedPane pane = new JTabbedPane();
+				JTabbedPane pane = (JTabbedPane) e.getSource();
+				pane.setSelectedIndex(0);
+				
+			}
+		});
 		btnSubmit.setBackground(new Color(144, 238, 144));
 
 		btnSubmit.setBounds(543, 359, 85, 21);
