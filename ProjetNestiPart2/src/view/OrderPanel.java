@@ -981,11 +981,9 @@ public class OrderPanel extends JPanel {
 	public static void fillOrderTable(Order order) throws Exception {
 		// get all the orderLines from the database for the chosen order
 
-		Order orderSelected = (Order) combo[0].getSelectedItem();
-		Supplier supplier = orderSelected.getSupplier();
-		double TotalTotalPrice = 0;
+		Supplier supplier = order.getSupplier();
 
-		ArrayList<OrderLine> orderLine = queryOrder.listAllOrderLine(orderSelected.getId());
+		ArrayList<OrderLine> orderLine = queryOrder.listAllOrderLine(order.getId());
 		ArrayList<Article> article = new ArrayList<Article>();
 		for (int i = 0; i < orderLine.size(); i++) {
 			article.add(queryArticle.createArticleInfo(orderLine.get(i).getIdArticle()));
@@ -1004,9 +1002,8 @@ public class OrderPanel extends JPanel {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(row);
 				
-				TotalTotalPrice += calculTotalPrice(supplier,article.get(i), quantity);
 			}
-			label[10].setText("Total : " + TotalTotalPrice + " €");
+			label[10].setText("Total : " + queryOrder.getTotalOrder(order) + " €");
 		}
 	}
 
