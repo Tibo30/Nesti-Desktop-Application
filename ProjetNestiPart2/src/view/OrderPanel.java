@@ -590,7 +590,7 @@ public class OrderPanel extends JPanel {
 									String selectedItem = String.valueOf(cb.getSelectedItem());
 									if (!selectedItem.equals(activOrder.getState())) {
 										int answer = JOptionPane.showConfirmDialog(null,
-												"Are you sure thant you want to switch to" + selectedItem,
+												"Are you sure that you want to switch to " + selectedItem,
 												"PLEASE CONFIRM", JOptionPane.OK_CANCEL_OPTION);
 										if (answer == 2) {
 											listOrderState.setSelectedItem(activOrder.getState());
