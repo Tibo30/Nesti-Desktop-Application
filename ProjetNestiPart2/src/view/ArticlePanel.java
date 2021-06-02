@@ -183,11 +183,14 @@ public class ArticlePanel extends JPanel {
 		btnArticleLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					
+					
 					clearTable();
 					tfArticleRef.setEditable(false);
 					tfArticle.setEnabled(false);
 					tfStock.setEnabled(false);
 					btnArticleBlock.setEnabled(false);
+					
 					if (!String.valueOf(listArticle.getSelectedItem()).equals("Create New Article")) {
 
 						ArrayList<Supplier> listSupplier = new ArrayList<Supplier>();
@@ -210,7 +213,7 @@ public class ArticlePanel extends JPanel {
 						// Give value of textfiel and list
 						listPackaging.getModel().setSelectedItem(article.getPackaging());
 						listProductArticle.addItem(product);
-						tfArticle.setText(String.valueOf(formatI((int) article.getQuantity())));
+						tfArticle.setText(String.valueOf(formatD((Double) article.getQuantity())));
 
 						listUnitArticle.addItem(product.getUnit());
 						listUnitArticle.getModel().setSelectedItem(product.getUnit());
@@ -231,6 +234,9 @@ public class ArticlePanel extends JPanel {
 						} else {
 							btnArticleBlock.setBackground(new Color(173, 246, 100));
 						}
+						
+					
+						
 					} else {
 						// For the case of a new article : change style 
 						btnArticleBlock.setEnabled(false);
@@ -272,7 +278,7 @@ public class ArticlePanel extends JPanel {
 					// Controle value of textfield
 					if (name != null && pack != null && (Check.isNumeric(tfArticle.getText()))) {
 
-						Article ArticleCreate = new Article(Integer.parseInt(tfArticle.getText()), 0, pack, name);
+						Article ArticleCreate = new Article(Double.parseDouble(tfArticle.getText()), 0, pack, name);
 						// check if exist an article in dbb with this compose
 						if (queryArt.checkArticle(ArticleCreate.getProduct().getName(),
 								ArticleCreate.getPackaging().getName(), ArticleCreate.getQuantity()) == null) {
@@ -280,7 +286,7 @@ public class ArticlePanel extends JPanel {
 							//	add in database				
 							ArticleCreate.setIdAdmin(Frame.activAdmin.getId());
 							queryArt.createPrepared(ArticleCreate);
-
+							creatListOfArticle();	
 							JOptionPane.showMessageDialog(null, "Article added");
 						} else {
 							JOptionPane.showMessageDialog(null, "This article already exists");
@@ -406,7 +412,7 @@ public class ArticlePanel extends JPanel {
 				Product pro = suppliersSell.get(i).getProduct();
 				double buyingprice = suppliersSell.get(i).getBuyingPrice();
 				UnitMeasure unit = pro.getUnit();
-				int quantity = (int) ((Article) combo[0].getSelectedItem()).getQuantity();
+				double quantity = (double) ((Article) combo[0].getSelectedItem()).getQuantity();
 
 				Object[] row = { suppliersSell.get(i).getSupplier(), buyingprice + "/" + unit, quantity * buyingprice };
 
@@ -478,4 +484,11 @@ public class ArticlePanel extends JPanel {
 		String resultFormat = df.format(number);
 		return resultFormat;
 	}
+	public static String formatD(double number) {
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
+		DecimalFormat df = new DecimalFormat("#.##########", otherSymbols);
+		String resultFormat = df.format(number);
+		return resultFormat;
+	}
+
 }

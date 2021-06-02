@@ -183,7 +183,7 @@ public class ProductPanel extends JPanel {
 							// Create an object product with value and add it in table
 							Product product = new Product(tfProduct.getText(),
 									table_1.getValueAt(mousetrue, 1).toString(),
-									listProductType.getSelectedItem().toString(), unit);
+									listProductType.getSelectedItem().toString(), unit );
 
 							Object[] row = product.toRowProduct();
 
@@ -195,9 +195,16 @@ public class ProductPanel extends JPanel {
 						try {
 							// Send Object to DDB
 							UnitMeasure unitinfo = queryProd.createUnitInfo((String) listProductUnit.getSelectedItem());
+						
 							Product pro = new Product(tfProduct.getText(), "Unblocked",
 									(String) listProductType.getSelectedItem(), unitinfo);
+							
 							queryProd.createPrepared(pro);
+							clearTable();
+							creatTable();
+							emptyCombobox();
+							createUnitList();
+							createTypeList();
 						} catch (Exception e) {
 
 							e.printStackTrace();
