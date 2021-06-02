@@ -62,6 +62,37 @@ public class QueryOrder extends MyConnection {
 		closeConnection();
 		return listOrderLine;
 	}
+	
+	/**
+	 * 
+	 * @param String delivery
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Order> listOrderHistory(String delivery) throws Exception {
+		ArrayList<Order> listOrderHistory = new ArrayList<Order>();
+		Order ordHist = null;
+		try {
+			openConnection();
+			
+			String query = "SELECT * FROM request_order WHERE order_delivery_date IS null";
+			if(delivery.equals("delivered")) {
+				query = "SELECT * FROM request_order WHERE order_delivery_date IS NOT null";
+			}
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			ResultSet rs = declaration.executeQuery();
+			
+			/* Data recovering */
+			while (rs.next()) {
+				ordHist = new Order(rs.getInt("id_order"),rs.getDate("order_delivery_date"), rs.getDate("order_validation_date"), rs.getString("order_state"));
+				listOrderHistory.add(ordHist);
+			}
+		} catch (Exception e) {
+			System.err.println("error when displaying Orders " + e.getMessage());
+		}
+		closeConnection();
+		return listOrderHistory;
+	}
 
 	public int createPreparedOrderId(Order order) throws Exception {
 		openConnection();

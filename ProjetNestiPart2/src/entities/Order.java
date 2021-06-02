@@ -21,10 +21,16 @@ public class Order {
 	
 	public Order(String state, Supplier supplier, int idAdmin) {
 		this.state=state;
-		this.validationDate=validationDate;
-		this.deliveryDate=deliveryDate;
 		this.supplier=supplier;
 		this.idAdmin=idAdmin;
+	}
+	
+	public Order(int id, Date deliveryDate, Date validationDate,String state) {
+		this.id=id;
+		this.state=state;
+		this.validationDate=validationDate;
+		this.deliveryDate=deliveryDate;
+		
 	}
 	
 	@Override
@@ -96,7 +102,10 @@ public class Order {
 	}
 	
 	
-	
+	public Object[] toRowOrder() {
+		Object[] order = { this.id, this.deliveryDate, this.validationDate, this.state };
+		return order;
+	}
 	
 	
 	

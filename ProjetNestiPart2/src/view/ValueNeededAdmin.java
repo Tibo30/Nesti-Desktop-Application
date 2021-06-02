@@ -3,6 +3,13 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.Panel;
+import components.PasswordField;
+import components.TextField;
+
 public class ValueNeededAdmin {
 	Frame frame;
 	Label[] label;

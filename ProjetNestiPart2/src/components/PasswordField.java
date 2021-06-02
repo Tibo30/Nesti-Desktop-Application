@@ -1,4 +1,4 @@
-package view;
+package components;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -39,5 +39,15 @@ public class PasswordField extends JPasswordField {
 		}
 		}
 
+	}
+
+	public void disabled() {
+		this.setBackground(Color.GRAY);
+		this.setEnabled(false);
+	}
+
+	public void enabled() {
+		this.setBackground(new Color(255, 222, 173));
+		this.setEnabled(true);
 	}
 }

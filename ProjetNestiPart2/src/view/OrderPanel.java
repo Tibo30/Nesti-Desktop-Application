@@ -21,6 +21,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import components.Button;
+import components.ComboBox;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
 import entities.Article;
 import entities.Order;
 import entities.OrderLine;
