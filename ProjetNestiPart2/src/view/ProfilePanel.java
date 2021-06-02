@@ -1,24 +1,29 @@
 package view;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-
+import components.Button;
+import components.Label;
+import components.PasswordField;
+import components.TextField;
 import entities.Admin;
 import model.QueryAdmin;
 import tools.Check;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * @author SAL.BEDDEK
+ *
+ */
 public class ProfilePanel extends JPanel {
 
 	/**
-		 * 
-		 */
+	 * Attributes
+	 */
 	private static final long serialVersionUID = 1L;
 	public static Label[] label;
 	public static TextField[] textField;
@@ -35,7 +40,7 @@ public class ProfilePanel extends JPanel {
 	private Button btnProfilSaveProfile;
 	private Button btnProfilModidyPassword;
 	private Button btnProfilSavePassword;
-	private int idAdminSelected;
+	private Admin adminProfil = new Admin();
 
 	public ProfilePanel() throws Exception {
 
@@ -45,13 +50,22 @@ public class ProfilePanel extends JPanel {
 
 		// Buttons
 		btnProfilModifyProfile = new Button("Profil_Modify_Profile", 175, 360, 125, 35);
+
+		/**
+		 * ActionListener to modify admin's first name, last name and user name
+		 */
 		btnProfilModifyProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProfilSaveProfile.setVisible(true);
 				btnProfilModifyProfile.setVisible(false);
-				tfProfilFirstname.setEnabled(true);
-				tfProfilLastname.setEnabled(true);
-				tfProfilUsername.setEnabled(true);
+				// Save Admin's informations
+				adminProfil.setUsername(tfProfilUsername.getText());
+				adminProfil.setFirstname(tfProfilFirstname.getText());
+				adminProfil.setLastname(tfProfilLastname.getText());
+
+				tfProfilFirstname.enabled();
+				tfProfilLastname.enabled();
+				tfProfilUsername.enabled();
 
 			}
 		});
@@ -59,16 +73,19 @@ public class ProfilePanel extends JPanel {
 		this.add(btnProfilModifyProfile);
 
 		btnProfilSaveProfile = new Button("Profil_Save_Profil", 175, 360, 125, 35);
+
+		/**
+		 * ActionListener to save admin's first name, last name and user name
+		 */
 		btnProfilSaveProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProfilSaveProfile.setVisible(false);
 				btnProfilModifyProfile.setVisible(true);
-				tfProfilFirstname.setEnabled(false);
-				tfProfilLastname.setEnabled(false);
-				tfProfilUsername.setEnabled(false);
+				tfProfilFirstname.disabled();
+				tfProfilLastname.disabled();
+				tfProfilUsername.disabled();
 
 				try {
-
 					// 1)Get the data (lastname, firstname, username, psw, confpsw)
 					String lastname = tfProfilLastname.getText();
 					String firstname = tfProfilFirstname.getText();
@@ -93,25 +110,29 @@ public class ProfilePanel extends JPanel {
 
 					} else {
 
-						// 3) Query
+						// 3)Query
 
 						Admin adm = new Admin(lastname, firstname, username, null, "Unblocked");
+						adm.setId(LoginFrame.id);
 						QueryAdmin qa = new QueryAdmin();
 
-						// 4) traiter la réponse
-
-						if (qa.createPrepared(adm) == false) {
-
-							JOptionPane.showMessageDialog(null, "Error in Admin modification", "Modification aborded",
-									JOptionPane.ERROR_MESSAGE);
-
+						if (adm.isSame(adminProfil)) {
+							JOptionPane.showMessageDialog(null, "No changes has been made");
 						} else {
+							// 4) Treat the answer
 
-							JOptionPane.showMessageDialog(null, "Admin was successfully modified",
-									"Modification succeded", JOptionPane.INFORMATION_MESSAGE);
+							if (qa.updatePrepared(adm) == false) {
 
+								JOptionPane.showMessageDialog(null, "Error in Admin modification" + qa.error,
+										"Modification aborded", JOptionPane.ERROR_MESSAGE);
+
+							} else {
+
+								JOptionPane.showMessageDialog(null, "Admin was successfully modified",
+										"Modification succeded", JOptionPane.INFORMATION_MESSAGE);
+
+							}
 						}
-						;
 
 					}
 				} catch (Exception ex) {
@@ -125,54 +146,67 @@ public class ProfilePanel extends JPanel {
 		btnProfilSaveProfile.setVisible(false);
 		this.add(btnProfilSaveProfile);
 
+		/**
+		 * ActionListener to modify admin's password
+		 */
 		btnProfilModidyPassword = new Button("Profil_Modify_Password", 439, 360, 149, 35);
 		btnProfilModidyPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProfilSavePassword.setVisible(true);
 				btnProfilModidyPassword.setVisible(false);
-				profilPassword.setEnabled(true);
-				profilNewPassword.setEnabled(true);
-				profilConfirmPassword.setEnabled(true);
+				profilPassword.enabled();
+				profilNewPassword.enabled();
+				profilConfirmPassword.enabled();
 
 			}
 		});
-
 		this.add(btnProfilModidyPassword);
+
+		/**
+		 * ActionListener to save admin's password
+		 */
 
 		btnProfilSavePassword = new Button("Profil_Save_Password", 439, 360, 149, 35);
 		btnProfilSavePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProfilSavePassword.setVisible(false);
 				btnProfilModidyPassword.setVisible(true);
-				profilPassword.setEnabled(false);
-				profilNewPassword.setEnabled(false);
-				profilConfirmPassword.setEnabled(false);
+				profilPassword.disabled();
+				profilNewPassword.disabled();
+				profilConfirmPassword.disabled();
 
-				// ajouter un insert si modification du mot de passe
+				// If password modification add an insert (qa.updatePasswordPrepared)
 
 				try {
+					String username = tfProfilUsername.getText();
 					char[] psw = profilPassword.getPassword();
 					char[] confpsw = profilConfirmPassword.getPassword();
 					char[] newpsw = profilNewPassword.getPassword();
+					QueryAdmin qa = new QueryAdmin();
 
 					if (Check.isValidPsw(psw) == false) {
 
-						JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
+						JOptionPane.showMessageDialog(null, "Password is required", "Update password aborded",
 								JOptionPane.ERROR_MESSAGE);
 
-					} else if (!Check.isValidConf(newpsw, confpsw)) {
+					} else if (qa.checkPassword(username, String.valueOf(psw)) == false) {
+
+						JOptionPane.showMessageDialog(null, "Password is incorrect", "Update password aborded",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
+					else if (!Check.isValidConf(newpsw, confpsw)) {
 
 						JOptionPane.showMessageDialog(null, "Confirmation password doesn't match",
 								"Update password aborded", JOptionPane.ERROR_MESSAGE);
 					} else {
 
-						QueryAdmin qa = new QueryAdmin();
-
-						if (qa.updatePasswordPrepared(psw, idAdminSelected)) {
+						if (qa.updatePasswordPrepared(newpsw, LoginFrame.id)) {
 							JOptionPane.showMessageDialog(null, "Password was succussfully changed", "Update password",
 									JOptionPane.INFORMATION_MESSAGE);
 
 						} else {
+
 							JOptionPane.showMessageDialog(null, "Password was not changed", "Update password aborded",
 									JOptionPane.ERROR_MESSAGE);
 
@@ -190,86 +224,71 @@ public class ProfilePanel extends JPanel {
 		btnProfilSavePassword.setVisible(false);
 		this.add(btnProfilSavePassword);
 
-		// Button[] profileButton =
-		// {btnProfilModifyProfile,btnProfilModidyPassWord,btnProfilSavePassword,btnProfilSaveProfil
-		// };
-		// this.button= profileButton;
-
 		// Labels
-		Label lblProfilFirstname = new Label("FirstName", 175, 95, 160, 20);
+		Label lblProfilFirstname = new Label("First Name", 175, 95, 160, 20);
 		this.add(lblProfilFirstname);
-		Label lblProfilLastname = new Label("LastName", 173, 147, 162, 20);
+		Label lblProfilLastname = new Label("Last Name", 173, 147, 162, 20);
 		this.add(lblProfilLastname);
-		Label lblProfilUsername = new Label("UserName", 174, 201, 161, 20);
+		Label lblProfilUsername = new Label("User Name", 174, 201, 161, 20);
 		this.add(lblProfilUsername);
 		Label lblProfilPassword = new Label("Password", 439, 95, 138, 14);
 		this.add(lblProfilPassword);
-		Label lblProfilNewPassword = new Label("New password", 439, 142, 138, 22);
+		Label lblProfilNewPassword = new Label("New Password", 439, 142, 138, 22);
 		this.add(lblProfilNewPassword);
-		Label lblProfilConfirmPassword = new Label("Confirm password", 439, 198, 138, 14);
+		Label lblProfilConfirmPassword = new Label("Confirm Password", 439, 198, 138, 14);
 		this.add(lblProfilConfirmPassword);
-
-		// Label[] profileLabel= {lblProfilFirstname,lblProfilLastname,
-		// lblProfilUsername,lblProfilPassword,lblProfilNewPassword,lblProfilConfirmPassword};
-		// this.label = profileLabel;
 
 		// TextFields
 		tfProfilFirstname = new TextField("profilFirstname", 175, 116, 160, 20);
-		tfProfilFirstname.setEnabled(false);
+		tfProfilFirstname.disabled();
 		this.add(tfProfilFirstname);
 		tfProfilLastname = new TextField("profilLastname", 175, 170, 160, 20);
-		tfProfilLastname.setEnabled(false);
+		tfProfilLastname.disabled();
 		this.add(tfProfilLastname);
 		tfProfilUsername = new TextField("profilUsername", 175, 223, 160, 20);
-		tfProfilUsername.setEnabled(false);
+		tfProfilUsername.disabled();
 		this.add(tfProfilUsername);
-		// TextField[] ProfilTextField = {tfProfilFirstname, tfProfilLastname,
-		// tfProfilUsername};
-		// this.textField= ProfilTextField;
 
 		// PasswordFields
 		profilPassword = new PasswordField("Profil Password", 439, 113, 138, 20);
-		profilPassword.setEnabled(false);
+		profilPassword.disabled();
 		this.add(profilPassword);
+		
 		profilNewPassword = new PasswordField("Profil NewPassword", 439, 167, 138, 20);
-		profilNewPassword.setEnabled(false);
+		profilNewPassword.disabled();
 		this.add(profilNewPassword);
+		
 		profilConfirmPassword = new PasswordField("Profil Conform Password", 439, 220, 138, 20);
-		profilConfirmPassword.setEnabled(false);
+		profilConfirmPassword.disabled();
 		this.add(profilConfirmPassword);
-		// PasswordField[] profilePasswordField = {profilPassword, profilNewPassword,
-		// profilConfirmPassword, profilConfirmPassword};
-		// this.passwordField= profilePasswordField;
 
 		this.showAdminInfo();
+		tfProfilFirstname.disabled();
+		tfProfilLastname.disabled();
+		tfProfilUsername.disabled();
 
 	}
 
 	/**
-	 * Function to show admin informations after connection
+	 * Function to show admin's informations after connection
 	 */
 	private void showAdminInfo() {
-		// récuperer id de l'admin
-
+		// Get the admi's id
 		int id = LoginFrame.id;
 
-		// requête select pour avoir les infos de l'objet de type admin
+		// Query SELECT to get the informations about the Object Admin
 		QueryAdmin qa = new QueryAdmin();
 		try {
 			Admin admin = qa.selectAdminInfoById(id);
 			this.tfProfilUsername.setText(admin.getUsername());
 			this.tfProfilFirstname.setText(admin.getFirstname());
 			this.tfProfilLastname.setText(admin.getLastname());
-			this.profilPassword.setText(admin.getPassword());
-			this.profilConfirmPassword.setText(admin.getPassword());
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		// expl : profile textfield : setText()=
-
-		// A la connexion
 	}
 
 }

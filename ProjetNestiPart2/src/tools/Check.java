@@ -146,6 +146,32 @@ public class Check {
 		Matcher m = p.matcher(input);
 		return m.matches();
 	}
+	 public static boolean isValidString(String input) {
+	        String regex = "[A-Za-z ]{3,50}$";
+	        Pattern p = Pattern.compile(regex);
+	        if (input==null) {
+	            
+	            return false;
+	        }
+	        
+	        Matcher m = p.matcher(input);
+	        return m.matches();
+	    }
+	 public static boolean isValidAddress(String input) {
+	        String regex = "[A-Za-z0-9 айиклвфопц]{3,250}$";
+	        Pattern p = Pattern.compile(regex);
+	        if (input==null) {
+	            
+	            return false;
+	        }
+	        
+	        Matcher m = p.matcher(input);
+	        return m.matches();
+	    }
+	
+	
+	
+	
 
 	
 	

@@ -32,7 +32,7 @@ public class QueryArticle extends MyConnection {
 					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
+			
 			while (rs.next()) {
 				Packaging packaging = new Packaging(rs.getString("packaging_name"));
 				Product product = queryProduct.createProductInfo(rs.getString("product_name"));
@@ -154,19 +154,16 @@ public class QueryArticle extends MyConnection {
 			String query = "SELECT * FROM unit_measure  ";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet resultat = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
 			while (resultat.next()) {
 
 				UnitMeasure unit1 = new UnitMeasure(resultat.getInt("id_unit_measure"),
 						resultat.getString("unit_measure_name"));
-
 				unit.add(unit1);
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'affichage d'utilisateur: " + e.getMessage());
 		}
 		closeConnection();
-
 		return unit;
 	}
 
@@ -248,7 +245,7 @@ public class QueryArticle extends MyConnection {
 			declaration.setString(2, packaging);
 			declaration.setDouble(3, quantity);
 			rs = declaration.executeQuery();
-			/* R�cup�ration des donn�es */
+			
 			if (rs.next()) {
 				Packaging pack = new Packaging(rs.getString("packaging_name"));
 				Product prod = queryProduct.createProductInfo(rs.getString("product_name"));
@@ -297,6 +294,42 @@ public class QueryArticle extends MyConnection {
 		}
 		closeConnection();
 		return flag;
+	}
+
+	/**
+	 * List all articles from the database
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Article> listAllArticleByProduct(Product productName) throws Exception {
+		ArrayList<Article> listArticle = new ArrayList<Article>();
+		Article art = null;
+		ResultSet rs;
+		try {
+			openConnection();
+
+			String query = "SELECT article.id_article, article.article_quantity, article.article_quantity_real_stock, article.article_state, article.article_creation_date, article.article_update_date, "
+					+ "packaging.packaging_name,product.product_name,article.id_admin FROM article JOIN packaging ON article.id_packaging=packaging.id_packaging JOIN product ON product.id_product=article.id_product  where product.id_product = ?;";
+			PreparedStatement declaration = accessDataBase.prepareStatement(query);
+			declaration.setInt(1, productName.getId());
+
+			rs = declaration.executeQuery();
+			while (rs.next()) {
+				Packaging packaging = new Packaging(rs.getString("packaging_name"));
+				Product product = queryProduct.createProductInfo(rs.getString("product_name"));
+				art = new Article(rs.getInt("id_article"), rs.getDouble("article_quantity"),
+						rs.getInt("article_quantity_real_stock"), rs.getString("article_state"),
+						rs.getDate("article_creation_date"), rs.getDate("article_update_date"), packaging, product,
+						rs.getInt("id_admin"));
+				listArticle.add(art);
+
+			}
+		} catch (Exception e) {
+			System.err.println("Erreur d'affichage d'ing: " + e.getMessage());
+		}
+		closeConnection();
+		return listArticle;
 	}
 
 }

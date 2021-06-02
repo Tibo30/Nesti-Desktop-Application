@@ -18,8 +18,6 @@ public class MyConnection {
 	 * @param args
 	 */
 	/*
-	 * public static void main(String[] args) { openConnection(); testConnection();
-	 * closeConnection(); }
 	 */
 	public MyConnection() {
 		setUrl("jdbc:mysql://" + Config.HOSTNAME + "/" + Config.DATABASE);
@@ -35,16 +33,15 @@ public class MyConnection {
 	 * 
 	 * @throws SQLException
 	 */
-	public void openConnection() {
+	public void openConnection() throws Exception {
 
 		try {
 			System.out.println("try to connect");
 			// we add the parameters
 			accessDataBase = DriverManager.getConnection(getUrl(), getLogin(), getMdp());
 		} catch (SQLException ex) {
-			System.out.println("erreur de connexion");
+			throw new Exception("Erreur connexion");
 		}
-
 	}
 
 	/**
