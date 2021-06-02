@@ -54,7 +54,12 @@ public class ManagePanel extends JPanel {
 
 			this.setBackground(new Color(213, 167, 113));
 			this.setLayout(null);
-
+			tfManageLastname.disabled();
+			tfManageFirstname.disabled();
+			tfManageUsername.disabled();
+			pwManagePassword.disabled();
+			pwManageConfPassword.disabled();
+			
 			// Buttons
 			btnManageModifyProfile = new Button("Manage_Modify_Profile", 154, 372, 138, 29);
 			this.add(btnManageModifyProfile);
@@ -105,6 +110,11 @@ public class ManagePanel extends JPanel {
 			 */
 			btnManageLaunch.addActionListener((ActionListener) new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					tfManageLastname.enabled();
+					tfManageFirstname.enabled();
+					tfManageUsername.enabled();
+					pwManagePassword.enabled();
+					pwManageConfPassword.enabled();
 					handleManageLaunch();
 				}
 
@@ -343,6 +353,7 @@ public class ManagePanel extends JPanel {
 			System.out.println(combo.getSelectedItem());
 			idAdminSelected = 0;
 			if (combo.getSelectedItem() != null) {
+			
 
 				Admin adm = (Admin) combo.getSelectedItem();
 

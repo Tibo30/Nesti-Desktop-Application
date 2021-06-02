@@ -295,7 +295,6 @@ public class Frame {
 		 * Manage
 		 */
 
-
 		if (Frame.activAdmin.getSuperAdmin() == 1) {
 			ManagePanel panelManage = new ManagePanel();
 
@@ -308,24 +307,7 @@ public class Frame {
 		// add a changeListener to the tabbedPane
 		TabbedPane.addChangeListener(new TabbedPaneChangeListener());
 
-		Admin adm = new Admin();
-
-		if (adm.SuperAdmin() == 0) {
-
-			ManagePanel panelManage = new ManagePanel();
-
-
-			TabbedPane.addTab("Manage", new ImageIcon(Frame.class.getResource("/assets/Manage.jpg")), panelManage,
-					null);
-
-			// add a changeListener to the tabbedPane
-			TabbedPane.addChangeListener(new TabbedPaneChangeListener());
-
-		} else {
-		
-		}
 	}
-
 
 	public void show() {
 		EventQueue.invokeLater(new Runnable() {
@@ -341,6 +323,5 @@ public class Frame {
 		});
 
 	}
-
 
 }

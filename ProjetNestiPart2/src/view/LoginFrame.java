@@ -75,20 +75,7 @@ public class LoginFrame extends JFrame {
 				String user = tfUsername.getText();
 				char[] psw = pfPassword.getPassword();
 
-				//Faire les vérifications 
-			
-				if(Check.isValidLogin(user)==false) {
-					
-					JOptionPane.showMessageDialog(null, "The user name is not valid", "error message", JOptionPane.ERROR_MESSAGE );
-					
-				
-				} else if (Check.isValidPsw(psw)==false){
-					
-					JOptionPane.showMessageDialog(null, "The password is not valid", "error message", JOptionPane.ERROR_MESSAGE);			
-					
-					
-					
-				}else{
+
 					
 					try {
 						System.out.println(psw);
@@ -124,7 +111,7 @@ public class LoginFrame extends JFrame {
 				//si oui ouvrir l'appli si non  
 				
 		
-			}
+			//}
 
 		});
 
