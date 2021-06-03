@@ -27,12 +27,12 @@ public class Label extends JLabel {
 			this.setHorizontalAlignment(SwingConstants.CENTER);
 			this.setFont(new Font("Times New Roman", Font.BOLD, 40));
 		}
-		if ((name.equals("Supplier Name")) || (name.equals("Supplier Adress")) || (name.equals("Supplier Town"))
+		if ((name.equals("Supplier Name")) || (name.equals("Supplier Address")) || (name.equals("Supplier Town"))
 				|| (name.equals("Contact Name")) || (name.equals("Contact Fistname")) || (name.equals("Contact phone"))
 				|| (name.equals("Product Price")) || (name.equals("Unit Product"))|| (name.equals("Supplier Product"))
 				|| (name.equals("Article Ref"))|| (name.equals("Article Name"))|| (name.equals("Quantity Article"))
 				|| (name.equals("Unit Article"))|| (name.equals("Packaging Article"))|| (name.equals("Stock Article"))
-				|| (name.equals("Product"))|| (name.equals("Packaging"))|| (name.equals("Quantity Order")) || (name.equals("Quantity"))|| (name.equals("Unit")) || (name.equals("Date")) || (name.equals("Product Article"))
+				|| (name.equals("Product"))|| (name.equals("Packaging"))|| (name.equals("Quantity Order")) || (name.equals("Quantity"))|| (name.equals("Unit")) || (name.equals("Date")) || (name.equals("Total"))  || (name.equals("Product Article"))
 				|| (name.equals("Ingredient"))
 				|| (name.equals("Product Unit"))) {
 			this.setFont(new Font("Tahoma", Font.BOLD, 11));

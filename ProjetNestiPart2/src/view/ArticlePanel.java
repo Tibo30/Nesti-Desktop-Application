@@ -356,7 +356,7 @@ public class ArticlePanel extends JPanel {
 
 					creatTable3(article.getId());
 
-					JOptionPane.showMessageDialog(null, "Article " + btnArticleBlock.getText());
+					JOptionPane.showMessageDialog(null, "Article updated");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

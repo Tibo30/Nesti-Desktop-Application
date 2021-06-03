@@ -25,8 +25,7 @@ public class QuerySupplier extends MyConnection {
 		Supplier sup = null;
 		try {
 			
-			String query = "SELECT id_supplier, supplier_name, supplier_adress, supplier_city, supplier_contact_number, supplier_contact_lastname, "
-					+ "supplier_contact_firstname, supplier_state,supplier_creation_date,supplier_update_date, id_admin FROM supplier;";
+			String query = "CALL select_supplier;";
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			ResultSet rs = declaration.executeQuery();
 			/* Récupération des données */
