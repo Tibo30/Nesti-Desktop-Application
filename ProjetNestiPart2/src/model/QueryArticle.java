@@ -259,7 +259,12 @@ public class QueryArticle extends MyConnection {
 			String query = "";
 			switch (valueChanged) {
 			case "quantityStock":
-				query = "UPDATE article SET article_quantity_real_stock=article_quantity_real_stock+? WHERE id_article=?";
+				Article article = createArticleInfo(iD);
+				if (article.getRealQuant()==0) {
+					query = "UPDATE article SET article_quantity_real_stock=? WHERE id_article=?";
+				} else {
+					query = "UPDATE article SET article_quantity_real_stock=article_quantity_real_stock+? WHERE id_article=?";
+				}
 				break;
 			case "state":
 				query = "UPDATE article SET article_state=? WHERE  id_article=?";
