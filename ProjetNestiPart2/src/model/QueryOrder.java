@@ -65,7 +65,7 @@ public class QueryOrder extends MyConnection {
 			PreparedStatement declaration = accessDataBase.prepareStatement(query);
 			declaration.setInt(1, idOrder);
 			ResultSet rs = declaration.executeQuery();
-			/* Rï¿½cupï¿½ration des donnï¿½es */
+			/* Récupération des données */
 			while (rs.next()) {
 				ordLine = new OrderLine(rs.getInt("id_article"), rs.getInt("id_order"),
 						rs.getInt("request_order_line_quantity"));

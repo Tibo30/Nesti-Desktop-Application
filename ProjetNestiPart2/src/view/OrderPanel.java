@@ -646,7 +646,7 @@ public class OrderPanel extends JPanel {
 							int idArticle = (int) model.getValueAt(i, 0);
 							int quantity = Integer.parseInt((String) model.getValueAt(i, 3));
 							queryArticle.updatePrepared("quantityStock", String.valueOf(quantity), idArticle);
-							System.out.println("ID : " + idArticle + "/ quantity : " + quantity);
+							//System.out.println("ID : " + idArticle + " / quantity : " + quantity);
 						}
 						JOptionPane.showMessageDialog(null,
 								"The order is received, quantities has been added to the articles");
