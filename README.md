@@ -1,10 +1,5 @@
 <h1 align="center"> Nesti - Desktop App</h1>
 
-## <b>Screenshot</b>
-<p align="center">
-<img src="https://github.com/Tibo30/ProjetNestiPart2/blob/master/ProjetNestiPart2/src/assets/pfr1.png">
-</p>
-
 ## <b>Context</b>
 <p>
 Nesti, a fictional company and a reference in the pastry world, wants to diversify and increase its activity. To do so, for a training programme, the company called on my service in order to develop several applications required for the growth of the company.
@@ -32,6 +27,11 @@ Administrator :
 * Create and modify orders.
 
  </p>
+ 
+ ## <b>Screenshot</b>
+<p align="center">
+<img src="https://github.com/Tibo30/ProjetNestiPart2/blob/master/ProjetNestiPart2/src/assets/pfr1.png">
+</p>
  
  ## <b>Software and Tools</b>
 * IDE : ECLIPSE,
